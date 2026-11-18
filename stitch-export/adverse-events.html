@@ -1,0 +1,906 @@
+<!DOCTYPE html>
+
+<html lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>CTMS Portal - Safety Registry &amp; Adverse Events</title>
+<!-- Google Fonts: Inter & JetBrains Mono -->
+<link href="https://fonts.googleapis.com" rel="preconnect"/>
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&amp;family=JetBrains+Mono:wght@400;500;600&amp;display=swap" rel="stylesheet"/>
+<!-- Material Symbols Outlined -->
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<!-- Tailwind CSS with Forms and Container Queries -->
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<script id="tailwind-config">
+    tailwind.config = {
+      darkMode: "class",
+      theme: {
+        extend: {
+          "colors": {
+            "surface-container": "#e6eeff",
+            "surface": "#f8f9ff",
+            "on-primary": "#ffffff",
+            "on-background": "#0d1c2e",
+            "tertiary-container": "#b90012",
+            "on-primary-fixed": "#001b3e",
+            "surface-tint": "#235eac",
+            "on-primary-container": "#bed4ff",
+            "secondary-container": "#86f2e4",
+            "primary-container": "#1e5aa8",
+            "on-error": "#ffffff",
+            "on-primary-fixed-variant": "#00458d",
+            "surface-variant": "#d5e3fc",
+            "on-surface": "#0d1c2e",
+            "on-tertiary-fixed": "#410002",
+            "error-container": "#ffdad6",
+            "surface-container-highest": "#d5e3fc",
+            "on-error-container": "#93000a",
+            "on-secondary-fixed-variant": "#005049",
+            "inverse-primary": "#aac7ff",
+            "surface-container-high": "#dce9ff",
+            "primary-fixed-dim": "#aac7ff",
+            "outline": "#737782",
+            "on-tertiary": "#ffffff",
+            "background": "#f8f9ff",
+            "surface-container-low": "#eff4ff",
+            "secondary-fixed-dim": "#6bd8cb",
+            "outline-variant": "#c2c6d3",
+            "surface-dim": "#ccdbf3",
+            "on-secondary-fixed": "#00201d",
+            "tertiary": "#8c000a",
+            "secondary-fixed": "#89f5e7",
+            "primary-fixed": "#d6e3ff",
+            "secondary": "#006a61",
+            "tertiary-fixed-dim": "#ffb4ab",
+            "on-secondary": "#ffffff",
+            "error": "#ba1a1a",
+            "tertiary-fixed": "#ffdad6",
+            "on-tertiary-container": "#ffc5be",
+            "inverse-surface": "#233144",
+            "on-tertiary-fixed-variant": "#93000b",
+            "inverse-on-surface": "#eaf1ff",
+            "surface-bright": "#f8f9ff",
+            "primary": "#004287",
+            "on-secondary-container": "#006f66",
+            "surface-container-lowest": "#ffffff",
+            "on-surface-variant": "#424751"
+          },
+          "borderRadius": {
+            "DEFAULT": "0.25rem",
+            "lg": "0.5rem",
+            "xl": "0.75rem",
+            "full": "9999px"
+          },
+          "spacing": {
+            "space-2xs": "0.125rem",
+            "gutter-compact": "0.5rem",
+            "space-md": "0.75rem",
+            "space-sm": "0.5rem",
+            "margin-compact": "1rem",
+            "space-xs": "0.25rem",
+            "margin": "1.5rem",
+            "space-2xl": "2rem",
+            "space-xl": "1.5rem",
+            "gutter": "1rem",
+            "space-lg": "1rem"
+          },
+          "fontFamily": {
+            "data-mono-sm": ["JetBrains Mono"],
+            "body-sm": ["Inter"],
+            "data-mono": ["JetBrains Mono"],
+            "headline-sm": ["Inter"],
+            "label-lg": ["Inter"],
+            "display-lg": ["Inter"],
+            "headline-lg": ["Inter"],
+            "body-md": ["Inter"],
+            "label-md": ["Inter"],
+            "label-sm": ["Inter"],
+            "body-lg": ["Inter"],
+            "headline-md": ["Inter"],
+            "headline-xl": ["Inter"]
+          },
+          "fontSize": {
+            "data-mono-sm": ["11px", { "lineHeight": "14px", "fontWeight": "400" }],
+            "body-sm": ["12px", { "lineHeight": "16px", "fontWeight": "400" }],
+            "data-mono": ["12px", { "lineHeight": "16px", "fontWeight": "500" }],
+            "headline-sm": ["15px", { "lineHeight": "20px", "fontWeight": "600" }],
+            "label-lg": ["13px", { "lineHeight": "18px", "fontWeight": "500" }],
+            "display-lg": ["36px", { "lineHeight": "44px", "fontWeight": "700" }],
+            "headline-lg": ["22px", { "lineHeight": "28px", "fontWeight": "600" }],
+            "body-md": ["13px", { "lineHeight": "18px", "fontWeight": "400" }],
+            "label-md": ["11px", { "lineHeight": "14px", "fontWeight": "600" }],
+            "label-sm": ["10px", { "lineHeight": "12px", "fontWeight": "600" }],
+            "body-lg": ["15px", { "lineHeight": "22px", "fontWeight": "400" }],
+            "headline-md": ["18px", { "lineHeight": "24px", "fontWeight": "600" }],
+            "headline-xl": ["28px", { "lineHeight": "36px", "fontWeight": "600" }]
+          }
+        },
+      },
+    }
+  </script>
+</head>
+<body class="bg-background text-on-surface antialiased min-h-screen flex selection:bg-surface-variant">
+<!-- ========================================================================= -->
+<!-- SHARED COMPONENT: SideNavBar (Anchored left rail, 64w)                   -->
+<!-- ========================================================================= -->
+<aside class="fixed top-0 left-0 h-full w-64 border-r border-outline-variant dark:border-outline bg-surface-container-lowest dark:bg-inverse-surface z-40 flex flex-col justify-between p-4">
+<!-- Top Brand & Investigator Profile -->
+<div class="flex flex-col gap-4">
+<div class="flex items-center gap-3 pb-3 border-b border-outline-variant">
+<div class="w-9 h-9 rounded-lg bg-primary flex items-center justify-center text-on-primary font-headline-sm text-headline-sm font-bold shadow-sm">
+<span class="material-symbols-outlined text-xl" data-icon="clinical_notes">clinical_notes</span>
+</div>
+<div class="flex flex-col min-w-0">
+<span class="font-headline-md text-headline-md font-bold text-primary dark:text-inverse-primary tracking-tight truncate leading-tight">CTMS Portal</span>
+<span class="font-data-mono-sm text-data-mono-sm text-on-surface-variant truncate">v4.8 • CFR Part 11 Compliant</span>
+</div>
+</div>
+<!-- User Badge Profile Card -->
+<div class="flex items-center gap-2.5 p-2 bg-surface-container-low rounded-lg border border-outline-variant">
+<div class="relative w-8 h-8 rounded-full overflow-hidden shrink-0 border border-outline-variant bg-surface-variant">
+<img class="w-full h-full object-cover" data-alt="A portrait photograph of Principal Investigator Dr. Elena Rostova in a crisp white clinical research coat with St. Jude hospital credentials, lit with soft natural laboratory lighting and clean sterile aesthetic." src="https://lh3.googleusercontent.com/aida-public/AB6AXuAv2c1q-TypS6lQqtOdHEbhyGNCAHRdLPvacQEEVwv7bfg3Ck-RJGwG2HCQXhwx2w5JqVtKgxZy_lzjV5G2cfKiUAhMPXXFhdArJN0GIU9kbuAU5tp2_ZEHf1lSeBnczwZS4Bxoutvv-zEyWaAm6OMaoYWZ809y63ZW-iOW0wMPI_3siJjcOzB2YfHnipZgR0LjpNr7Eo1jCZMq0-3kMoloSyUh2H2ZQOQsCRGDEg"/>
+</div>
+<div class="flex flex-col min-w-0">
+<span class="font-headline-sm text-headline-sm text-on-surface truncate leading-tight">Dr. Elena Rostova</span>
+<span class="font-label-sm text-label-sm text-on-surface-variant">Principal Investigator</span>
+</div>
+</div>
+<!-- Quick Action CTA -->
+<button class="w-full flex items-center justify-center gap-2 py-2 px-3 bg-tertiary hover:bg-tertiary-container text-on-tertiary font-label-lg text-label-lg rounded-DEFAULT transition-all duration-150 active:scale-[0.99] shadow-sm">
+<span class="material-symbols-outlined text-base" data-icon="warning">warning</span>
+<span>Log Adverse Event</span>
+</button>
+<!-- Navigation Links (Active: 'Adverse Events') -->
+<nav class="flex flex-col gap-1 overflow-y-auto max-h-[calc(100vh-360px)] pr-1">
+<!-- Dashboard -->
+<a class="flex items-center gap-3 px-3 py-2 text-on-surface-variant dark:text-outline-variant font-medium rounded-DEFAULT hover:bg-surface-container-low dark:hover:bg-surface-container hover:text-on-surface transition-colors duration-150 active:scale-[0.99]" href="#">
+<span class="material-symbols-outlined text-lg" data-icon="dashboard">dashboard</span>
+<span class="font-label-md text-label-md">Dashboard</span>
+</a>
+<!-- Trials -->
+<a class="flex items-center gap-3 px-3 py-2 text-on-surface-variant dark:text-outline-variant font-medium rounded-DEFAULT hover:bg-surface-container-low dark:hover:bg-surface-container hover:text-on-surface transition-colors duration-150 active:scale-[0.99]" href="#">
+<span class="material-symbols-outlined text-lg" data-icon="clinical_notes">clinical_notes</span>
+<span class="font-label-md text-label-md">Trials</span>
+</a>
+<!-- Participants -->
+<a class="flex items-center gap-3 px-3 py-2 text-on-surface-variant dark:text-outline-variant font-medium rounded-DEFAULT hover:bg-surface-container-low dark:hover:bg-surface-container hover:text-on-surface transition-colors duration-150 active:scale-[0.99]" href="#">
+<span class="material-symbols-outlined text-lg" data-icon="groups">groups</span>
+<span class="font-label-md text-label-md">Participants</span>
+</a>
+<!-- Visits & Calendar -->
+<a class="flex items-center gap-3 px-3 py-2 text-on-surface-variant dark:text-outline-variant font-medium rounded-DEFAULT hover:bg-surface-container-low dark:hover:bg-surface-container hover:text-on-surface transition-colors duration-150 active:scale-[0.99]" href="#">
+<span class="material-symbols-outlined text-lg" data-icon="calendar_month">calendar_month</span>
+<span class="font-label-md text-label-md">Visits &amp; Calendar</span>
+</a>
+<!-- Medical Assessment -->
+<a class="flex items-center gap-3 px-3 py-2 text-on-surface-variant dark:text-outline-variant font-medium rounded-DEFAULT hover:bg-surface-container-low dark:hover:bg-surface-container hover:text-on-surface transition-colors duration-150 active:scale-[0.99]" href="#">
+<span class="material-symbols-outlined text-lg" data-icon="stethoscope">stethoscope</span>
+<span class="font-label-md text-label-md">Medical Assessment</span>
+</a>
+<!-- Adverse Events (ACTIVE) -->
+<a class="flex items-center justify-between px-3 py-2 bg-surface-container dark:bg-surface-container-high text-primary dark:text-inverse-primary font-semibold rounded-DEFAULT border-l-4 border-primary" href="#">
+<div class="flex items-center gap-3">
+<span class="material-symbols-outlined text-lg" data-icon="warning" data-weight="fill" style="font-variation-settings: 'FILL' 1;">warning</span>
+<span class="font-label-md text-label-md">Adverse Events</span>
+</div>
+<span class="px-1.5 py-0.5 rounded-full bg-tertiary text-on-tertiary font-data-mono-sm text-data-mono-sm font-semibold">5</span>
+</a>
+<!-- Queries -->
+<a class="flex items-center gap-3 px-3 py-2 text-on-surface-variant dark:text-outline-variant font-medium rounded-DEFAULT hover:bg-surface-container-low dark:hover:bg-surface-container hover:text-on-surface transition-colors duration-150 active:scale-[0.99]" href="#">
+<span class="material-symbols-outlined text-lg" data-icon="help_outline">help_outline</span>
+<span class="font-label-md text-label-md">Queries</span>
+</a>
+<!-- Documents -->
+<a class="flex items-center gap-3 px-3 py-2 text-on-surface-variant dark:text-outline-variant font-medium rounded-DEFAULT hover:bg-surface-container-low dark:hover:bg-surface-container hover:text-on-surface transition-colors duration-150 active:scale-[0.99]" href="#">
+<span class="material-symbols-outlined text-lg" data-icon="description">description</span>
+<span class="font-label-md text-label-md">Documents</span>
+</a>
+<!-- Reports -->
+<a class="flex items-center gap-3 px-3 py-2 text-on-surface-variant dark:text-outline-variant font-medium rounded-DEFAULT hover:bg-surface-container-low dark:hover:bg-surface-container hover:text-on-surface transition-colors duration-150 active:scale-[0.99]" href="#">
+<span class="material-symbols-outlined text-lg" data-icon="analytics">analytics</span>
+<span class="font-label-md text-label-md">Reports</span>
+</a>
+<!-- Audit Logs -->
+<a class="flex items-center gap-3 px-3 py-2 text-on-surface-variant dark:text-outline-variant font-medium rounded-DEFAULT hover:bg-surface-container-low dark:hover:bg-surface-container hover:text-on-surface transition-colors duration-150 active:scale-[0.99]" href="#">
+<span class="material-symbols-outlined text-lg" data-icon="history">history</span>
+<span class="font-label-md text-label-md">Audit Logs</span>
+</a>
+<!-- Settings -->
+<a class="flex items-center gap-3 px-3 py-2 text-on-surface-variant dark:text-outline-variant font-medium rounded-DEFAULT hover:bg-surface-container-low dark:hover:bg-surface-container hover:text-on-surface transition-colors duration-150 active:scale-[0.99]" href="#">
+<span class="material-symbols-outlined text-lg" data-icon="settings">settings</span>
+<span class="font-label-md text-label-md">Settings</span>
+</a>
+</nav>
+</div>
+<!-- Footer Meta & Links -->
+<div class="pt-3 border-t border-outline-variant flex flex-col gap-1">
+<a class="flex items-center gap-3 px-3 py-1.5 text-on-surface-variant font-medium rounded-DEFAULT hover:bg-surface-container-low transition-colors duration-150 text-body-sm" href="#">
+<span class="material-symbols-outlined text-base" data-icon="policy">policy</span>
+<span class="font-label-sm text-label-sm">Audit Trails</span>
+</a>
+<a class="flex items-center gap-3 px-3 py-1.5 text-on-surface-variant font-medium rounded-DEFAULT hover:bg-surface-container-low transition-colors duration-150 text-body-sm" href="#">
+<span class="material-symbols-outlined text-base" data-icon="admin_panel_settings">admin_panel_settings</span>
+<span class="font-label-sm text-label-sm">System Settings</span>
+</a>
+<div class="mt-2 px-3 py-1 bg-surface-container rounded font-data-mono-sm text-data-mono-sm text-on-surface-variant flex items-center justify-between">
+<span class="flex items-center gap-1.5"><span class="w-1.5 h-1.5 rounded-full bg-secondary"></span> Site Synced</span>
+<span>SSL 256-bit</span>
+</div>
+</div>
+</aside>
+<!-- ========================================================================= -->
+<!-- MAIN WORKSPACE CONTAINER (Offset by Left Rail: pl-64)                    -->
+<!-- ========================================================================= -->
+<div class="flex-1 ml-64 min-w-0 flex flex-col">
+<!-- ======================================================================= -->
+<!-- SHARED COMPONENT: TopNavBar (Sticky header with exact branding & tools) -->
+<!-- ======================================================================= -->
+<header class="sticky top-0 z-30 h-14 w-full bg-surface-container-lowest dark:bg-inverse-surface border-b border-outline-variant dark:border-outline flex items-center justify-between px-6">
+<!-- Brand & Left Search -->
+<div class="flex items-center gap-6">
+<div class="flex items-center gap-2">
+<span class="font-headline-sm text-headline-sm font-semibold text-on-surface dark:text-inverse-on-surface">
+            St. Jude Clinical Research Center - Site #104
+          </span>
+<span class="px-2 py-0.5 rounded bg-surface-container text-primary font-data-mono-sm text-data-mono-sm font-medium">IRB-2024-APPROVED</span>
+</div>
+<!-- Global Search Bar -->
+<div class="relative w-72">
+<span class="material-symbols-outlined absolute left-2.5 top-1/2 -translate-y-1/2 text-outline text-lg pointer-events-none" data-icon="search">search</span>
+<input class="w-full h-8 pl-8 pr-3 text-body-sm bg-surface-bright border border-outline-variant rounded-DEFAULT focus:outline-none focus:border-primary focus:ring-1 focus:ring-primary text-on-surface placeholder:text-outline" placeholder="Search protocol, subject ID, MedDRA term..." type="text"/>
+</div>
+</div>
+<!-- Navigation Links & Trailing Actions -->
+<div class="flex items-center gap-5">
+<nav class="hidden xl:flex items-center gap-4 text-body-md">
+<a class="text-on-surface-variant dark:text-outline-variant font-medium hover:text-primary transition-colors" href="#">Active Protocols</a>
+<a class="text-primary dark:text-inverse-primary font-semibold border-b-2 border-primary pb-1" href="#">Safety Registry</a>
+<a class="text-on-surface-variant dark:text-outline-variant font-medium hover:text-primary transition-colors" href="#">Regulatory Books</a>
+</nav>
+<div class="h-4 w-px bg-outline-variant"></div>
+<!-- Trailing Badges and Critical Actions -->
+<div class="flex items-center gap-2.5">
+<span class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded bg-surface-container text-primary font-data-mono text-data-mono font-medium border border-outline-variant">
+<span class="material-symbols-outlined text-sm" data-icon="biotech">biotech</span>
+            Protocol Arm #04-B
+          </span>
+<button class="inline-flex items-center gap-1.5 px-3 py-1 bg-tertiary hover:bg-tertiary-container text-on-tertiary font-label-md text-label-md rounded-DEFAULT transition-all duration-150">
+<span class="material-symbols-outlined text-sm" data-icon="emergency">emergency</span>
+            Emergency AE Report
+          </button>
+<!-- Icon Action Cluster -->
+<div class="flex items-center gap-1 ml-1 text-on-surface-variant">
+<button class="p-1.5 rounded hover:bg-surface-container transition-colors relative" title="Notifications">
+<span class="material-symbols-outlined text-xl" data-icon="notifications">notifications</span>
+<span class="absolute top-1 right-1 w-2 h-2 rounded-full bg-tertiary"></span>
+</button>
+<button class="p-1.5 rounded hover:bg-surface-container transition-colors" title="Safety Hotwire">
+<span class="material-symbols-outlined text-xl text-tertiary" data-icon="emergency">emergency</span>
+</button>
+<button class="p-1.5 rounded hover:bg-surface-container transition-colors" title="User Profile">
+<span class="material-symbols-outlined text-xl" data-icon="account_circle">account_circle</span>
+</button>
+</div>
+</div>
+</div>
+</header>
+<!-- ======================================================================= -->
+<!-- CONTENT CANVAS                                                          -->
+<!-- ======================================================================= -->
+<main class="flex-1 p-6 space-y-5 max-w-[1720px] w-full mx-auto">
+<!-- TOP ALERT RIBBON: 21 CFR 312.32 Expedited Safety Reporting Warning -->
+<section class="bg-error-container/30 border-l-4 border-error p-3.5 rounded-r-lg border border-r-outline-variant border-y-outline-variant flex items-center justify-between">
+<div class="flex items-center gap-3">
+<div class="w-8 h-8 rounded-full bg-error-container flex items-center justify-center text-error shrink-0">
+<span class="material-symbols-outlined text-xl" data-icon="warning" data-weight="fill" style="font-variation-settings: 'FILL' 1;">warning</span>
+</div>
+<div>
+<div class="flex items-center gap-2">
+<span class="font-headline-sm text-headline-sm text-on-error-container font-bold">21 CFR 312.32 EXPEDITED SAFETY CLOCK ACTIVE</span>
+<span class="px-2 py-0.2 rounded bg-tertiary text-on-tertiary font-data-mono-sm text-data-mono-sm uppercase font-semibold">Regulatory Mandatory</span>
+</div>
+<p class="font-body-sm text-body-sm text-on-surface-variant mt-0.5">
+              Subject <strong class="text-on-surface font-semibold">PT-104-089</strong> logged Febrile Neutropenia with life-threatening potential. 24-hour telephone notification to Sponsor Completed; MedWatch 3500A 7-Day Safety Transmission due in <span class="font-data-mono font-semibold text-tertiary">14h:32m:18s</span>.
+            </p>
+</div>
+</div>
+<div class="flex items-center gap-2">
+<button class="px-3 py-1.5 bg-surface-container-lowest border border-outline-variant hover:bg-surface-container-low text-on-surface font-label-md text-label-md rounded-DEFAULT flex items-center gap-1.5 transition-colors">
+<span class="material-symbols-outlined text-sm" data-icon="history">history</span>
+            Audit Timestamp
+          </button>
+<button class="px-3.5 py-1.5 bg-error hover:bg-tertiary-container text-on-error font-label-md text-label-md rounded-DEFAULT flex items-center gap-1.5 shadow-sm transition-colors">
+<span class="material-symbols-outlined text-sm" data-icon="send">send</span>
+            Prepare FDA Transmission
+          </button>
+</div>
+</section>
+<!-- 1. AE SAFETY COMMAND HEADER -->
+<section class="flex flex-col md:flex-row md:items-center justify-between gap-4 bg-surface-container-lowest p-5 rounded-lg border border-outline-variant">
+<div>
+<div class="flex items-center gap-2.5">
+<h1 class="font-headline-xl text-headline-xl text-on-surface font-bold tracking-tight">Safety Registry &amp; Adverse Events</h1>
+<span class="px-2 py-0.5 rounded bg-surface-variant text-primary font-label-sm text-label-sm font-semibold uppercase">Trial Phase III</span>
+</div>
+<p class="font-body-md text-body-md text-on-surface-variant mt-1">
+            Global pharmacovigilance surveillance, ICH-GCP E2A safety monitoring, and MedDRA 26.1 coded toxicity register.
+          </p>
+</div>
+<div class="flex items-center gap-3 shrink-0">
+<button class="px-3.5 py-2 bg-surface-container-lowest border border-outline text-on-surface hover:bg-surface-container-low font-label-lg text-label-lg rounded-DEFAULT flex items-center gap-2 transition-colors">
+<span class="material-symbols-outlined text-base" data-icon="description">description</span>
+            Export FDA 3500A / MedWatch
+          </button>
+<button class="px-4 py-2 bg-tertiary hover:bg-tertiary-container text-on-tertiary font-label-lg text-label-lg rounded-DEFAULT flex items-center gap-2 shadow-sm transition-transform active:scale-[0.98]">
+<span class="material-symbols-outlined text-lg" data-icon="add_alert">add_alert</span>
+            Report New Serious Adverse Event (SAE)
+          </button>
+</div>
+</section>
+<!-- 2. SAFETY METRICS ROW (Bento Cards with clinical precision) -->
+<section class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+<!-- Metric 1: Total AEs Logged -->
+<div class="bg-surface-container-lowest p-4 rounded-lg border border-outline-variant flex flex-col justify-between">
+<div class="flex items-center justify-between text-on-surface-variant mb-2">
+<span class="font-label-md text-label-md uppercase tracking-wider">Total AEs Logged</span>
+<span class="material-symbols-outlined text-primary text-xl" data-icon="clinical_notes">clinical_notes</span>
+</div>
+<div>
+<div class="flex items-baseline gap-2">
+<span class="font-display-lg text-display-lg text-on-surface font-bold">34</span>
+<span class="font-body-sm text-body-sm text-on-surface-variant font-medium">all cohorts</span>
+</div>
+<div class="mt-2 flex items-center justify-between pt-2 border-t border-surface-container font-data-mono-sm text-data-mono-sm text-on-surface-variant">
+<span>Cohort A: 19</span>
+<span>Cohort B: 15</span>
+<span class="text-secondary font-semibold">100% Reconciled</span>
+</div>
+</div>
+</div>
+<!-- Metric 2: Serious Adverse Events (SAEs) -->
+<div class="bg-surface-container-lowest p-4 rounded-lg border border-outline-variant flex flex-col justify-between">
+<div class="flex items-center justify-between text-on-surface-variant mb-2">
+<span class="font-label-md text-label-md uppercase tracking-wider text-tertiary font-bold">Active SAEs</span>
+<span class="material-symbols-outlined text-tertiary text-xl" data-icon="warning" data-weight="fill" style="font-variation-settings: 'FILL' 1;">warning</span>
+</div>
+<div>
+<div class="flex items-baseline gap-2">
+<span class="font-display-lg text-display-lg text-tertiary font-bold">3</span>
+<span class="font-body-sm text-body-sm text-tertiary font-semibold">active cases</span>
+</div>
+<div class="mt-2 flex items-center justify-between pt-2 border-t border-surface-container font-data-mono-sm text-data-mono-sm">
+<span class="text-tertiary font-bold">2 under FDA 24h Clock</span>
+<span class="text-on-surface-variant">1 Under IRB Review</span>
+</div>
+</div>
+</div>
+<!-- Metric 3: Expedited Reporting Countdown -->
+<div class="bg-tertiary-fixed/40 p-4 rounded-lg border border-tertiary/20 flex flex-col justify-between">
+<div class="flex items-center justify-between text-on-tertiary-fixed mb-2">
+<span class="font-label-md text-label-md uppercase tracking-wider font-bold">Expedited Reporting</span>
+<span class="material-symbols-outlined text-tertiary text-xl animate-pulse" data-icon="timer">timer</span>
+</div>
+<div>
+<div class="font-headline-lg text-headline-lg font-bold text-tertiary tracking-tight">
+              T-minus 14h:32m
+            </div>
+<p class="font-body-sm text-body-sm text-on-tertiary-fixed-variant mt-1 leading-snug">
+              1 SAE Pending FDA Transmission (Form 3500A draft staged)
+            </p>
+<div class="mt-2 flex items-center gap-1.5 text-tertiary font-data-mono-sm text-data-mono-sm font-semibold">
+<span class="w-2 h-2 rounded-full bg-tertiary inline-block"></span>
+              Escalation SLA: St. Jude Institutional Biosafety
+            </div>
+</div>
+</div>
+<!-- Metric 4: Unresolved Toxicities -->
+<div class="bg-surface-container-lowest p-4 rounded-lg border border-outline-variant flex flex-col justify-between">
+<div class="flex items-center justify-between text-on-surface-variant mb-2">
+<span class="font-label-md text-label-md uppercase tracking-wider">Unresolved Toxicities</span>
+<span class="material-symbols-outlined text-primary text-xl" data-icon="coronavirus">coronavirus</span>
+</div>
+<div>
+<div class="flex items-baseline gap-2">
+<span class="font-display-lg text-display-lg text-on-surface font-bold">4</span>
+<span class="font-body-sm text-body-sm text-tertiary font-semibold">Grade 3 / 4 CTCAE</span>
+</div>
+<div class="mt-2 flex items-center justify-between pt-2 border-t border-surface-container font-data-mono-sm text-data-mono-sm">
+<span class="text-tertiary font-medium">1 Life-threatening</span>
+<span class="text-on-surface-variant">3 Severe In-Hospital</span>
+</div>
+</div>
+</div>
+</section>
+<!-- 3. MAIN WORKSPACE: SPLIT VIEW (Expedited Case Detail Card & Comprehensive Registry Table) -->
+<section class="grid grid-cols-1 xl:grid-cols-12 gap-5 items-start">
+<!-- ===================================================================== -->
+<!-- LEFT PANEL (5 cols): Urgent SAE Expedited Report Case Detail Card     -->
+<!-- ===================================================================== -->
+<div class="xl:col-span-5 bg-surface-container-lowest rounded-lg border border-outline-variant p-5 shadow-sm space-y-4">
+<!-- Card Header & Badge -->
+<div class="flex items-start justify-between pb-3 border-b border-outline-variant">
+<div class="space-y-0.5">
+<div class="flex items-center gap-2">
+<span class="px-2 py-0.5 rounded bg-error-container text-on-error-container font-data-mono-sm text-data-mono-sm font-bold uppercase tracking-wider">
+                  URGENT SAE • CASE #SAE-2024-009
+                </span>
+<span class="w-2 h-2 rounded-full bg-error animate-ping"></span>
+</div>
+<h2 class="font-headline-lg text-headline-lg font-bold text-on-surface">Subject PT-104-089</h2>
+<p class="font-body-sm text-body-sm text-on-surface-variant">
+                Protocol: <span class="font-data-mono text-on-surface font-medium">ONC-2024-X3</span> | Arm: <span class="font-semibold text-primary">Arm B (High Dose Escalation)</span>
+</p>
+</div>
+<!-- Subject Demographics snippet -->
+<div class="text-right font-data-mono-sm text-data-mono-sm text-on-surface-variant">
+<div>Age: 58 • Sex: M</div>
+<div class="text-secondary font-semibold">Cycle 2 Day 3</div>
+</div>
+</div>
+<!-- Clinical Event Summary Box -->
+<div class="bg-surface p-3.5 rounded-lg border border-outline-variant space-y-2">
+<div class="flex items-center justify-between">
+<span class="font-label-md text-label-md text-on-surface-variant uppercase">Adverse Event (MedDRA Term)</span>
+<span class="px-2 py-0.5 rounded bg-error-container text-error font-data-mono text-data-mono font-semibold">
+                CTCAE Grade 3
+              </span>
+</div>
+<div class="flex items-baseline justify-between">
+<h3 class="font-headline-md text-headline-md font-bold text-tertiary">Febrile Neutropenia</h3>
+<span class="font-data-mono text-data-mono text-on-surface-variant">MedDRA Code: <strong>10016288</strong></span>
+</div>
+<p class="font-body-sm text-body-sm text-on-surface leading-relaxed">
+              Patient presented with absolute neutrophil count of 0.42 x 10^9/L, persistent oral temperature 38.9°C, accompanied by systemic rigors and hypotension. Admitted to acute oncology unit.
+            </p>
+</div>
+<!-- Structured Clinical Trial Fields Grid -->
+<div class="grid grid-cols-2 gap-3 font-body-sm text-body-sm">
+<div class="p-2.5 rounded bg-surface-bright border border-outline-variant">
+<span class="font-label-sm text-label-sm text-on-surface-variant uppercase block mb-1">Onset Date / Chronology</span>
+<span class="font-data-mono text-data-mono text-on-surface font-semibold block">2024-10-24 14:15 EST</span>
+<span class="text-on-surface-variant font-body-sm">2 days post Cycle 2 Day 1 Infusion</span>
+</div>
+<div class="p-2.5 rounded bg-surface-bright border border-outline-variant">
+<span class="font-label-sm text-label-sm text-on-surface-variant uppercase block mb-1">Causality Assessment</span>
+<span class="font-headline-sm text-headline-sm text-tertiary font-bold block leading-tight">Suspected Related</span>
+<span class="text-on-surface-variant font-body-sm truncate block">Investigator: Dr. Elena Rostova</span>
+</div>
+<div class="p-2.5 rounded bg-surface-bright border border-outline-variant col-span-2">
+<span class="font-label-sm text-label-sm text-on-surface-variant uppercase block mb-1.5">Seriousness Criteria (ICH-GCP E2A)</span>
+<div class="grid grid-cols-3 gap-2 font-data-mono text-data-mono">
+<label class="flex items-center gap-1.5 bg-error-container/40 p-1 rounded text-on-error-container font-semibold">
+<input checked="" class="rounded text-tertiary focus:ring-tertiary w-3.5 h-3.5" disabled="" type="checkbox"/>
+<span>Hospitalization [x]</span>
+</label>
+<label class="flex items-center gap-1.5 bg-surface p-1 rounded text-on-surface-variant">
+<input class="rounded text-outline focus:ring-outline w-3.5 h-3.5" disabled="" type="checkbox"/>
+<span>Life Threatening [ ]</span>
+</label>
+<label class="flex items-center gap-1.5 bg-surface p-1 rounded text-on-surface-variant">
+<input class="rounded text-outline focus:ring-outline w-3.5 h-3.5" disabled="" type="checkbox"/>
+<span>Death [ ]</span>
+</label>
+</div>
+</div>
+<div class="p-2.5 rounded bg-surface-bright border border-outline-variant">
+<span class="font-label-sm text-label-sm text-on-surface-variant uppercase block mb-1">Action with Study Drug</span>
+<span class="font-data-mono text-data-mono text-error font-bold flex items-center gap-1">
+<span class="material-symbols-outlined text-sm" data-icon="pause_circle">pause_circle</span>
+                Drug Interrupted
+              </span>
+<span class="text-on-surface-variant font-body-sm">Arm B Infusion 3 on hold</span>
+</div>
+<div class="p-2.5 rounded bg-surface-bright border border-outline-variant">
+<span class="font-label-sm text-label-sm text-on-surface-variant uppercase block mb-1">Current Outcome</span>
+<span class="font-data-mono text-data-mono text-secondary font-bold flex items-center gap-1">
+<span class="material-symbols-outlined text-sm" data-icon="check_circle">check_circle</span>
+                Recovering / Resolving
+              </span>
+<span class="text-on-surface-variant font-body-sm">IV Meropenem + G-CSF</span>
+</div>
+</div>
+<!-- Electronic Signature Validation & Audit State (21 CFR Part 11) -->
+<div class="p-3 bg-surface-container rounded border border-outline-variant space-y-1.5 font-data-mono-sm text-data-mono-sm">
+<div class="flex items-center justify-between text-on-surface">
+<span class="font-semibold flex items-center gap-1">
+<span class="material-symbols-outlined text-sm text-secondary" data-icon="verified_user">verified_user</span>
+                CFR Part 11 Electronic Signature Status
+              </span>
+<span class="text-tertiary font-bold">PENDING PI SIGN-OFF</span>
+</div>
+<div class="text-on-surface-variant text-body-sm">
+              Signer: Elena Rostova, MD (PI) | Role: Evaluating Investigator | Certificate: SHA-256 #90F4-77A1
+            </div>
+</div>
+<!-- Action Buttons / Workflow Operations -->
+<div class="space-y-2 pt-2 border-t border-outline-variant">
+<button class="w-full py-2.5 px-3 bg-primary hover:bg-on-primary-fixed-variant text-on-primary font-label-lg text-label-lg rounded-DEFAULT flex items-center justify-center gap-2 shadow-sm transition-all duration-150 active:scale-[0.99]">
+<span class="material-symbols-outlined text-base" data-icon="draw">draw</span>
+<span>PI e-Signature (21 CFR Part 11)</span>
+</button>
+<div class="grid grid-cols-2 gap-2">
+<button class="py-2 px-2.5 bg-surface-container-lowest border border-outline hover:bg-surface-container-low text-on-surface font-label-md text-label-md rounded-DEFAULT flex items-center justify-center gap-1.5 transition-colors">
+<span class="material-symbols-outlined text-sm text-tertiary" data-icon="send">send</span>
+                Submit MedWatch 3500A
+              </button>
+<button class="py-2 px-2.5 bg-surface-container-lowest border border-outline hover:bg-surface-container-low text-on-surface font-label-md text-label-md rounded-DEFAULT flex items-center justify-center gap-1.5 transition-colors">
+<span class="material-symbols-outlined text-sm text-primary" data-icon="help_outline">help_outline</span>
+                Open Medical Query
+              </button>
+</div>
+</div>
+</div>
+<!-- ===================================================================== -->
+<!-- RIGHT PANEL (7 cols): Comprehensive Adverse Events Log Table          -->
+<!-- ===================================================================== -->
+<div class="xl:col-span-7 bg-surface-container-lowest rounded-lg border border-outline-variant shadow-sm flex flex-col">
+<!-- Table Header Controls & Filter Strip -->
+<div class="p-4 border-b border-outline-variant flex flex-col gap-3">
+<div class="flex items-center justify-between">
+<div>
+<h2 class="font-headline-md text-headline-md font-bold text-on-surface">Adverse Events Log</h2>
+<p class="font-body-sm text-body-sm text-on-surface-variant">Live subject toxicity tracker across active study arms</p>
+</div>
+<!-- Quick filter toggle tags -->
+<div class="flex items-center gap-1.5 font-label-sm text-label-sm">
+<button class="px-2.5 py-1 rounded bg-primary text-on-primary font-medium">All Events (34)</button>
+<button class="px-2.5 py-1 rounded bg-surface-container hover:bg-surface-variant text-on-surface transition-colors">SAEs Only (3)</button>
+<button class="px-2.5 py-1 rounded bg-surface-container hover:bg-surface-variant text-on-surface transition-colors">Grade 3/4 (4)</button>
+<button class="px-2.5 py-1 rounded bg-surface-container hover:bg-surface-variant text-on-surface transition-colors">Action Required (5)</button>
+</div>
+</div>
+<!-- Detailed Filters Bar (Grade, Seriousness, Study, Causality) -->
+<div class="grid grid-cols-4 gap-2 pt-1 font-body-sm text-body-sm">
+<!-- Grade Filter -->
+<div>
+<label class="font-label-sm text-label-sm text-on-surface-variant uppercase block mb-1">CTCAE Grade</label>
+<select class="w-full h-8 text-body-sm bg-surface-bright border border-outline-variant rounded-DEFAULT px-2 text-on-surface focus:outline-none focus:border-primary">
+<option>All Grades (1-5)</option>
+<option>Grade 1 - Mild</option>
+<option>Grade 2 - Moderate</option>
+<option selected="">Grade 3 - Severe</option>
+<option>Grade 4 - Life-Threatening</option>
+</select>
+</div>
+<!-- Seriousness Filter -->
+<div>
+<label class="font-label-sm text-label-sm text-on-surface-variant uppercase block mb-1">Seriousness</label>
+<select class="w-full h-8 text-body-sm bg-surface-bright border border-outline-variant rounded-DEFAULT px-2 text-on-surface focus:outline-none focus:border-primary">
+<option>All Criteria</option>
+<option selected="">SAE Only</option>
+<option>Non-Serious</option>
+</select>
+</div>
+<!-- Protocol Study Filter -->
+<div>
+<label class="font-label-sm text-label-sm text-on-surface-variant uppercase block mb-1">Study Protocol</label>
+<select class="w-full h-8 text-body-sm bg-surface-bright border border-outline-variant rounded-DEFAULT px-2 text-on-surface focus:outline-none focus:border-primary">
+<option>All Protocols</option>
+<option selected="">ONC-2024-X3</option>
+<option>IMM-2023-V1</option>
+</select>
+</div>
+<!-- Causality Filter -->
+<div>
+<label class="font-label-sm text-label-sm text-on-surface-variant uppercase block mb-1">Causality</label>
+<select class="w-full h-8 text-body-sm bg-surface-bright border border-outline-variant rounded-DEFAULT px-2 text-on-surface focus:outline-none focus:border-primary">
+<option>All Relations</option>
+<option selected="">Suspected / Related</option>
+<option>Unlikely / Unrelated</option>
+<option>Pending Evaluation</option>
+</select>
+</div>
+</div>
+</div>
+<!-- Tabular Data Grid -->
+<div class="overflow-x-auto min-h-[460px]">
+<table class="w-full text-left border-collapse">
+<thead>
+<tr class="bg-surface text-on-surface-variant border-b border-outline-variant font-label-sm text-label-sm uppercase tracking-wider">
+<th class="py-2.5 px-3 font-semibold">Event ID</th>
+<th class="py-2.5 px-3 font-semibold">Subject ID</th>
+<th class="py-2.5 px-3 font-semibold">Protocol</th>
+<th class="py-2.5 px-3 font-semibold">MedDRA Term</th>
+<th class="py-2.5 px-3 font-semibold">Grade</th>
+<th class="py-2.5 px-3 font-semibold">Seriousness</th>
+<th class="py-2.5 px-3 font-semibold">Causality</th>
+<th class="py-2.5 px-3 font-semibold">Status</th>
+<th class="py-2.5 px-3 text-right font-semibold">Actions</th>
+</tr>
+</thead>
+<tbody class="divide-y divide-outline-variant/60 font-body-sm text-body-sm">
+<!-- Row 1: Selected Case (Febrile Neutropenia) -->
+<tr class="bg-surface-container/50 hover:bg-surface-container transition-colors">
+<td class="py-2.5 px-3 font-data-mono text-data-mono font-bold text-primary">
+                    AE-2024-034
+                  </td>
+<td class="py-2.5 px-3 font-data-mono text-data-mono font-semibold text-on-surface">
+                    PT-104-089
+                  </td>
+<td class="py-2.5 px-3 font-data-mono-sm text-data-mono-sm text-on-surface-variant">
+                    ONC-2024-X3 (B)
+                  </td>
+<td class="py-2.5 px-3 font-semibold text-tertiary">
+                    Febrile Neutropenia
+                    <span class="block font-data-mono-sm text-data-mono-sm text-on-surface-variant">Code: 10016288</span>
+</td>
+<td class="py-2.5 px-3">
+<span class="px-2 py-0.5 rounded bg-error-container text-error font-data-mono-sm text-data-mono-sm font-bold">
+                      Grade 3
+                    </span>
+</td>
+<td class="py-2.5 px-3">
+<span class="px-2 py-0.5 rounded bg-tertiary text-on-tertiary font-label-sm text-label-sm font-bold uppercase">
+                      SAE
+                    </span>
+</td>
+<td class="py-2.5 px-3 font-semibold text-tertiary">
+                    Suspected
+                  </td>
+<td class="py-2.5 px-3">
+<span class="inline-flex items-center gap-1 px-2 py-0.5 rounded bg-amber-100 text-amber-900 font-label-sm text-label-sm font-semibold">
+<span class="w-1.5 h-1.5 rounded-full bg-amber-600"></span> In Review
+                    </span>
+</td>
+<td class="py-2.5 px-3 text-right">
+<button class="p-1 rounded hover:bg-surface-variant text-primary" title="Inspect Case">
+<span class="material-symbols-outlined text-base" data-icon="visibility">visibility</span>
+</button>
+<button class="p-1 rounded hover:bg-surface-variant text-tertiary" title="Expedite Flow">
+<span class="material-symbols-outlined text-base" data-icon="send">send</span>
+</button>
+</td>
+</tr>
+<!-- Row 2: Severe Cytokine Release -->
+<tr class="hover:bg-surface transition-colors">
+<td class="py-2.5 px-3 font-data-mono text-data-mono font-bold text-primary">
+                    AE-2024-031
+                  </td>
+<td class="py-2.5 px-3 font-data-mono text-data-mono font-semibold text-on-surface">
+                    PT-104-062
+                  </td>
+<td class="py-2.5 px-3 font-data-mono-sm text-data-mono-sm text-on-surface-variant">
+                    ONC-2024-X3 (B)
+                  </td>
+<td class="py-2.5 px-3 font-semibold text-tertiary">
+                    Cytokine Release Syn.
+                    <span class="block font-data-mono-sm text-data-mono-sm text-on-surface-variant">Code: 10052015</span>
+</td>
+<td class="py-2.5 px-3">
+<span class="px-2 py-0.5 rounded bg-tertiary-container text-on-tertiary font-data-mono-sm text-data-mono-sm font-bold">
+                      Grade 4
+                    </span>
+</td>
+<td class="py-2.5 px-3">
+<span class="px-2 py-0.5 rounded bg-tertiary text-on-tertiary font-label-sm text-label-sm font-bold uppercase">
+                      SAE
+                    </span>
+</td>
+<td class="py-2.5 px-3 font-semibold text-tertiary">
+                    Definite
+                  </td>
+<td class="py-2.5 px-3">
+<span class="inline-flex items-center gap-1 px-2 py-0.5 rounded bg-rose-100 text-rose-800 font-label-sm text-label-sm font-semibold">
+<span class="w-1.5 h-1.5 rounded-full bg-rose-600"></span> Open
+                    </span>
+</td>
+<td class="py-2.5 px-3 text-right">
+<button class="p-1 rounded hover:bg-surface-variant text-primary" title="Inspect Case">
+<span class="material-symbols-outlined text-base" data-icon="visibility">visibility</span>
+</button>
+<button class="p-1 rounded hover:bg-surface-variant text-tertiary" title="Expedite Flow">
+<span class="material-symbols-outlined text-base" data-icon="send">send</span>
+</button>
+</td>
+</tr>
+<!-- Row 3: Pulmonary Embolism -->
+<tr class="hover:bg-surface transition-colors">
+<td class="py-2.5 px-3 font-data-mono text-data-mono font-bold text-primary">
+                    AE-2024-028
+                  </td>
+<td class="py-2.5 px-3 font-data-mono text-data-mono font-semibold text-on-surface">
+                    PT-104-044
+                  </td>
+<td class="py-2.5 px-3 font-data-mono-sm text-data-mono-sm text-on-surface-variant">
+                    IMM-2023-V1 (A)
+                  </td>
+<td class="py-2.5 px-3 font-semibold text-on-surface">
+                    Pulmonary Embolism
+                    <span class="block font-data-mono-sm text-data-mono-sm text-on-surface-variant">Code: 10037377</span>
+</td>
+<td class="py-2.5 px-3">
+<span class="px-2 py-0.5 rounded bg-error-container text-error font-data-mono-sm text-data-mono-sm font-bold">
+                      Grade 3
+                    </span>
+</td>
+<td class="py-2.5 px-3">
+<span class="px-2 py-0.5 rounded bg-tertiary text-on-tertiary font-label-sm text-label-sm font-bold uppercase">
+                      SAE
+                    </span>
+</td>
+<td class="py-2.5 px-3 text-on-surface-variant">
+                    Unlikely
+                  </td>
+<td class="py-2.5 px-3">
+<span class="inline-flex items-center gap-1 px-2 py-0.5 rounded bg-amber-100 text-amber-900 font-label-sm text-label-sm font-semibold">
+<span class="w-1.5 h-1.5 rounded-full bg-amber-600"></span> In Review
+                    </span>
+</td>
+<td class="py-2.5 px-3 text-right">
+<button class="p-1 rounded hover:bg-surface-variant text-primary" title="Inspect Case">
+<span class="material-symbols-outlined text-base" data-icon="visibility">visibility</span>
+</button>
+<button class="p-1 rounded hover:bg-surface-variant text-tertiary" title="Expedite Flow">
+<span class="material-symbols-outlined text-base" data-icon="send">send</span>
+</button>
+</td>
+</tr>
+<!-- Row 4: Grade 2 Peripheral Neuropathy -->
+<tr class="hover:bg-surface transition-colors">
+<td class="py-2.5 px-3 font-data-mono text-data-mono font-bold text-primary">
+                    AE-2024-025
+                  </td>
+<td class="py-2.5 px-3 font-data-mono text-data-mono font-semibold text-on-surface">
+                    PT-104-071
+                  </td>
+<td class="py-2.5 px-3 font-data-mono-sm text-data-mono-sm text-on-surface-variant">
+                    ONC-2024-X3 (A)
+                  </td>
+<td class="py-2.5 px-3 font-semibold text-on-surface">
+                    Peripheral Neuropathy
+                    <span class="block font-data-mono-sm text-data-mono-sm text-on-surface-variant">Code: 10034608</span>
+</td>
+<td class="py-2.5 px-3">
+<span class="px-2 py-0.5 rounded bg-surface-container text-primary font-data-mono-sm text-data-mono-sm font-semibold">
+                      Grade 2
+                    </span>
+</td>
+<td class="py-2.5 px-3">
+<span class="px-2 py-0.5 rounded bg-surface-container text-on-surface-variant font-label-sm text-label-sm">
+                      Non-SAE
+                    </span>
+</td>
+<td class="py-2.5 px-3 text-on-surface font-medium">
+                    Probable
+                  </td>
+<td class="py-2.5 px-3">
+<span class="inline-flex items-center gap-1 px-2 py-0.5 rounded bg-secondary-container/50 text-on-secondary-container font-label-sm text-label-sm font-semibold">
+<span class="w-1.5 h-1.5 rounded-full bg-secondary"></span> Closed
+                    </span>
+</td>
+<td class="py-2.5 px-3 text-right">
+<button class="p-1 rounded hover:bg-surface-variant text-primary" title="Inspect Case">
+<span class="material-symbols-outlined text-base" data-icon="visibility">visibility</span>
+</button>
+<button class="p-1 rounded hover:bg-surface-variant text-outline" title="Re-open Query">
+<span class="material-symbols-outlined text-base" data-icon="help_outline">help_outline</span>
+</button>
+</td>
+</tr>
+<!-- Row 5: Grade 1 Fatigue -->
+<tr class="hover:bg-surface transition-colors">
+<td class="py-2.5 px-3 font-data-mono text-data-mono font-bold text-primary">
+                    AE-2024-022
+                  </td>
+<td class="py-2.5 px-3 font-data-mono text-data-mono font-semibold text-on-surface">
+                    PT-104-095
+                  </td>
+<td class="py-2.5 px-3 font-data-mono-sm text-data-mono-sm text-on-surface-variant">
+                    IMM-2023-V1 (B)
+                  </td>
+<td class="py-2.5 px-3 font-semibold text-on-surface">
+                    Fatigue Asthenia
+                    <span class="block font-data-mono-sm text-data-mono-sm text-on-surface-variant">Code: 10016256</span>
+</td>
+<td class="py-2.5 px-3">
+<span class="px-2 py-0.5 rounded bg-surface-container-low text-on-surface-variant font-data-mono-sm text-data-mono-sm">
+                      Grade 1
+                    </span>
+</td>
+<td class="py-2.5 px-3">
+<span class="px-2 py-0.5 rounded bg-surface-container text-on-surface-variant font-label-sm text-label-sm">
+                      Non-SAE
+                    </span>
+</td>
+<td class="py-2.5 px-3 text-on-surface-variant">
+                    Possible
+                  </td>
+<td class="py-2.5 px-3">
+<span class="inline-flex items-center gap-1 px-2 py-0.5 rounded bg-secondary-container/50 text-on-secondary-container font-label-sm text-label-sm font-semibold">
+<span class="w-1.5 h-1.5 rounded-full bg-secondary"></span> Closed
+                    </span>
+</td>
+<td class="py-2.5 px-3 text-right">
+<button class="p-1 rounded hover:bg-surface-variant text-primary" title="Inspect Case">
+<span class="material-symbols-outlined text-base" data-icon="visibility">visibility</span>
+</button>
+<button class="p-1 rounded hover:bg-surface-variant text-outline" title="Re-open Query">
+<span class="material-symbols-outlined text-base" data-icon="help_outline">help_outline</span>
+</button>
+</td>
+</tr>
+<!-- Row 6: Elevated ALT/AST Grade 3 -->
+<tr class="hover:bg-surface transition-colors">
+<td class="py-2.5 px-3 font-data-mono text-data-mono font-bold text-primary">
+                    AE-2024-019
+                  </td>
+<td class="py-2.5 px-3 font-data-mono text-data-mono font-semibold text-on-surface">
+                    PT-104-032
+                  </td>
+<td class="py-2.5 px-3 font-data-mono-sm text-data-mono-sm text-on-surface-variant">
+                    ONC-2024-X3 (B)
+                  </td>
+<td class="py-2.5 px-3 font-semibold text-tertiary">
+                    Alanine Aminotransferase Inc.
+                    <span class="block font-data-mono-sm text-data-mono-sm text-on-surface-variant">Code: 10001551</span>
+</td>
+<td class="py-2.5 px-3">
+<span class="px-2 py-0.5 rounded bg-error-container text-error font-data-mono-sm text-data-mono-sm font-bold">
+                      Grade 3
+                    </span>
+</td>
+<td class="py-2.5 px-3">
+<span class="px-2 py-0.5 rounded bg-surface-container text-on-surface-variant font-label-sm text-label-sm">
+                      Non-SAE
+                    </span>
+</td>
+<td class="py-2.5 px-3 font-semibold text-tertiary">
+                    Related
+                  </td>
+<td class="py-2.5 px-3">
+<span class="inline-flex items-center gap-1 px-2 py-0.5 rounded bg-amber-100 text-amber-900 font-label-sm text-label-sm font-semibold">
+<span class="w-1.5 h-1.5 rounded-full bg-amber-600"></span> In Review
+                    </span>
+</td>
+<td class="py-2.5 px-3 text-right">
+<button class="p-1 rounded hover:bg-surface-variant text-primary" title="Inspect Case">
+<span class="material-symbols-outlined text-base" data-icon="visibility">visibility</span>
+</button>
+<button class="p-1 rounded hover:bg-surface-variant text-tertiary" title="Expedite Flow">
+<span class="material-symbols-outlined text-base" data-icon="send">send</span>
+</button>
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+<!-- Table Footer Pagination & Reconcile Status -->
+<div class="p-3 border-t border-outline-variant bg-surface flex items-center justify-between font-body-sm text-body-sm text-on-surface-variant">
+<div class="flex items-center gap-2">
+<span>Showing <strong>1 to 6</strong> of 34 Adverse Events</span>
+<span class="h-3 w-px bg-outline-variant"></span>
+<span class="font-data-mono-sm text-data-mono-sm text-secondary font-semibold">ICH GCP E2A Audit Lock #8890</span>
+</div>
+<div class="flex items-center gap-1 font-label-sm text-label-sm">
+<button class="px-2 py-1 rounded border border-outline-variant bg-surface-container-lowest text-on-surface hover:bg-surface-container-low transition-colors disabled:opacity-40" disabled="">
+                Previous
+              </button>
+<button class="w-7 h-7 rounded bg-primary text-on-primary font-semibold flex items-center justify-center">1</button>
+<button class="w-7 h-7 rounded border border-outline-variant bg-surface-container-lowest text-on-surface hover:bg-surface-container-low flex items-center justify-center transition-colors">2</button>
+<button class="w-7 h-7 rounded border border-outline-variant bg-surface-container-lowest text-on-surface hover:bg-surface-container-low flex items-center justify-center transition-colors">3</button>
+<button class="px-2 py-1 rounded border border-outline-variant bg-surface-container-lowest text-on-surface hover:bg-surface-container-low transition-colors">
+                Next
+              </button>
+</div>
+</div>
+</div>
+</section>
+<!-- AUDIT TRAIL FOOTNOTE / CFR PART 11 INTEGRITY BAR -->
+<footer class="p-3 bg-surface-container-lowest rounded-lg border border-outline-variant flex flex-col sm:flex-row items-center justify-between text-body-sm text-on-surface-variant gap-2">
+<div class="flex items-center gap-2 font-data-mono-sm text-data-mono-sm">
+<span class="material-symbols-outlined text-base text-secondary" data-icon="policy">policy</span>
+<span>Validated CTMS Engine • FDA 21 CFR Part 11 &amp; EU Annex 11 Verified</span>
+<span class="text-outline">•</span>
+<span>Database Lock Timestamp: 2024-10-26 18:00:00 UTC</span>
+</div>
+<div class="flex items-center gap-4 font-label-sm text-label-sm">
+<a class="hover:text-primary transition-colors" href="#">Safety Officer SOP #SO-209</a>
+<a class="hover:text-primary transition-colors" href="#">MedWatch Form 3500A Instructions</a>
+<span class="text-secondary font-semibold">● Real-time Relay Active</span>
+</div>
+</footer>
+</main>
+</div>
+</body></html>

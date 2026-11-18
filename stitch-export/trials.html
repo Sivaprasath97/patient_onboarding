@@ -1,0 +1,984 @@
+<!DOCTYPE html>
+
+<html lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>CTMS Portal - Clinical Trials Directory &amp; Protocol Detail</title>
+<!-- Fonts -->
+<link href="https://fonts.googleapis.com" rel="preconnect"/>
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&amp;family=JetBrains+Mono:wght@400;500;600&amp;display=swap" rel="stylesheet"/>
+<!-- Material Symbols Outlined -->
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<!-- Tailwind CSS -->
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<script id="tailwind-config">
+    tailwind.config = {
+      darkMode: "class",
+      theme: {
+        extend: {
+          "colors": {
+            "surface-container": "#e6eeff",
+            "surface": "#f8f9ff",
+            "on-primary": "#ffffff",
+            "on-background": "#0d1c2e",
+            "tertiary-container": "#b90012",
+            "on-primary-fixed": "#001b3e",
+            "surface-tint": "#235eac",
+            "on-primary-container": "#bed4ff",
+            "secondary-container": "#86f2e4",
+            "primary-container": "#1e5aa8",
+            "on-error": "#ffffff",
+            "on-primary-fixed-variant": "#00458d",
+            "surface-variant": "#d5e3fc",
+            "on-surface": "#0d1c2e",
+            "on-tertiary-fixed": "#410002",
+            "error-container": "#ffdad6",
+            "surface-container-highest": "#d5e3fc",
+            "on-error-container": "#93000a",
+            "on-secondary-fixed-variant": "#005049",
+            "inverse-primary": "#aac7ff",
+            "surface-container-high": "#dce9ff",
+            "primary-fixed-dim": "#aac7ff",
+            "outline": "#737782",
+            "on-tertiary": "#ffffff",
+            "background": "#f8f9ff",
+            "surface-container-low": "#eff4ff",
+            "secondary-fixed-dim": "#6bd8cb",
+            "outline-variant": "#c2c6d3",
+            "surface-dim": "#ccdbf3",
+            "on-secondary-fixed": "#00201d",
+            "tertiary": "#8c000a",
+            "secondary-fixed": "#89f5e7",
+            "primary-fixed": "#d6e3ff",
+            "secondary": "#006a61",
+            "tertiary-fixed-dim": "#ffb4ab",
+            "on-secondary": "#ffffff",
+            "error": "#ba1a1a",
+            "tertiary-fixed": "#ffdad6",
+            "on-tertiary-container": "#ffc5be",
+            "inverse-surface": "#233144",
+            "on-tertiary-fixed-variant": "#93000b",
+            "inverse-on-surface": "#eaf1ff",
+            "surface-bright": "#f8f9ff",
+            "primary": "#004287",
+            "on-secondary-container": "#006f66",
+            "surface-container-lowest": "#ffffff",
+            "on-surface-variant": "#424751"
+          },
+          "borderRadius": {
+            "DEFAULT": "0.25rem",
+            "lg": "0.5rem",
+            "xl": "0.75rem",
+            "full": "9999px"
+          },
+          "spacing": {
+            "space-2xs": "0.125rem",
+            "gutter-compact": "0.5rem",
+            "space-md": "0.75rem",
+            "space-sm": "0.5rem",
+            "margin-compact": "1rem",
+            "space-xs": "0.25rem",
+            "margin": "1.5rem",
+            "space-2xl": "2rem",
+            "space-xl": "1.5rem",
+            "gutter": "1rem",
+            "space-lg": "1rem"
+          },
+          "fontFamily": {
+            "data-mono-sm": ["JetBrains Mono"],
+            "body-sm": ["Inter"],
+            "data-mono": ["JetBrains Mono"],
+            "headline-sm": ["Inter"],
+            "label-lg": ["Inter"],
+            "display-lg": ["Inter"],
+            "headline-lg": ["Inter"],
+            "body-md": ["Inter"],
+            "label-md": ["Inter"],
+            "label-sm": ["Inter"],
+            "body-lg": ["Inter"],
+            "headline-md": ["Inter"],
+            "headline-xl": ["Inter"]
+          },
+          "fontSize": {
+            "data-mono-sm": ["11px", { "lineHeight": "14px", "fontWeight": "400" }],
+            "body-sm": ["12px", { "lineHeight": "16px", "fontWeight": "400" }],
+            "data-mono": ["12px", { "lineHeight": "16px", "fontWeight": "500" }],
+            "headline-sm": ["15px", { "lineHeight": "20px", "fontWeight": "600" }],
+            "label-lg": ["13px", { "lineHeight": "18px", "fontWeight": "500" }],
+            "display-lg": ["36px", { "lineHeight": "44px", "fontWeight": "700" }],
+            "headline-lg": ["22px", { "lineHeight": "28px", "fontWeight": "600" }],
+            "body-md": ["13px", { "lineHeight": "18px", "fontWeight": "400" }],
+            "label-md": ["11px", { "lineHeight": "14px", "fontWeight": "600" }],
+            "label-sm": ["10px", { "lineHeight": "12px", "fontWeight": "600" }],
+            "body-lg": ["15px", { "lineHeight": "22px", "fontWeight": "400" }],
+            "headline-md": ["18px", { "lineHeight": "24px", "fontWeight": "600" }],
+            "headline-xl": ["28px", { "lineHeight": "36px", "fontWeight": "600" }]
+          }
+        }
+      }
+    }
+  </script>
+<style>
+    .material-symbols-outlined {
+      font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 20;
+      font-size: 18px;
+      line-height: 1;
+      display: inline-block;
+      vertical-align: middle;
+    }
+    .custom-scroll::-webkit-scrollbar {
+      height: 6px;
+      width: 6px;
+    }
+    .custom-scroll::-webkit-scrollbar-thumb {
+      background: #c2c6d3;
+      border-radius: 4px;
+    }
+    .custom-scroll::-webkit-scrollbar-track {
+      background: #f8f9ff;
+    }
+  </style>
+</head>
+<body class="bg-background text-on-surface antialiased flex min-h-screen">
+<!-- ========================================================================= -->
+<!-- SIDE NAV BAR (Shared Component JSON Source of Truth)                     -->
+<!-- ========================================================================= -->
+<aside class="fixed top-0 left-0 h-full w-64 border-r border-outline-variant dark:border-outline bg-surface-container-lowest dark:bg-inverse-surface z-40 flex flex-col justify-between p-4">
+<div class="flex flex-col gap-4">
+<!-- Portal Brand Anchor -->
+<div class="flex items-center gap-3 px-2 py-1">
+<div class="w-8 h-8 rounded bg-primary text-on-primary flex items-center justify-center font-bold font-headline-sm text-headline-sm">
+<span class="material-symbols-outlined text-white" style="font-variation-settings: 'FILL' 1;">local_hospital</span>
+</div>
+<div class="flex flex-col">
+<span class="font-headline-md text-headline-md font-bold text-primary dark:text-inverse-primary tracking-tight">CTMS Portal</span>
+<span class="font-label-md text-label-md text-outline">Clinical Trials Suite</span>
+</div>
+</div>
+<!-- User Profile Micro Card -->
+<div class="flex items-center gap-3 p-2 bg-surface-container-low rounded-DEFAULT border border-outline-variant/60">
+<div class="w-8 h-8 rounded-full bg-primary-container text-on-primary flex items-center justify-center overflow-hidden shrink-0">
+<span class="material-symbols-outlined">person</span>
+</div>
+<div class="flex flex-col min-w-0">
+<span class="font-label-lg text-label-lg font-semibold text-on-surface truncate">Dr. Elena Rostova</span>
+<span class="font-label-sm text-label-sm text-outline">Principal Investigator</span>
+</div>
+</div>
+<!-- Adverse Event CTA button from JSON -->
+<button class="w-full flex items-center justify-center gap-2 py-2 px-3 bg-tertiary-container hover:bg-tertiary text-white rounded-DEFAULT font-label-lg text-label-lg transition-colors shadow-sm">
+<span class="material-symbols-outlined text-white" style="font-variation-settings: 'FILL' 1;">warning</span>
+<span>Log Adverse Event</span>
+</button>
+<!-- Navigation Links (Active item logic: 'Trials' corresponds directly to current screen) -->
+<nav class="flex flex-col gap-1 mt-1 overflow-y-auto max-h-[calc(100vh-370px)] pr-1 custom-scroll">
+<!-- Dashboard -->
+<a class="flex items-center gap-3 px-3 py-2 text-on-surface-variant dark:text-outline-variant font-medium rounded-DEFAULT hover:bg-surface-container-low dark:hover:bg-surface-container hover:text-on-surface dark:hover:text-inverse-on-surface transition-colors duration-150 active:scale-[0.99]" href="#">
+<span class="material-symbols-outlined">dashboard</span>
+<span class="font-label-md text-label-md">Dashboard</span>
+</a>
+<!-- Trials (ACTIVE) -->
+<a class="flex items-center gap-3 px-3 py-2 bg-surface-container dark:bg-surface-container-high text-primary dark:text-inverse-primary font-semibold rounded-DEFAULT border-l-4 border-primary transition-colors duration-150" href="#">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">clinical_notes</span>
+<span class="font-label-md text-label-md">Trials</span>
+</a>
+<!-- Participants -->
+<a class="flex items-center gap-3 px-3 py-2 text-on-surface-variant dark:text-outline-variant font-medium rounded-DEFAULT hover:bg-surface-container-low dark:hover:bg-surface-container hover:text-on-surface dark:hover:text-inverse-on-surface transition-colors duration-150 active:scale-[0.99]" href="#">
+<span class="material-symbols-outlined">groups</span>
+<span class="font-label-md text-label-md">Participants</span>
+</a>
+<!-- Visits & Calendar -->
+<a class="flex items-center gap-3 px-3 py-2 text-on-surface-variant dark:text-outline-variant font-medium rounded-DEFAULT hover:bg-surface-container-low dark:hover:bg-surface-container hover:text-on-surface dark:hover:text-inverse-on-surface transition-colors duration-150 active:scale-[0.99]" href="#">
+<span class="material-symbols-outlined">calendar_month</span>
+<span class="font-label-md text-label-md">Visits &amp; Calendar</span>
+</a>
+<!-- Medical Assessment -->
+<a class="flex items-center gap-3 px-3 py-2 text-on-surface-variant dark:text-outline-variant font-medium rounded-DEFAULT hover:bg-surface-container-low dark:hover:bg-surface-container hover:text-on-surface dark:hover:text-inverse-on-surface transition-colors duration-150 active:scale-[0.99]" href="#">
+<span class="material-symbols-outlined">stethoscope</span>
+<span class="font-label-md text-label-md">Medical Assessment</span>
+</a>
+<!-- Adverse Events -->
+<a class="flex items-center gap-3 px-3 py-2 text-on-surface-variant dark:text-outline-variant font-medium rounded-DEFAULT hover:bg-surface-container-low dark:hover:bg-surface-container hover:text-on-surface dark:hover:text-inverse-on-surface transition-colors duration-150 active:scale-[0.99]" href="#">
+<span class="material-symbols-outlined">warning</span>
+<span class="font-label-md text-label-md">Adverse Events</span>
+</a>
+<!-- Queries -->
+<a class="flex items-center gap-3 px-3 py-2 text-on-surface-variant dark:text-outline-variant font-medium rounded-DEFAULT hover:bg-surface-container-low dark:hover:bg-surface-container hover:text-on-surface dark:hover:text-inverse-on-surface transition-colors duration-150 active:scale-[0.99]" href="#">
+<span class="material-symbols-outlined">help_outline</span>
+<span class="font-label-md text-label-md">Queries</span>
+</a>
+<!-- Documents -->
+<a class="flex items-center gap-3 px-3 py-2 text-on-surface-variant dark:text-outline-variant font-medium rounded-DEFAULT hover:bg-surface-container-low dark:hover:bg-surface-container hover:text-on-surface dark:hover:text-inverse-on-surface transition-colors duration-150 active:scale-[0.99]" href="#">
+<span class="material-symbols-outlined">description</span>
+<span class="font-label-md text-label-md">Documents</span>
+</a>
+<!-- Reports -->
+<a class="flex items-center gap-3 px-3 py-2 text-on-surface-variant dark:text-outline-variant font-medium rounded-DEFAULT hover:bg-surface-container-low dark:hover:bg-surface-container hover:text-on-surface dark:hover:text-inverse-on-surface transition-colors duration-150 active:scale-[0.99]" href="#">
+<span class="material-symbols-outlined">analytics</span>
+<span class="font-label-md text-label-md">Reports</span>
+</a>
+<!-- Audit Logs -->
+<a class="flex items-center gap-3 px-3 py-2 text-on-surface-variant dark:text-outline-variant font-medium rounded-DEFAULT hover:bg-surface-container-low dark:hover:bg-surface-container hover:text-on-surface dark:hover:text-inverse-on-surface transition-colors duration-150 active:scale-[0.99]" href="#">
+<span class="material-symbols-outlined">history</span>
+<span class="font-label-md text-label-md">Audit Logs</span>
+</a>
+<!-- Settings -->
+<a class="flex items-center gap-3 px-3 py-2 text-on-surface-variant dark:text-outline-variant font-medium rounded-DEFAULT hover:bg-surface-container-low dark:hover:bg-surface-container hover:text-on-surface dark:hover:text-inverse-on-surface transition-colors duration-150 active:scale-[0.99]" href="#">
+<span class="material-symbols-outlined">settings</span>
+<span class="font-label-md text-label-md">Settings</span>
+</a>
+</nav>
+</div>
+<!-- SideNavBar Footer -->
+<div class="border-t border-outline-variant pt-3 flex flex-col gap-1">
+<a class="flex items-center gap-3 px-3 py-1.5 text-on-surface-variant font-medium rounded-DEFAULT hover:bg-surface-container-low" href="#">
+<span class="material-symbols-outlined text-outline">policy</span>
+<span class="font-label-sm text-label-sm">Audit Trails</span>
+</a>
+<a class="flex items-center gap-3 px-3 py-1.5 text-on-surface-variant font-medium rounded-DEFAULT hover:bg-surface-container-low" href="#">
+<span class="material-symbols-outlined text-outline">admin_panel_settings</span>
+<span class="font-label-sm text-label-sm">System Settings</span>
+</a>
+<div class="mt-2 px-3 py-1 bg-surface-container-low rounded flex items-center justify-between text-outline">
+<span class="font-data-mono-sm text-data-mono-sm text-outline">21 CFR Part 11</span>
+<span class="flex h-2 w-2 relative">
+<span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-secondary opacity-75"></span>
+<span class="relative inline-flex rounded-full h-2 w-2 bg-secondary"></span>
+</span>
+</div>
+</div>
+</aside>
+<!-- ========================================================================= -->
+<!-- MAIN WORKSPACE CONTAINER (Offset for persistent 64 = 16rem SideNav)        -->
+<!-- ========================================================================= -->
+<div class="flex-1 ml-64 flex flex-col min-w-0">
+<!-- TOP NAV BAR (Shared Component JSON Source of Truth) -->
+<header class="flex justify-between items-center h-14 w-full px-6 sticky top-0 z-30 bg-surface-container-lowest dark:bg-inverse-surface border-b border-outline-variant dark:border-outline">
+<!-- Search & Facility Context -->
+<div class="flex items-center gap-6">
+<span class="font-headline-sm text-headline-sm font-semibold text-on-surface dark:text-inverse-on-surface tracking-tight">
+          St. Jude Clinical Research Center - Site #104
+        </span>
+<div class="relative w-64 hidden lg:block">
+<span class="material-symbols-outlined absolute left-2.5 top-1/2 -translate-y-1/2 text-outline">search</span>
+<input class="w-full h-8 pl-8 pr-3 text-body-sm font-body-sm bg-surface-container-low border border-outline-variant rounded-DEFAULT focus:outline-none focus:border-primary-container focus:ring-1 focus:ring-primary-container" placeholder="Search protocols, subjects, INDs..." type="text"/>
+</div>
+</div>
+<!-- Links & Trailing Cluster -->
+<div class="flex items-center gap-6">
+<div class="hidden xl:flex items-center gap-5">
+<a class="font-label-sm text-label-sm text-primary dark:text-inverse-primary font-semibold border-b-2 border-primary pb-1" href="#">Active Protocols</a>
+<a class="font-label-sm text-label-sm text-on-surface-variant dark:text-outline-variant font-medium hover:text-on-surface" href="#">Safety Registry</a>
+<a class="font-label-sm text-label-sm text-on-surface-variant dark:text-outline-variant font-medium hover:text-on-surface" href="#">Regulatory Books</a>
+</div>
+<div class="flex items-center gap-3 border-l border-outline-variant pl-4">
+<!-- Protocol Arm Action -->
+<span class="inline-flex items-center px-2 py-0.5 rounded text-label-sm font-label-sm font-semibold bg-surface-container text-primary border border-surface-tint/20">
+            Protocol Arm #04-B
+          </span>
+<!-- Emergency Action -->
+<button class="flex items-center gap-1.5 px-2.5 py-1 rounded bg-error-container text-on-error-container hover:bg-tertiary-fixed border border-error/20 font-label-sm text-label-sm font-semibold transition-all">
+<span class="material-symbols-outlined text-error" style="font-variation-settings: 'FILL' 1;">emergency</span>
+<span>Emergency AE Report</span>
+</button>
+<!-- Icon actions -->
+<div class="flex items-center gap-1">
+<button class="p-1.5 rounded-DEFAULT text-on-surface-variant hover:bg-surface-container-low" title="Notifications">
+<span class="material-symbols-outlined">notifications</span>
+</button>
+<button class="p-1.5 rounded-DEFAULT text-on-surface-variant hover:bg-surface-container-low" title="Emergency Contacts">
+<span class="material-symbols-outlined">emergency</span>
+</button>
+<button class="p-1.5 rounded-DEFAULT text-on-surface-variant hover:bg-surface-container-low" title="Account Settings">
+<span class="material-symbols-outlined">account_circle</span>
+</button>
+</div>
+</div>
+</div>
+</header>
+<!-- MAIN BODY CONTENT -->
+<main class="flex-1 p-6 flex flex-col gap-6 overflow-y-auto">
+<!-- ===================================================================== -->
+<!-- 1. TRIALS DIRECTORY HEADER & CONTROLS                                -->
+<!-- ===================================================================== -->
+<section class="flex flex-col gap-4">
+<div class="flex flex-wrap items-center justify-between gap-4">
+<div>
+<div class="flex items-center gap-2">
+<h1 class="font-headline-xl text-headline-xl text-on-surface tracking-tight">Clinical Trials Directory</h1>
+<span class="px-2 py-0.5 rounded bg-surface-variant text-primary font-data-mono-sm text-data-mono-sm">9 Total Protocols</span>
+<span class="inline-flex items-center gap-1 text-label-sm font-label-sm text-secondary px-2 py-0.5 bg-secondary-fixed/30 rounded border border-secondary/20">
+<span class="w-1.5 h-1.5 rounded-full bg-secondary"></span> GCP Compliant
+              </span>
+</div>
+<p class="font-body-sm text-body-sm text-outline mt-0.5">Comprehensive investigative site trial repository and multi-arm telemetry</p>
+</div>
+<!-- Create Protocol Primary Button -->
+<button class="flex items-center gap-2 h-9 px-4 bg-primary-container hover:bg-primary text-on-primary font-label-lg text-label-lg rounded-lg shadow-sm transition-all focus:ring-2 focus:ring-primary focus:ring-offset-1">
+<span class="material-symbols-outlined text-white">add_box</span>
+<span>Create New Protocol</span>
+</button>
+</div>
+<!-- Filter Bar -->
+<div class="bg-surface-container-lowest border border-outline-variant rounded-lg p-3 flex flex-wrap items-center justify-between gap-3 shadow-none">
+<div class="flex flex-wrap items-center gap-3 flex-1">
+<!-- Search -->
+<div class="relative min-w-[240px] flex-1 max-w-sm">
+<span class="material-symbols-outlined absolute left-2.5 top-1/2 -translate-y-1/2 text-outline">search</span>
+<input class="w-full h-8 pl-8 pr-3 text-body-sm font-body-sm bg-surface rounded border border-outline-variant focus:border-primary-container focus:ring-1 focus:ring-primary-container focus:outline-none" placeholder="Filter by Title, Protocol ID, or Compound..." type="text"/>
+</div>
+<!-- Phase Pills / Dropdown -->
+<div class="flex items-center gap-1 border-l border-outline-variant pl-3">
+<span class="font-label-sm text-label-sm text-outline uppercase tracking-wider mr-1">Phase:</span>
+<button class="px-2 py-1 rounded text-label-sm font-label-sm bg-surface-container text-primary font-semibold border border-primary/20">All</button>
+<button class="px-2 py-1 rounded text-label-sm font-label-sm text-on-surface-variant hover:bg-surface-container-low">Phase I</button>
+<button class="px-2 py-1 rounded text-label-sm font-label-sm text-on-surface-variant hover:bg-surface-container-low">Phase II</button>
+<button class="px-2 py-1 rounded text-label-sm font-label-sm bg-surface-container text-primary font-semibold border border-primary/30">Phase III (5)</button>
+<button class="px-2 py-1 rounded text-label-sm font-label-sm text-on-surface-variant hover:bg-surface-container-low">Phase IV</button>
+</div>
+<!-- Status Pills -->
+<div class="flex items-center gap-1 border-l border-outline-variant pl-3">
+<span class="font-label-sm text-label-sm text-outline uppercase tracking-wider mr-1">Status:</span>
+<span class="px-2 py-0.5 rounded text-label-sm font-label-sm bg-secondary-fixed/40 text-secondary font-semibold border border-secondary/30 flex items-center gap-1">
+<span class="w-1.5 h-1.5 rounded-full bg-secondary"></span> Active
+              </span>
+<span class="px-2 py-0.5 rounded text-label-sm font-label-sm bg-surface-variant text-on-surface-variant hover:bg-surface-container-high cursor-pointer">Planned</span>
+<span class="px-2 py-0.5 rounded text-label-sm font-label-sm bg-surface-variant text-on-surface-variant hover:bg-surface-container-high cursor-pointer">Suspended</span>
+<span class="px-2 py-0.5 rounded text-label-sm font-label-sm bg-surface-variant text-on-surface-variant hover:bg-surface-container-high cursor-pointer">Completed</span>
+<span class="px-2 py-0.5 rounded text-label-sm font-label-sm bg-surface-variant text-on-surface-variant hover:bg-surface-container-high cursor-pointer">Terminated</span>
+</div>
+</div>
+<div class="flex items-center gap-2">
+<button class="h-8 px-2.5 bg-surface-container-lowest border border-outline-variant hover:bg-surface text-on-surface font-label-sm text-label-sm rounded flex items-center gap-1.5">
+<span class="material-symbols-outlined text-outline">tune</span>
+<span>Advanced Query</span>
+</button>
+<button class="h-8 px-2.5 bg-surface-container-lowest border border-outline-variant hover:bg-surface text-on-surface font-label-sm text-label-sm rounded flex items-center gap-1.5">
+<span class="material-symbols-outlined text-outline">file_download</span>
+<span>Export CSV</span>
+</button>
+</div>
+</div>
+</section>
+<!-- ===================================================================== -->
+<!-- 2. ACTIVE PROTOCOL DETAIL CONTAINER & TABS                           -->
+<!-- ===================================================================== -->
+<section class="bg-surface-container-lowest border border-outline-variant rounded-xl overflow-hidden shadow-none">
+<!-- Header Banner for Protocol -->
+<div class="p-5 border-b border-outline-variant bg-gradient-to-r from-surface-container-lowest via-surface-container-low to-surface-container-lowest flex flex-col md:flex-row md:items-center justify-between gap-4">
+<div class="flex flex-col gap-1.5">
+<div class="flex flex-wrap items-center gap-2.5">
+<span class="font-data-mono text-data-mono font-bold text-primary bg-surface-container px-2.5 py-0.5 rounded border border-primary/20">
+                ONC-2024-X3
+              </span>
+<span class="px-2.5 py-0.5 rounded-full text-label-sm font-label-sm font-semibold bg-emerald-50 text-secondary border border-secondary/30 flex items-center gap-1">
+<span class="w-2 h-2 rounded-full bg-secondary"></span> Active &amp; Recruiting
+              </span>
+<span class="px-2 py-0.5 rounded text-label-sm font-label-sm bg-primary-fixed text-primary font-semibold">
+                Phase III Trial
+              </span>
+<span class="text-label-sm font-label-sm text-outline border-l border-outline-variant pl-2.5">
+                IND #159,842 • NCT05829104
+              </span>
+</div>
+<h2 class="font-headline-lg text-headline-lg text-on-surface font-semibold tracking-tight">
+              Dual Checkpoint Kinase Inhibitor in Advanced Non-Small Cell Lung Cancer (NSCLC)
+            </h2>
+</div>
+<!-- Top Action Ribbon -->
+<div class="flex items-center gap-2 self-start md:self-auto shrink-0">
+<button class="h-8 px-3 rounded-lg border border-outline-variant bg-surface-container-lowest hover:bg-surface-container-low text-on-surface font-label-sm text-label-sm font-semibold flex items-center gap-1.5">
+<span class="material-symbols-outlined text-outline">history_edu</span>
+<span>Protocol Binder</span>
+</button>
+<button class="h-8 px-3 rounded-lg bg-primary hover:bg-primary-container text-white font-label-sm text-label-sm font-semibold flex items-center gap-1.5">
+<span class="material-symbols-outlined text-white">person_add</span>
+<span>Screen Participant</span>
+</button>
+</div>
+</div>
+<!-- Detail Sub-Navigation Tabs -->
+<div class="px-5 border-b border-outline-variant bg-surface-container-lowest flex items-center gap-8 overflow-x-auto custom-scroll">
+<button class="py-3 font-label-lg text-label-lg font-semibold text-primary border-b-2 border-primary flex items-center gap-2 shrink-0">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">dashboard</span>
+<span>Overview</span>
+</button>
+<button class="py-3 font-label-lg text-label-lg font-medium text-on-surface-variant hover:text-on-surface flex items-center gap-2 shrink-0">
+<span class="material-symbols-outlined">description</span>
+<span>Protocol Details</span>
+</button>
+<button class="py-3 font-label-lg text-label-lg font-medium text-on-surface-variant hover:text-on-surface flex items-center gap-2 shrink-0">
+<span class="material-symbols-outlined">hub</span>
+<span>Study Team &amp; Sites</span>
+</button>
+<button class="py-3 font-label-lg text-label-lg font-medium text-on-surface-variant hover:text-on-surface flex items-center gap-2 shrink-0">
+<span class="material-symbols-outlined">group</span>
+<span>Participants (312/350)</span>
+<span class="w-2 h-2 rounded-full bg-secondary"></span>
+</button>
+<button class="py-3 font-label-lg text-label-lg font-medium text-on-surface-variant hover:text-on-surface flex items-center gap-2 shrink-0">
+<span class="material-symbols-outlined">folder_special</span>
+<span>Documents &amp; Regulatory</span>
+</button>
+<button class="py-3 font-label-lg text-label-lg font-medium text-on-surface-variant hover:text-on-surface flex items-center gap-2 shrink-0">
+<span class="material-symbols-outlined">payments</span>
+<span>Milestones &amp; Budget</span>
+</button>
+</div>
+<!-- 3. DETAIL CONTENT AREA (Bento Style Layout) -->
+<div class="p-6 flex flex-col gap-6 bg-surface">
+<!-- Overview KPI Summary Cards (4 Cards) -->
+<div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+<!-- Card 1: Accrual Target -->
+<div class="bg-surface-container-lowest border border-outline-variant rounded-lg p-4 flex flex-col justify-between">
+<div class="flex items-center justify-between">
+<span class="font-label-md text-label-md text-outline uppercase tracking-wider">Accrual Target</span>
+<span class="material-symbols-outlined text-primary">pie_chart</span>
+</div>
+<div class="my-2">
+<div class="flex items-baseline gap-2">
+<span class="font-headline-xl text-headline-xl text-on-surface font-bold">89%</span>
+<span class="font-data-mono-sm text-data-mono-sm text-outline">312 / 350 Subjects</span>
+</div>
+<!-- Progress bar -->
+<div class="w-full bg-surface-variant rounded-full h-2 mt-2">
+<div class="bg-primary h-2 rounded-full" style="width: 89%"></div>
+</div>
+</div>
+<div class="flex items-center justify-between text-label-sm font-label-sm text-secondary">
+<span class="flex items-center gap-0.5"><span class="material-symbols-outlined text-xs">trending_up</span> +14 this month</span>
+<span class="text-outline">Est. close: Oct 2025</span>
+</div>
+</div>
+<!-- Card 2: Site Activation -->
+<div class="bg-surface-container-lowest border border-outline-variant rounded-lg p-4 flex flex-col justify-between">
+<div class="flex items-center justify-between">
+<span class="font-label-md text-label-md text-outline uppercase tracking-wider">Site Activation Rate</span>
+<span class="material-symbols-outlined text-secondary">domain_verification</span>
+</div>
+<div class="my-2">
+<div class="flex items-baseline gap-2">
+<span class="font-headline-xl text-headline-xl text-on-surface font-bold">12 / 12</span>
+<span class="font-label-md text-label-md text-secondary font-semibold">100% Operational</span>
+</div>
+<div class="w-full bg-secondary-fixed/40 rounded-full h-2 mt-2">
+<div class="bg-secondary h-2 rounded-full" style="width: 100%"></div>
+</div>
+</div>
+<div class="flex items-center justify-between text-label-sm font-label-sm text-outline">
+<span>All North America Sites</span>
+<span class="text-secondary font-medium">SIV Completed</span>
+</div>
+</div>
+<!-- Card 3: Protocol Deviations -->
+<div class="bg-surface-container-lowest border border-outline-variant rounded-lg p-4 flex flex-col justify-between">
+<div class="flex items-center justify-between">
+<span class="font-label-md text-label-md text-outline uppercase tracking-wider">Protocol Deviations</span>
+<span class="material-symbols-outlined text-amber-600">notification_important</span>
+</div>
+<div class="my-2">
+<div class="flex items-baseline gap-2">
+<span class="font-headline-xl text-headline-xl text-on-surface font-bold">2</span>
+<span class="px-2 py-0.5 rounded text-label-sm font-label-sm bg-amber-50 text-amber-800 border border-amber-200">Minor Deviations</span>
+</div>
+<div class="w-full bg-surface-variant rounded-full h-2 mt-2">
+<div class="bg-amber-500 h-2 rounded-full" style="width: 15%"></div>
+</div>
+</div>
+<div class="flex items-center justify-between text-label-sm font-label-sm text-outline">
+<span>0 Major / 0 Critical SAE</span>
+<span class="text-on-surface font-medium underline cursor-pointer">Audit Log</span>
+</div>
+</div>
+<!-- Card 4: Open Regulatory Queries -->
+<div class="bg-surface-container-lowest border border-outline-variant rounded-lg p-4 flex flex-col justify-between">
+<div class="flex items-center justify-between">
+<span class="font-label-md text-label-md text-outline uppercase tracking-wider">Open Queries</span>
+<span class="material-symbols-outlined text-primary">live_help</span>
+</div>
+<div class="my-2">
+<div class="flex items-baseline gap-2">
+<span class="font-headline-xl text-headline-xl text-on-surface font-bold">1</span>
+<span class="px-2 py-0.5 rounded text-label-sm font-label-sm bg-surface-container text-primary font-medium">Site #104 Lab Value</span>
+</div>
+<div class="w-full bg-surface-variant rounded-full h-2 mt-2">
+<div class="bg-primary-container h-2 rounded-full" style="width: 8%"></div>
+</div>
+</div>
+<div class="flex items-center justify-between text-label-sm font-label-sm text-outline">
+<span>Avg SLA: 4.2 hrs</span>
+<span class="text-primary font-semibold cursor-pointer">Resolve Now →</span>
+</div>
+</div>
+</div>
+<!-- Bento Grid: Protocol Info, Arms, and Team Roster -->
+<div class="grid grid-cols-1 lg:grid-cols-12 gap-6">
+<!-- Left: Protocol Information Card (5 Cols) -->
+<div class="lg:col-span-5 bg-surface-container-lowest border border-outline-variant rounded-lg p-5 flex flex-col justify-between">
+<div>
+<div class="flex items-center justify-between pb-3 border-b border-outline-variant">
+<h3 class="font-headline-sm text-headline-sm text-on-surface font-semibold flex items-center gap-2">
+<span class="material-symbols-outlined text-primary">fact_check</span>
+<span>Protocol Information</span>
+</h3>
+<span class="px-2 py-0.5 bg-surface-container-low text-primary font-data-mono-sm text-data-mono-sm rounded border border-outline-variant">
+                    v3.2 Amendments
+                  </span>
+</div>
+<div class="mt-4 flex flex-col gap-3.5">
+<div class="flex justify-between items-center text-body-sm font-body-sm">
+<span class="text-outline">IND Sponsor</span>
+<span class="font-semibold text-on-surface flex items-center gap-1.5">
+<span class="material-symbols-outlined text-base text-primary">corporate_fare</span>
+                      Roche Genentech
+                    </span>
+</div>
+<div class="flex justify-between items-center text-body-sm font-body-sm">
+<span class="text-outline">Principal Investigator</span>
+<span class="font-semibold text-on-surface">Dr. Elena Rostova, MD, PhD</span>
+</div>
+<div class="flex justify-between items-center text-body-sm font-body-sm">
+<span class="text-outline">IRB Approval Expiry</span>
+<span class="font-data-mono text-data-mono text-on-surface bg-surface px-2 py-0.5 rounded border border-outline-variant">
+                      2025-11-30 (214d remaining)
+                    </span>
+</div>
+<div class="flex justify-between items-start text-body-sm font-body-sm">
+<span class="text-outline">Primary Endpoint</span>
+<span class="font-medium text-right text-on-surface max-w-[220px]">
+                      Progression-Free Survival (PFS) assessed at 12 mo per RECIST v1.1
+                    </span>
+</div>
+<div class="flex justify-between items-center text-body-sm font-body-sm">
+<span class="text-outline">Investigational Product</span>
+<span class="font-data-mono text-data-mono text-primary font-semibold">RG7440 (WEE1/CHK1 Inhibitor)</span>
+</div>
+<div class="flex justify-between items-center text-body-sm font-body-sm">
+<span class="text-outline">Regulatory Classification</span>
+<span class="font-label-sm text-label-sm text-on-surface-variant">FDA 21 CFR Part 312 Investigational New Drug</span>
+</div>
+</div>
+</div>
+<!-- Regulatory stamp pill at bottom -->
+<div class="mt-5 pt-3 border-t border-outline-variant flex items-center justify-between text-label-sm font-label-sm text-outline">
+<span class="flex items-center gap-1">
+<span class="material-symbols-outlined text-secondary text-sm">verified</span>
+                  IRB Protocol Verified
+                </span>
+<span class="font-data-mono-sm text-data-mono-sm">WIRB-Copernicus #2024-819</span>
+</div>
+</div>
+<!-- Middle: Key Study Arms & Cohort Breakdown (4 Cols) -->
+<div class="lg:col-span-4 bg-surface-container-lowest border border-outline-variant rounded-lg p-5 flex flex-col">
+<div class="flex items-center justify-between pb-3 border-b border-outline-variant">
+<h3 class="font-headline-sm text-headline-sm text-on-surface font-semibold flex items-center gap-2">
+<span class="material-symbols-outlined text-primary">schema</span>
+<span>Study Arms &amp; Cohorts</span>
+</h3>
+<span class="font-label-sm text-label-sm text-outline">1:1 Randomization</span>
+</div>
+<div class="mt-4 flex flex-col gap-3.5 flex-1">
+<!-- Arm A -->
+<div class="p-3 rounded-lg border border-outline-variant bg-surface-container-low/60 hover:border-primary transition-colors">
+<div class="flex items-center justify-between">
+<div class="flex items-center gap-2">
+<span class="w-6 h-6 rounded bg-primary text-white flex items-center justify-center font-bold text-xs">A</span>
+<span class="font-label-lg text-label-lg font-semibold text-on-surface">Arm A (Monotherapy)</span>
+</div>
+<span class="font-data-mono text-data-mono font-semibold text-primary">158 / 175</span>
+</div>
+<p class="font-body-sm text-body-sm text-outline-variant mt-1.5 text-on-surface-variant">
+                    Experimental: RG7440 250mg BID daily oral continuous schedule.
+                  </p>
+<div class="w-full bg-surface-variant rounded-full h-1.5 mt-2.5">
+<div class="bg-primary h-1.5 rounded-full" style="width: 90.2%"></div>
+</div>
+<div class="flex justify-between items-center mt-1 text-label-sm font-label-sm text-outline">
+<span>90.2% Enrolled</span>
+<span class="text-secondary font-medium">Active Dosing</span>
+</div>
+</div>
+<!-- Arm B -->
+<div class="p-3 rounded-lg border border-outline-variant bg-surface-container-low/60 hover:border-primary transition-colors">
+<div class="flex items-center justify-between">
+<div class="flex items-center gap-2">
+<span class="w-6 h-6 rounded bg-secondary text-white flex items-center justify-center font-bold text-xs">B</span>
+<span class="font-label-lg text-label-lg font-semibold text-on-surface">Arm B (Combination)</span>
+</div>
+<span class="font-data-mono text-data-mono font-semibold text-secondary">154 / 175</span>
+</div>
+<p class="font-body-sm text-body-sm text-outline-variant mt-1.5 text-on-surface-variant">
+                    Combination: RG7440 150mg BID + Standard SOC Carboplatin/Pemetrexed Q3W.
+                  </p>
+<div class="w-full bg-surface-variant rounded-full h-1.5 mt-2.5">
+<div class="bg-secondary h-1.5 rounded-full" style="width: 88%"></div>
+</div>
+<div class="flex justify-between items-center mt-1 text-label-sm font-label-sm text-outline">
+<span>88.0% Enrolled</span>
+<span class="text-secondary font-medium">Active Dosing</span>
+</div>
+</div>
+</div>
+<div class="mt-3 pt-2 text-label-sm font-label-sm text-outline flex items-center justify-between">
+<span>Blinding: Double-Blind (Placebo-Controlled)</span>
+<span class="text-primary font-semibold hover:underline cursor-pointer">Cohort Spec →</span>
+</div>
+</div>
+<!-- Right: Clinical Team Roster List (3 Cols) -->
+<div class="lg:col-span-3 bg-surface-container-lowest border border-outline-variant rounded-lg p-5 flex flex-col justify-between">
+<div>
+<div class="flex items-center justify-between pb-3 border-b border-outline-variant">
+<h3 class="font-headline-sm text-headline-sm text-on-surface font-semibold flex items-center gap-2">
+<span class="material-symbols-outlined text-primary">badge</span>
+<span>Site Personnel</span>
+</h3>
+<button class="text-label-sm font-label-sm text-primary hover:underline font-semibold">+ Add Role</button>
+</div>
+<div class="mt-3 flex flex-col gap-3">
+<!-- Team Member 1 -->
+<div class="flex items-center justify-between p-2 rounded hover:bg-surface-container-low transition-colors">
+<div class="flex items-center gap-2.5 min-w-0">
+<div class="w-7 h-7 rounded-full bg-primary/10 text-primary flex items-center justify-center font-bold text-xs shrink-0">ER</div>
+<div class="truncate">
+<p class="font-label-lg text-label-lg font-semibold text-on-surface truncate">Dr. E. Rostova</p>
+<p class="font-body-sm text-body-sm text-outline truncate">Medical Director</p>
+</div>
+</div>
+<span class="px-2 py-0.5 rounded text-label-sm font-label-sm bg-primary-fixed text-primary font-semibold shrink-0">PI</span>
+</div>
+<!-- Team Member 2 -->
+<div class="flex items-center justify-between p-2 rounded hover:bg-surface-container-low transition-colors">
+<div class="flex items-center gap-2.5 min-w-0">
+<div class="w-7 h-7 rounded-full bg-surface-variant text-on-surface flex items-center justify-center font-bold text-xs shrink-0">MA</div>
+<div class="truncate">
+<p class="font-label-lg text-label-lg font-semibold text-on-surface truncate">Dr. M. Al-Mansoor</p>
+<p class="font-body-sm text-body-sm text-outline truncate">Thoracic Oncology</p>
+</div>
+</div>
+<span class="px-2 py-0.5 rounded text-label-sm font-label-sm bg-surface-container text-on-surface-variant font-semibold shrink-0">Sub-I</span>
+</div>
+<!-- Team Member 3 -->
+<div class="flex items-center justify-between p-2 rounded hover:bg-surface-container-low transition-colors">
+<div class="flex items-center gap-2.5 min-w-0">
+<div class="w-7 h-7 rounded-full bg-secondary-fixed text-secondary flex items-center justify-center font-bold text-xs shrink-0">SC</div>
+<div class="truncate">
+<p class="font-label-lg text-label-lg font-semibold text-on-surface truncate">Sarah Chen, RN</p>
+<p class="font-body-sm text-body-sm text-outline truncate">Senior Coordinator</p>
+</div>
+</div>
+<span class="px-2 py-0.5 rounded text-label-sm font-label-sm bg-secondary-fixed/50 text-secondary font-semibold shrink-0">Lead CRC</span>
+</div>
+<!-- Team Member 4 -->
+<div class="flex items-center justify-between p-2 rounded hover:bg-surface-container-low transition-colors">
+<div class="flex items-center gap-2.5 min-w-0">
+<div class="w-7 h-7 rounded-full bg-surface-variant text-outline flex items-center justify-center font-bold text-xs shrink-0">DK</div>
+<div class="truncate">
+<p class="font-label-lg text-label-lg font-semibold text-on-surface truncate">David Kim</p>
+<p class="font-body-sm text-body-sm text-outline truncate">Roche Monitor</p>
+</div>
+</div>
+<span class="px-2 py-0.5 rounded text-label-sm font-label-sm bg-surface-variant text-outline font-semibold shrink-0">Monitor CRA</span>
+</div>
+</div>
+</div>
+<div class="mt-3 pt-3 border-t border-outline-variant flex items-center justify-between text-label-sm font-label-sm text-outline">
+<span>Site 104 Delegation Log</span>
+<span class="text-secondary font-medium">Fully Signed (DoA)</span>
+</div>
+</div>
+</div>
+</div>
+</section>
+<!-- ===================================================================== -->
+<!-- 4. PROTOCOLS DIRECTORY TABLE                                         -->
+<!-- ===================================================================== -->
+<section class="bg-surface-container-lowest border border-outline-variant rounded-xl overflow-hidden shadow-none flex flex-col">
+<!-- Table Header Bar -->
+<div class="p-4 border-b border-outline-variant flex flex-wrap items-center justify-between gap-3">
+<div class="flex items-center gap-3">
+<h3 class="font-headline-sm text-headline-sm text-on-surface font-semibold">Active &amp; Monitored Protocol Portfolio</h3>
+<span class="font-label-sm text-label-sm bg-surface-container text-primary px-2 py-0.5 rounded">Showing 5 of 9</span>
+</div>
+<div class="flex items-center gap-2">
+<div class="relative">
+<span class="material-symbols-outlined absolute left-2.5 top-1/2 -translate-y-1/2 text-outline text-sm">search</span>
+<input class="h-8 pl-8 pr-2.5 text-body-sm font-body-sm bg-surface rounded border border-outline-variant focus:outline-none focus:border-primary-container" placeholder="Search table..." type="text"/>
+</div>
+<button class="h-8 px-2.5 bg-surface hover:bg-surface-container-low border border-outline-variant rounded text-on-surface font-label-sm text-label-sm flex items-center gap-1">
+<span class="material-symbols-outlined text-outline">filter_list</span>
+<span>Filter Columns</span>
+</button>
+</div>
+</div>
+<!-- Clinical Data Table -->
+<div class="overflow-x-auto custom-scroll">
+<table class="w-full text-left border-collapse">
+<thead>
+<tr class="bg-surface border-b border-outline-variant">
+<th class="py-2.5 px-4 font-label-sm text-label-sm uppercase tracking-wider text-outline">Protocol Code</th>
+<th class="py-2.5 px-4 font-label-sm text-label-sm uppercase tracking-wider text-outline">Study Title &amp; Therapeutic Area</th>
+<th class="py-2.5 px-4 font-label-sm text-label-sm uppercase tracking-wider text-outline">Sponsor</th>
+<th class="py-2.5 px-4 font-label-sm text-label-sm uppercase tracking-wider text-outline">Phase</th>
+<th class="py-2.5 px-4 font-label-sm text-label-sm uppercase tracking-wider text-outline">Enrollment / Accrual</th>
+<th class="py-2.5 px-4 font-label-sm text-label-sm uppercase tracking-wider text-outline">Status</th>
+<th class="py-2.5 px-4 font-label-sm text-label-sm uppercase tracking-wider text-outline text-right">Actions</th>
+</tr>
+</thead>
+<tbody class="divide-y divide-outline-variant/50 text-body-sm font-body-sm">
+<!-- Protocol 1 (Featured active row) -->
+<tr class="bg-surface-container/20 hover:bg-surface-container-low transition-colors">
+<td class="py-3 px-4">
+<div class="flex items-center gap-2">
+<span class="w-2 h-2 rounded-full bg-primary"></span>
+<span class="font-data-mono text-data-mono font-bold text-primary">ONC-2024-X3</span>
+</div>
+</td>
+<td class="py-3 px-4">
+<p class="font-semibold text-on-surface">Dual Checkpoint Kinase Inhibitor in Advanced NSCLC</p>
+<p class="font-body-sm text-body-sm text-outline">Oncology / Thoracic Solid Tumor</p>
+</td>
+<td class="py-3 px-4 font-medium text-on-surface">Roche Genentech</td>
+<td class="py-3 px-4">
+<span class="px-2 py-0.5 rounded text-label-sm font-label-sm font-semibold bg-primary-fixed text-primary">Phase III</span>
+</td>
+<td class="py-3 px-4 min-w-[180px]">
+<div class="flex items-center justify-between text-data-mono-sm font-data-mono-sm mb-1">
+<span class="font-semibold text-on-surface">312 / 350</span>
+<span class="text-primary font-bold">89%</span>
+</div>
+<div class="w-full bg-surface-variant rounded-full h-1.5">
+<div class="bg-primary h-1.5 rounded-full" style="width: 89%"></div>
+</div>
+</td>
+<td class="py-3 px-4">
+<span class="inline-flex items-center gap-1 px-2.5 py-0.5 rounded-full text-label-sm font-label-sm font-semibold bg-emerald-50 text-secondary border border-secondary/30">
+<span class="w-1.5 h-1.5 rounded-full bg-secondary"></span> Active
+                  </span>
+</td>
+<td class="py-3 px-4 text-right">
+<div class="flex items-center justify-end gap-1">
+<button class="h-7 px-2 bg-surface hover:bg-surface-container-high rounded border border-outline-variant text-label-sm font-label-sm font-semibold text-primary">
+                      View
+                    </button>
+<button class="h-7 px-2 bg-surface hover:bg-surface-container-high rounded border border-outline-variant text-label-sm font-label-sm font-semibold text-on-surface-variant">
+                      Edit
+                    </button>
+<button class="h-7 w-7 flex items-center justify-center bg-surface hover:bg-surface-container-high rounded border border-outline-variant text-outline" title="Export Protocol Binder">
+<span class="material-symbols-outlined text-sm">picture_as_pdf</span>
+</button>
+</div>
+</td>
+</tr>
+<!-- Protocol 2 -->
+<tr class="hover:bg-surface transition-colors">
+<td class="py-3 px-4">
+<span class="font-data-mono text-data-mono font-medium text-on-surface">CV-2023-B09</span>
+</td>
+<td class="py-3 px-4">
+<p class="font-medium text-on-surface">Novel SGLT2 Inhibitor in Heart Failure with Preserved Ejection Fraction</p>
+<p class="font-body-sm text-body-sm text-outline">Cardiology / Heart Failure</p>
+</td>
+<td class="py-3 px-4 font-medium text-on-surface">Novartis Pharma</td>
+<td class="py-3 px-4">
+<span class="px-2 py-0.5 rounded text-label-sm font-label-sm font-semibold bg-surface-variant text-on-surface">Phase III</span>
+</td>
+<td class="py-3 px-4 min-w-[180px]">
+<div class="flex items-center justify-between text-data-mono-sm font-data-mono-sm mb-1">
+<span class="font-semibold text-on-surface">540 / 540</span>
+<span class="text-secondary font-bold">100%</span>
+</div>
+<div class="w-full bg-secondary-fixed/50 rounded-full h-1.5">
+<div class="bg-secondary h-1.5 rounded-full" style="width: 100%"></div>
+</div>
+</td>
+<td class="py-3 px-4">
+<span class="inline-flex items-center gap-1 px-2.5 py-0.5 rounded-full text-label-sm font-label-sm font-semibold bg-blue-50 text-blue-800 border border-blue-200">
+<span class="w-1.5 h-1.5 rounded-full bg-blue-600"></span> Completed
+                  </span>
+</td>
+<td class="py-3 px-4 text-right">
+<div class="flex items-center justify-end gap-1">
+<button class="h-7 px-2 bg-surface hover:bg-surface-container-high rounded border border-outline-variant text-label-sm font-label-sm font-semibold text-primary">
+                      View
+                    </button>
+<button class="h-7 px-2 bg-surface hover:bg-surface-container-high rounded border border-outline-variant text-label-sm font-label-sm font-semibold text-on-surface-variant">
+                      Edit
+                    </button>
+<button class="h-7 w-7 flex items-center justify-center bg-surface hover:bg-surface-container-high rounded border border-outline-variant text-outline" title="Export Protocol Binder">
+<span class="material-symbols-outlined text-sm">picture_as_pdf</span>
+</button>
+</div>
+</td>
+</tr>
+<!-- Protocol 3 -->
+<tr class="hover:bg-surface transition-colors">
+<td class="py-3 px-4">
+<span class="font-data-mono text-data-mono font-medium text-on-surface">NEURO-882-P2</span>
+</td>
+<td class="py-3 px-4">
+<p class="font-medium text-on-surface">Targeted Tau Aggregation Modulator in Early-Onset Alzheimer's Disease</p>
+<p class="font-body-sm text-body-sm text-outline">Neurology / Neurodegenerative</p>
+</td>
+<td class="py-3 px-4 font-medium text-on-surface">Biogen Idec</td>
+<td class="py-3 px-4">
+<span class="px-2 py-0.5 rounded text-label-sm font-label-sm font-semibold bg-indigo-50 text-indigo-900 border border-indigo-200">Phase II</span>
+</td>
+<td class="py-3 px-4 min-w-[180px]">
+<div class="flex items-center justify-between text-data-mono-sm font-data-mono-sm mb-1">
+<span class="font-semibold text-on-surface">84 / 120</span>
+<span class="text-primary font-bold">70%</span>
+</div>
+<div class="w-full bg-surface-variant rounded-full h-1.5">
+<div class="bg-primary h-1.5 rounded-full" style="width: 70%"></div>
+</div>
+</td>
+<td class="py-3 px-4">
+<span class="inline-flex items-center gap-1 px-2.5 py-0.5 rounded-full text-label-sm font-label-sm font-semibold bg-emerald-50 text-secondary border border-secondary/30">
+<span class="w-1.5 h-1.5 rounded-full bg-secondary"></span> Active
+                  </span>
+</td>
+<td class="py-3 px-4 text-right">
+<div class="flex items-center justify-end gap-1">
+<button class="h-7 px-2 bg-surface hover:bg-surface-container-high rounded border border-outline-variant text-label-sm font-label-sm font-semibold text-primary">
+                      View
+                    </button>
+<button class="h-7 px-2 bg-surface hover:bg-surface-container-high rounded border border-outline-variant text-label-sm font-label-sm font-semibold text-on-surface-variant">
+                      Edit
+                    </button>
+<button class="h-7 w-7 flex items-center justify-center bg-surface hover:bg-surface-container-high rounded border border-outline-variant text-outline" title="Export Protocol Binder">
+<span class="material-symbols-outlined text-sm">picture_as_pdf</span>
+</button>
+</div>
+</td>
+</tr>
+<!-- Protocol 4 -->
+<tr class="hover:bg-surface transition-colors">
+<td class="py-3 px-4">
+<span class="font-data-mono text-data-mono font-medium text-on-surface">IMM-2025-V1</span>
+</td>
+<td class="py-3 px-4">
+<p class="font-medium text-on-surface">mRNA Personalized Neoantigen Immunotherapy in Cutaneous Melanoma</p>
+<p class="font-body-sm text-body-sm text-outline">Immunology / Cutaneous</p>
+</td>
+<td class="py-3 px-4 font-medium text-on-surface">Moderna TX</td>
+<td class="py-3 px-4">
+<span class="px-2 py-0.5 rounded text-label-sm font-label-sm font-semibold bg-surface-variant text-on-surface">Phase I</span>
+</td>
+<td class="py-3 px-4 min-w-[180px]">
+<div class="flex items-center justify-between text-data-mono-sm font-data-mono-sm mb-1">
+<span class="font-semibold text-outline">0 / 45</span>
+<span class="text-outline font-bold">0%</span>
+</div>
+<div class="w-full bg-surface-variant rounded-full h-1.5">
+<div class="bg-outline h-1.5 rounded-full" style="width: 0%"></div>
+</div>
+</td>
+<td class="py-3 px-4">
+<span class="inline-flex items-center gap-1 px-2.5 py-0.5 rounded-full text-label-sm font-label-sm font-semibold bg-indigo-50 text-indigo-800 border border-indigo-200">
+<span class="w-1.5 h-1.5 rounded-full bg-indigo-600"></span> Planned
+                  </span>
+</td>
+<td class="py-3 px-4 text-right">
+<div class="flex items-center justify-end gap-1">
+<button class="h-7 px-2 bg-surface hover:bg-surface-container-high rounded border border-outline-variant text-label-sm font-label-sm font-semibold text-primary">
+                      View
+                    </button>
+<button class="h-7 px-2 bg-surface hover:bg-surface-container-high rounded border border-outline-variant text-label-sm font-label-sm font-semibold text-on-surface-variant">
+                      Edit
+                    </button>
+<button class="h-7 w-7 flex items-center justify-center bg-surface hover:bg-surface-container-high rounded border border-outline-variant text-outline" title="Export Protocol Binder">
+<span class="material-symbols-outlined text-sm">picture_as_pdf</span>
+</button>
+</div>
+</td>
+</tr>
+<!-- Protocol 5 -->
+<tr class="hover:bg-surface transition-colors">
+<td class="py-3 px-4">
+<span class="font-data-mono text-data-mono font-medium text-amber-700">HEMA-901-X</span>
+</td>
+<td class="py-3 px-4">
+<p class="font-medium text-on-surface">Allogeneic CAR-T Cell Construct in Refractory Mantle Cell Lymphoma</p>
+<p class="font-body-sm text-body-sm text-outline">Hematology / Cell Therapy</p>
+</td>
+<td class="py-3 px-4 font-medium text-on-surface">Gilead Kite</td>
+<td class="py-3 px-4">
+<span class="px-2 py-0.5 rounded text-label-sm font-label-sm font-semibold bg-indigo-50 text-indigo-900 border border-indigo-200">Phase II</span>
+</td>
+<td class="py-3 px-4 min-w-[180px]">
+<div class="flex items-center justify-between text-data-mono-sm font-data-mono-sm mb-1">
+<span class="font-semibold text-amber-800">42 / 90</span>
+<span class="text-amber-800 font-bold">47%</span>
+</div>
+<div class="w-full bg-surface-variant rounded-full h-1.5">
+<div class="bg-amber-500 h-1.5 rounded-full" style="width: 47%"></div>
+</div>
+</td>
+<td class="py-3 px-4">
+<span class="inline-flex items-center gap-1 px-2.5 py-0.5 rounded-full text-label-sm font-label-sm font-semibold bg-amber-50 text-amber-800 border border-amber-300">
+<span class="w-1.5 h-1.5 rounded-full bg-amber-500"></span> Suspended (DSMB)
+                  </span>
+</td>
+<td class="py-3 px-4 text-right">
+<div class="flex items-center justify-end gap-1">
+<button class="h-7 px-2 bg-surface hover:bg-surface-container-high rounded border border-outline-variant text-label-sm font-label-sm font-semibold text-primary">
+                      View
+                    </button>
+<button class="h-7 px-2 bg-surface hover:bg-surface-container-high rounded border border-outline-variant text-label-sm font-label-sm font-semibold text-on-surface-variant">
+                      Edit
+                    </button>
+<button class="h-7 w-7 flex items-center justify-center bg-surface hover:bg-surface-container-high rounded border border-outline-variant text-outline" title="Export Protocol Binder">
+<span class="material-symbols-outlined text-sm">picture_as_pdf</span>
+</button>
+</div>
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+<!-- Table Footer / Pagination -->
+<div class="p-3 border-t border-outline-variant bg-surface flex flex-wrap items-center justify-between text-label-sm font-label-sm text-outline">
+<div class="flex items-center gap-2">
+<span>Rows per page:</span>
+<select class="h-7 text-label-sm font-label-sm bg-surface-container-lowest border border-outline-variant rounded px-1.5 py-0 text-on-surface focus:outline-none">
+<option>5</option>
+<option>10</option>
+<option>25</option>
+</select>
+<span class="ml-2 font-data-mono-sm text-data-mono-sm">1-5 of 9 protocols</span>
+</div>
+<div class="flex items-center gap-1">
+<button class="h-7 px-2 rounded border border-outline-variant bg-surface-container-lowest text-on-surface-variant disabled:opacity-40" disabled="">
+<span class="material-symbols-outlined text-sm">chevron_left</span>
+</button>
+<button class="h-7 px-2.5 rounded bg-primary text-white font-semibold">1</button>
+<button class="h-7 px-2.5 rounded border border-outline-variant bg-surface-container-lowest text-on-surface hover:bg-surface-container-low">2</button>
+<button class="h-7 px-2 rounded border border-outline-variant bg-surface-container-lowest text-on-surface-variant hover:bg-surface-container-low">
+<span class="material-symbols-outlined text-sm">chevron_right</span>
+</button>
+</div>
+</div>
+</section>
+<!-- Regulatory Compliance & Audit Footer Anchor -->
+<footer class="mt-2 mb-4 flex flex-wrap items-center justify-between text-label-sm font-label-sm text-outline px-1">
+<div class="flex items-center gap-3">
+<span class="flex items-center gap-1 font-semibold text-on-surface">
+<span class="material-symbols-outlined text-primary text-base">verified_user</span>
+            FDA 21 CFR Part 11 Electronic Records &amp; Signatures
+          </span>
+<span class="text-outline-variant">•</span>
+<span>ICH E6(R2) Good Clinical Practice Validated</span>
+<span class="text-outline-variant">•</span>
+<span class="font-data-mono-sm text-data-mono-sm">Checksum: SHA-256: 7f4a...8d90</span>
+</div>
+<div class="flex items-center gap-4">
+<span class="hover:underline cursor-pointer">Regulatory Audit Trail</span>
+<span class="hover:underline cursor-pointer">Site Master File</span>
+<span>System Version 4.8.2-prod</span>
+</div>
+</footer>
+</main>
+</div>
+</body></html>

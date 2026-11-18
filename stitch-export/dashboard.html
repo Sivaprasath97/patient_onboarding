@@ -1,0 +1,876 @@
+<!DOCTYPE html>
+
+<html lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>CTMS Portal - Clinical Trial Management System</title>
+<!-- Material Symbols Outlined -->
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<!-- Google Fonts: Inter & JetBrains Mono -->
+<link href="https://fonts.googleapis.com" rel="preconnect"/>
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&amp;family=JetBrains+Mono:wght@400;500;600&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<!-- Tailwind CSS CDN -->
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<!-- Theme Configuration -->
+<script id="tailwind-config">
+    tailwind.config = {
+      darkMode: "class",
+      theme: {
+        extend: {
+          "colors": {
+            "on-error-container": "#93000a",
+            "tertiary-container": "#b90012",
+            "surface-container-low": "#eff4ff",
+            "on-primary-fixed": "#001b3e",
+            "surface-tint": "#235eac",
+            "on-tertiary-fixed": "#410002",
+            "inverse-surface": "#233144",
+            "on-secondary-container": "#006f66",
+            "background": "#f8f9ff",
+            "outline": "#737782",
+            "surface-container-highest": "#d5e3fc",
+            "surface-variant": "#d5e3fc",
+            "outline-variant": "#c2c6d3",
+            "secondary": "#006a61",
+            "secondary-fixed-dim": "#6bd8cb",
+            "surface-container": "#e6eeff",
+            "on-secondary-fixed": "#00201d",
+            "on-tertiary": "#ffffff",
+            "on-secondary": "#ffffff",
+            "inverse-primary": "#aac7ff",
+            "on-tertiary-fixed-variant": "#93000b",
+            "error-container": "#ffdad6",
+            "error": "#ba1a1a",
+            "secondary-fixed": "#89f5e7",
+            "primary-container": "#1e5aa8",
+            "primary-fixed-dim": "#aac7ff",
+            "tertiary-fixed": "#ffdad6",
+            "inverse-on-surface": "#eaf1ff",
+            "on-surface-variant": "#424751",
+            "surface-bright": "#f8f9ff",
+            "on-primary-container": "#bed4ff",
+            "primary-fixed": "#d6e3ff",
+            "on-background": "#0d1c2e",
+            "surface": "#f8f9ff",
+            "tertiary-fixed-dim": "#ffb4ab",
+            "on-primary-fixed-variant": "#00458d",
+            "secondary-container": "#86f2e4",
+            "surface-dim": "#ccdbf3",
+            "tertiary": "#8c000a",
+            "surface-container-lowest": "#ffffff",
+            "on-primary": "#ffffff",
+            "on-surface": "#0d1c2e",
+            "primary": "#004287",
+            "on-tertiary-container": "#ffc5be",
+            "on-secondary-fixed-variant": "#005049",
+            "on-error": "#ffffff",
+            "surface-container-high": "#dce9ff"
+          },
+          "borderRadius": {
+            "DEFAULT": "0.25rem",
+            "lg": "0.5rem",
+            "xl": "0.75rem",
+            "full": "9999px"
+          },
+          "spacing": {
+            "space-md": "0.75rem",
+            "space-2xl": "2rem",
+            "space-sm": "0.5rem",
+            "space-2xs": "0.125rem",
+            "margin-compact": "1rem",
+            "space-xl": "1.5rem",
+            "gutter": "1rem",
+            "gutter-compact": "0.5rem",
+            "margin": "1.5rem",
+            "space-lg": "1rem",
+            "space-xs": "0.25rem"
+          },
+          "fontFamily": {
+            "body-md": ["Inter"],
+            "headline-xl": ["Inter"],
+            "headline-md": ["Inter"],
+            "headline-sm": ["Inter"],
+            "data-mono-sm": ["JetBrains Mono"],
+            "label-md": ["Inter"],
+            "body-lg": ["Inter"],
+            "label-lg": ["Inter"],
+            "data-mono": ["JetBrains Mono"],
+            "body-sm": ["Inter"],
+            "headline-lg": ["Inter"],
+            "label-sm": ["Inter"],
+            "display-lg": ["Inter"]
+          },
+          "fontSize": {
+            "body-md": ["13px", {"lineHeight": "18px", "fontWeight": "400"}],
+            "headline-xl": ["28px", {"lineHeight": "36px", "fontWeight": "600"}],
+            "headline-md": ["18px", {"lineHeight": "24px", "fontWeight": "600"}],
+            "headline-sm": ["15px", {"lineHeight": "20px", "fontWeight": "600"}],
+            "data-mono-sm": ["11px", {"lineHeight": "14px", "fontWeight": "400"}],
+            "label-md": ["11px", {"lineHeight": "14px", "fontWeight": "600"}],
+            "body-lg": ["15px", {"lineHeight": "22px", "fontWeight": "400"}],
+            "label-lg": ["13px", {"lineHeight": "18px", "fontWeight": "500"}],
+            "data-mono": ["12px", {"lineHeight": "16px", "fontWeight": "500"}],
+            "body-sm": ["12px", {"lineHeight": "16px", "fontWeight": "400"}],
+            "headline-lg": ["22px", {"lineHeight": "28px", "fontWeight": "600"}],
+            "label-sm": ["10px", {"lineHeight": "12px", "fontWeight": "600"}],
+            "display-lg": ["36px", {"lineHeight": "44px", "fontWeight": "700"}]
+          }
+        },
+      },
+    }
+  </script>
+</head>
+<body class="bg-background text-on-surface antialiased flex min-h-screen">
+<!-- ========================================== -->
+<!-- SHARED COMPONENT: SideNavBar              -->
+<!-- ========================================== -->
+<aside class="fixed top-0 left-0 h-full w-64 border-r border-outline-variant dark:border-outline bg-surface-container-lowest dark:bg-inverse-surface z-40 flex flex-col justify-between p-4">
+<!-- Brand & Investigator Header -->
+<div class="flex flex-col gap-4">
+<div class="flex items-center gap-3 px-2 pt-1 pb-3 border-b border-outline-variant">
+<div class="w-10 h-10 rounded-lg bg-primary flex items-center justify-center text-on-primary font-headline-md text-headline-md font-bold shadow-sm">
+<span class="material-symbols-outlined text-on-primary" data-icon="clinical_notes">clinical_notes</span>
+</div>
+<div class="overflow-hidden">
+<div class="font-headline-md text-headline-md font-bold text-primary dark:text-inverse-primary tracking-tight">CTMS Portal</div>
+<div class="font-label-sm text-label-sm text-on-surface-variant truncate">Principal Investigator</div>
+</div>
+</div>
+<!-- Action Button from JSON cta -->
+<button class="w-full flex items-center justify-center gap-2 bg-error text-on-error py-2 px-3 rounded-lg font-label-lg text-label-lg shadow-sm hover:bg-on-error-container active:scale-[0.99] transition-all">
+<span class="material-symbols-outlined text-base" data-icon="warning">warning</span>
+<span>Log Adverse Event</span>
+</button>
+<!-- Navigation Tabs (11 Tabs with Active Logic: Dashboard) -->
+<nav class="flex flex-col gap-0.5 overflow-y-auto max-h-[calc(100vh-270px)] pr-1">
+<!-- 1. Dashboard (Active) -->
+<a class="flex items-center gap-3 px-3 py-2 bg-surface-container dark:bg-surface-container-high text-primary dark:text-inverse-primary font-semibold rounded-DEFAULT border-l-4 border-primary transition-colors duration-150 active:scale-[0.99]" href="#">
+<span class="material-symbols-outlined text-primary" data-icon="dashboard">dashboard</span>
+<span class="font-label-md text-label-md">Dashboard</span>
+</a>
+<!-- 2. Trials -->
+<a class="flex items-center gap-3 px-3 py-2 text-on-surface-variant dark:text-outline-variant font-medium rounded-DEFAULT hover:bg-surface-container-low dark:hover:bg-surface-container hover:text-on-surface transition-colors duration-150 active:scale-[0.99]" href="#">
+<span class="material-symbols-outlined text-outline" data-icon="clinical_notes">clinical_notes</span>
+<span class="font-label-md text-label-md">Trials</span>
+</a>
+<!-- 3. Participants -->
+<a class="flex items-center gap-3 px-3 py-2 text-on-surface-variant dark:text-outline-variant font-medium rounded-DEFAULT hover:bg-surface-container-low dark:hover:bg-surface-container hover:text-on-surface transition-colors duration-150 active:scale-[0.99]" href="#">
+<span class="material-symbols-outlined text-outline" data-icon="groups">groups</span>
+<span class="font-label-md text-label-md">Participants</span>
+</a>
+<!-- 4. Visits & Calendar -->
+<a class="flex items-center gap-3 px-3 py-2 text-on-surface-variant dark:text-outline-variant font-medium rounded-DEFAULT hover:bg-surface-container-low dark:hover:bg-surface-container hover:text-on-surface transition-colors duration-150 active:scale-[0.99]" href="#">
+<span class="material-symbols-outlined text-outline" data-icon="calendar_month">calendar_month</span>
+<span class="font-label-md text-label-md">Visits &amp; Calendar</span>
+</a>
+<!-- 5. Medical Assessment -->
+<a class="flex items-center gap-3 px-3 py-2 text-on-surface-variant dark:text-outline-variant font-medium rounded-DEFAULT hover:bg-surface-container-low dark:hover:bg-surface-container hover:text-on-surface transition-colors duration-150 active:scale-[0.99]" href="#">
+<span class="material-symbols-outlined text-outline" data-icon="stethoscope">stethoscope</span>
+<span class="font-label-md text-label-md">Medical Assessment</span>
+</a>
+<!-- 6. Adverse Events -->
+<a class="flex items-center gap-3 px-3 py-2 text-on-surface-variant dark:text-outline-variant font-medium rounded-DEFAULT hover:bg-surface-container-low dark:hover:bg-surface-container hover:text-on-surface transition-colors duration-150 active:scale-[0.99]" href="#">
+<span class="material-symbols-outlined text-error" data-icon="warning">warning</span>
+<span class="font-label-md text-label-md">Adverse Events</span>
+<span class="ml-auto px-1.5 py-0.2 bg-error-container text-on-error-container rounded font-data-mono-sm text-data-mono-sm font-semibold">5</span>
+</a>
+<!-- 7. Queries -->
+<a class="flex items-center gap-3 px-3 py-2 text-on-surface-variant dark:text-outline-variant font-medium rounded-DEFAULT hover:bg-surface-container-low dark:hover:bg-surface-container hover:text-on-surface transition-colors duration-150 active:scale-[0.99]" href="#">
+<span class="material-symbols-outlined text-outline" data-icon="help_outline">help_outline</span>
+<span class="font-label-md text-label-md">Queries</span>
+</a>
+<!-- 8. Documents -->
+<a class="flex items-center gap-3 px-3 py-2 text-on-surface-variant dark:text-outline-variant font-medium rounded-DEFAULT hover:bg-surface-container-low dark:hover:bg-surface-container hover:text-on-surface transition-colors duration-150 active:scale-[0.99]" href="#">
+<span class="material-symbols-outlined text-outline" data-icon="description">description</span>
+<span class="font-label-md text-label-md">Documents</span>
+</a>
+<!-- 9. Reports -->
+<a class="flex items-center gap-3 px-3 py-2 text-on-surface-variant dark:text-outline-variant font-medium rounded-DEFAULT hover:bg-surface-container-low dark:hover:bg-surface-container hover:text-on-surface transition-colors duration-150 active:scale-[0.99]" href="#">
+<span class="material-symbols-outlined text-outline" data-icon="analytics">analytics</span>
+<span class="font-label-md text-label-md">Reports</span>
+</a>
+<!-- 10. Audit Logs -->
+<a class="flex items-center gap-3 px-3 py-2 text-on-surface-variant dark:text-outline-variant font-medium rounded-DEFAULT hover:bg-surface-container-low dark:hover:bg-surface-container hover:text-on-surface transition-colors duration-150 active:scale-[0.99]" href="#">
+<span class="material-symbols-outlined text-outline" data-icon="history">history</span>
+<span class="font-label-md text-label-md">Audit Logs</span>
+</a>
+<!-- 11. Settings -->
+<a class="flex items-center gap-3 px-3 py-2 text-on-surface-variant dark:text-outline-variant font-medium rounded-DEFAULT hover:bg-surface-container-low dark:hover:bg-surface-container hover:text-on-surface transition-colors duration-150 active:scale-[0.99]" href="#">
+<span class="material-symbols-outlined text-outline" data-icon="settings">settings</span>
+<span class="font-label-md text-label-md">Settings</span>
+</a>
+</nav>
+</div>
+<!-- Footer System Links & User Stamp -->
+<div class="pt-3 border-t border-outline-variant flex flex-col gap-1">
+<a class="flex items-center gap-3 px-3 py-1.5 text-on-surface-variant font-medium rounded-DEFAULT hover:bg-surface-container-low text-xs transition-colors" href="#">
+<span class="material-symbols-outlined text-base" data-icon="policy">policy</span>
+<span class="font-label-md text-label-md">Audit Trails</span>
+</a>
+<a class="flex items-center gap-3 px-3 py-1.5 text-on-surface-variant font-medium rounded-DEFAULT hover:bg-surface-container-low text-xs transition-colors" href="#">
+<span class="material-symbols-outlined text-base" data-icon="admin_panel_settings">admin_panel_settings</span>
+<span class="font-label-md text-label-md">System Settings</span>
+</a>
+<!-- Principal Investigator Mini Info -->
+<div class="mt-2 p-2 bg-surface-container-low rounded-lg flex items-center gap-2.5">
+<div class="w-8 h-8 rounded-full bg-primary-fixed flex items-center justify-center text-primary font-bold text-xs">
+          ER
+        </div>
+<div class="overflow-hidden leading-tight">
+<div class="font-label-sm text-label-sm font-semibold text-on-surface truncate">Dr. Elena Rostova</div>
+<div class="font-data-mono-sm text-data-mono-sm text-outline">GCP v2.4 Certified</div>
+</div>
+</div>
+</div>
+</aside>
+<!-- ========================================== -->
+<!-- MAIN WORKSPACE CONTAINER                   -->
+<!-- ========================================== -->
+<div class="flex-1 ml-64 flex flex-col min-h-screen bg-background">
+<!-- ========================================== -->
+<!-- SHARED COMPONENT: TopNavBar                -->
+<!-- ========================================== -->
+<header class="docked full-width top-0 sticky z-30 flex justify-between items-center h-14 w-full px-6 border-b border-outline-variant dark:border-outline bg-surface-container-lowest dark:bg-inverse-surface shadow-none">
+<!-- Left: Site Identity & Search -->
+<div class="flex items-center gap-6">
+<div class="flex items-center gap-2">
+<span class="material-symbols-outlined text-primary text-xl" data-icon="domain" style="font-variation-settings: 'FILL' 1;">domain</span>
+<span class="font-headline-sm text-headline-sm font-semibold text-on-surface dark:text-inverse-on-surface">St. Jude Clinical Research Center - Site #104</span>
+</div>
+<!-- Search bar on left -->
+<div class="relative w-72">
+<span class="material-symbols-outlined absolute left-3 top-2.5 text-outline text-lg" data-icon="search">search</span>
+<input class="w-full h-9 pl-9 pr-3 text-xs bg-background border border-outline-variant rounded-DEFAULT focus:outline-none focus:border-primary focus:ring-1 focus:ring-primary text-on-surface placeholder-outline font-body-md" placeholder="Search protocol, subject ID, or visit..." type="text"/>
+</div>
+</div>
+<!-- Center: Navigation Links from JSON -->
+<div class="hidden lg:flex items-center gap-6">
+<a class="text-primary dark:text-inverse-primary font-semibold border-b-2 border-primary pb-1 font-label-md text-label-md" href="#">Active Protocols</a>
+<a class="text-on-surface-variant dark:text-outline-variant font-medium hover:text-on-surface transition-colors pb-1 font-label-md text-label-md" href="#">Safety Registry</a>
+<a class="text-on-surface-variant dark:text-outline-variant font-medium hover:text-on-surface transition-colors pb-1 font-label-md text-label-md" href="#">Regulatory Books</a>
+</div>
+<!-- Right: Trailing Actions, Badges & Profile -->
+<div class="flex items-center gap-3">
+<!-- Trailing Primary Action -->
+<span class="px-2.5 py-1 bg-surface-container text-primary font-data-mono-sm text-data-mono-sm font-semibold rounded border border-outline-variant">Protocol Arm #04-B</span>
+<!-- Trailing Secondary Action -->
+<button class="px-2.5 py-1 bg-error-container text-on-error-container font-label-md text-label-md font-semibold rounded hover:bg-opacity-80 transition-colors flex items-center gap-1">
+<span class="material-symbols-outlined text-sm" data-icon="emergency" style="font-variation-settings: 'FILL' 1;">emergency</span>
+          Emergency AE Report
+        </button>
+<div class="h-6 w-[1px] bg-outline-variant mx-1"></div>
+<!-- Trailing Icon Actions -->
+<button class="relative p-1.5 text-outline hover:text-on-surface rounded hover:bg-surface-container-low transition-colors" title="Notifications">
+<span class="material-symbols-outlined text-xl" data-icon="notifications">notifications</span>
+<span class="absolute top-1 right-1 w-2 h-2 bg-error rounded-full ring-2 ring-surface-container-lowest"></span>
+</button>
+<button class="p-1.5 text-error hover:bg-error-container/40 rounded transition-colors" title="Emergency Hotline">
+<span class="material-symbols-outlined text-xl" data-icon="emergency">emergency</span>
+</button>
+<button class="p-1.5 text-outline hover:text-on-surface rounded hover:bg-surface-container-low transition-colors" title="Dr. Elena Rostova Medical Director badge">
+<span class="material-symbols-outlined text-2xl text-primary" data-icon="account_circle">account_circle</span>
+</button>
+</div>
+</header>
+<!-- ========================================== -->
+<!-- MAIN CANVAS CONTENT AREA                   -->
+<!-- ========================================== -->
+<main class="flex-1 p-6 space-y-6">
+<!-- TOP BANNER / GREETING SECTION -->
+<div class="flex flex-col md:flex-row md:items-center md:justify-between gap-4 bg-surface-container-lowest p-5 rounded-lg border border-outline-variant">
+<div>
+<div class="flex items-center gap-2">
+<span class="font-headline-xl text-headline-xl text-on-surface">Clinical Trial Management System</span>
+<span class="px-2.5 py-0.5 rounded-full text-xs font-semibold bg-emerald-100 text-emerald-800 border border-emerald-200 flex items-center gap-1">
+<span class="w-1.5 h-1.5 rounded-full bg-emerald-600 animate-pulse"></span>
+              Live GCP Audit Ready
+            </span>
+</div>
+<p class="font-body-md text-body-md text-on-surface-variant mt-1">
+            Trial Operations Dashboard • <strong class="text-on-surface">Site #104 - Oncology &amp; Immunology Trials</strong> • Investigational New Drug (IND) Sector
+          </p>
+</div>
+<div class="flex items-center gap-3">
+<!-- Date Range Filter -->
+<div class="flex items-center bg-background border border-outline-variant rounded-lg px-3 py-1.5 text-xs text-on-surface gap-2">
+<span class="material-symbols-outlined text-outline text-base" data-icon="calendar_today">calendar_today</span>
+<span class="font-data-mono-sm text-data-mono-sm font-medium">Q3 2024 (Jul 01 - Sep 30)</span>
+<span class="material-symbols-outlined text-outline text-sm" data-icon="expand_more">expand_more</span>
+</div>
+<!-- Export Compliance Report Button -->
+<button class="flex items-center gap-1.5 bg-primary text-on-primary px-3.5 py-2 rounded-lg font-label-lg text-label-lg shadow-sm hover:bg-opacity-90 active:scale-[0.98] transition-all">
+<span class="material-symbols-outlined text-base" data-icon="download">download</span>
+            Export Compliance Report
+          </button>
+</div>
+</div>
+<!-- ========================================== -->
+<!-- SUMMARY KPI METRIC CARDS (4-Column Bento)   -->
+<!-- ========================================== -->
+<section class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+<!-- Card 1: Total Trials -->
+<div class="bg-surface-container-lowest p-4 rounded-lg border border-outline-variant flex flex-col justify-between hover:border-primary transition-colors">
+<div>
+<div class="flex items-center justify-between text-on-surface-variant">
+<span class="font-label-md text-label-md uppercase tracking-wider">Total Protocols</span>
+<span class="p-1.5 bg-surface-container-low text-primary rounded">
+<span class="material-symbols-outlined text-lg" data-icon="clinical_notes">clinical_notes</span>
+</span>
+</div>
+<div class="mt-2 flex items-baseline gap-2">
+<span class="font-display-lg text-display-lg text-on-surface">28</span>
+<span class="font-body-sm text-body-sm text-secondary font-medium">+2 this quarter</span>
+</div>
+</div>
+<!-- Sub-breakdown -->
+<div class="mt-3 pt-3 border-t border-outline-variant grid grid-cols-4 gap-1 text-center font-data-mono-sm text-data-mono-sm">
+<div class="bg-teal-50 text-teal-800 rounded p-1">
+<div class="font-bold">14</div>
+<div class="text-[9px] uppercase font-label-sm">Active</div>
+</div>
+<div class="bg-indigo-50 text-indigo-800 rounded p-1">
+<div class="font-bold">6</div>
+<div class="text-[9px] uppercase font-label-sm">Planned</div>
+</div>
+<div class="bg-blue-50 text-blue-800 rounded p-1">
+<div class="font-bold">5</div>
+<div class="text-[9px] uppercase font-label-sm">Done</div>
+</div>
+<div class="bg-amber-50 text-amber-800 rounded p-1">
+<div class="font-bold">3</div>
+<div class="text-[9px] uppercase font-label-sm">Susp.</div>
+</div>
+</div>
+</div>
+<!-- Card 2: Enrolled Participants -->
+<div class="bg-surface-container-lowest p-4 rounded-lg border border-outline-variant flex flex-col justify-between hover:border-primary transition-colors">
+<div>
+<div class="flex items-center justify-between text-on-surface-variant">
+<span class="font-label-md text-label-md uppercase tracking-wider">Enrolled Participants</span>
+<span class="p-1.5 bg-surface-container-low text-primary rounded">
+<span class="material-symbols-outlined text-lg" data-icon="groups">groups</span>
+</span>
+</div>
+<div class="mt-2 flex items-baseline justify-between">
+<span class="font-display-lg text-display-lg text-on-surface">1,420</span>
+<span class="font-data-mono text-data-mono text-outline">Target: 1,600</span>
+</div>
+</div>
+<div class="mt-3 pt-3 border-t border-outline-variant">
+<div class="flex justify-between items-center text-xs font-medium mb-1.5">
+<span class="font-label-sm text-label-sm text-on-surface-variant">Target Milestone</span>
+<span class="font-data-mono-sm text-data-mono-sm font-bold text-primary">88.7%</span>
+</div>
+<div class="w-full bg-surface-container-high h-2 rounded-full overflow-hidden">
+<div class="bg-primary h-full rounded-full" style="width: 88.7%"></div>
+</div>
+</div>
+</div>
+<!-- Card 3: Upcoming Visits (7 Days) -->
+<div class="bg-surface-container-lowest p-4 rounded-lg border border-outline-variant flex flex-col justify-between hover:border-primary transition-colors">
+<div>
+<div class="flex items-center justify-between text-on-surface-variant">
+<span class="font-label-md text-label-md uppercase tracking-wider">Upcoming Visits (7D)</span>
+<span class="p-1.5 bg-surface-container-low text-primary rounded">
+<span class="material-symbols-outlined text-lg" data-icon="calendar_month">calendar_month</span>
+</span>
+</div>
+<div class="mt-2 flex items-baseline gap-2">
+<span class="font-display-lg text-display-lg text-on-surface">42</span>
+<span class="font-label-sm text-label-sm text-outline">scheduled</span>
+</div>
+</div>
+<div class="mt-3 pt-3 border-t border-outline-variant flex items-center justify-between">
+<div class="flex items-center gap-1.5 text-error font-medium text-xs">
+<span class="material-symbols-outlined text-sm" data-icon="error">error</span>
+<span class="font-label-md text-label-md">3 Overdue Actions</span>
+</div>
+<button class="text-primary hover:underline font-label-sm text-label-sm font-semibold">Resolve</button>
+</div>
+</div>
+<!-- Card 4: Safety Alerts / Adverse Events -->
+<div class="bg-surface-container-lowest p-4 rounded-lg border border-error/40 bg-red-50/20 flex flex-col justify-between hover:border-error transition-colors">
+<div>
+<div class="flex items-center justify-between text-on-surface-variant">
+<span class="font-label-md text-label-md uppercase tracking-wider text-error">Pending Safety Alerts</span>
+<span class="p-1.5 bg-error-container text-on-error-container rounded">
+<span class="material-symbols-outlined text-lg" data-icon="warning">warning</span>
+</span>
+</div>
+<div class="mt-2 flex items-baseline gap-2">
+<span class="font-display-lg text-display-lg text-error">5</span>
+<span class="font-label-sm text-label-sm text-on-surface-variant">Open Signals</span>
+</div>
+</div>
+<div class="mt-3 pt-3 border-t border-error/20 flex items-center justify-between">
+<span class="inline-flex items-center gap-1 px-2 py-0.5 rounded bg-error text-on-error font-label-sm text-label-sm font-bold animate-pulse">
+<span class="material-symbols-outlined text-xs" data-icon="priority_high">priority_high</span>
+              1 SAE Critical Flag
+            </span>
+<a class="font-label-sm text-label-sm text-error font-bold hover:underline" href="#">Review Registry</a>
+</div>
+</div>
+</section>
+<!-- ========================================== -->
+<!-- 2-COLUMN MAIN CONTENT GRID (2/3 + 1/3)      -->
+<!-- ========================================== -->
+<div class="grid grid-cols-1 lg:grid-cols-12 gap-6">
+<!-- ======================================== -->
+<!-- LEFT 2/3 COLUMN: Chart & Active Trials   -->
+<!-- ======================================== -->
+<div class="lg:col-span-8 space-y-6">
+<!-- 1. ENROLLMENT TRAJECTORY CHART CARD -->
+<div class="bg-surface-container-lowest rounded-lg border border-outline-variant p-5">
+<div class="flex flex-col sm:flex-row sm:items-center justify-between gap-2 pb-4 border-b border-outline-variant">
+<div>
+<div class="flex items-center gap-2">
+<h2 class="font-headline-md text-headline-md text-on-surface">Protocol Enrollment Trajectory</h2>
+<span class="px-2 py-0.5 rounded text-xs font-semibold bg-surface-container text-primary font-data-mono-sm">Lead Arm: ONC-2024-X3</span>
+</div>
+<p class="font-body-sm text-body-sm text-on-surface-variant mt-0.5">Phase III Non-Small Cell Lung Carcinoma • Planned vs. Actual Subject Cohorts</p>
+</div>
+<!-- Legend & Cohort Switcher -->
+<div class="flex items-center gap-4 text-xs">
+<div class="flex items-center gap-1.5">
+<span class="w-3 h-0.5 bg-primary rounded"></span>
+<span class="font-label-sm text-label-sm text-on-surface">Actual Enrolled (312)</span>
+</div>
+<div class="flex items-center gap-1.5">
+<span class="w-3 h-0.5 bg-outline border border-dashed border-outline"></span>
+<span class="font-label-sm text-label-sm text-outline">Target Protocol (350)</span>
+</div>
+<button class="p-1 text-outline hover:text-on-surface">
+<span class="material-symbols-outlined text-lg" data-icon="filter_list">filter_list</span>
+</button>
+</div>
+</div>
+<!-- Trajectory Visual Representation -->
+<div class="mt-4">
+<div class="h-56 w-full relative flex flex-col justify-between py-2">
+<!-- Grid guide lines -->
+<div class="absolute inset-0 flex flex-col justify-between pointer-events-none opacity-20">
+<div class="border-b border-outline w-full"></div>
+<div class="border-b border-outline w-full"></div>
+<div class="border-b border-outline w-full"></div>
+<div class="border-b border-outline w-full"></div>
+<div class="border-b border-outline w-full"></div>
+</div>
+<!-- SVG Area Curve Chart Simulation -->
+<svg class="w-full h-full overflow-visible z-10" preserveaspectratio="none" viewbox="0 0 600 160">
+<defs>
+<lineargradient id="grad-actual" x1="0%" x2="0%" y1="0%" y2="100%">
+<stop offset="0%" stop-color="#1E5AA8" stop-opacity="0.28"></stop>
+<stop offset="100%" stop-color="#1E5AA8" stop-opacity="0.0"></stop>
+</lineargradient>
+</defs>
+<!-- Target Curve (Dashed) -->
+<path d="M 0,140 Q 150,110 300,75 T 600,20" fill="none" stroke="#737782" stroke-dasharray="4,4" stroke-width="2"></path>
+<!-- Actual Curve Area Fill -->
+<path d="M 0,140 Q 150,118 300,82 T 480,48 L 480,160 L 0,160 Z" fill="url(#grad-actual)"></path>
+<!-- Actual Curve Line -->
+<path d="M 0,140 Q 150,118 300,82 T 480,48" fill="none" stroke="#004287" stroke-width="3"></path>
+<!-- Current Data Points -->
+<circle cx="150" cy="120" fill="#004287" r="3.5" stroke="#ffffff" stroke-width="2"></circle>
+<circle cx="300" cy="82" fill="#004287" r="3.5" stroke="#ffffff" stroke-width="2"></circle>
+<circle class="animate-pulse" cx="480" cy="48" fill="#004287" r="5" stroke="#ffffff" stroke-width="2.5"></circle>
+</svg>
+<!-- Month Marker Axis -->
+<div class="flex justify-between text-outline font-data-mono-sm text-data-mono-sm pt-2 border-t border-outline-variant z-10">
+<span>W1 (May)</span>
+<span>W4 (Jun)</span>
+<span>W8 (Jul)</span>
+<span>W12 (Aug - Current)</span>
+<span>W16 (Sep Target)</span>
+<span>W20 (Oct Target)</span>
+</div>
+</div>
+<!-- Trajectory Insights Row -->
+<div class="mt-4 grid grid-cols-3 gap-3 bg-surface-container-low p-3 rounded-lg border border-outline-variant font-data-mono-sm text-data-mono-sm">
+<div>
+<span class="text-on-surface-variant block">Enrollment Velocity:</span>
+<strong class="text-on-surface text-xs">+18 Subjects / Month</strong>
+</div>
+<div>
+<span class="text-on-surface-variant block">Screen Failure Rate:</span>
+<strong class="text-on-surface text-xs">7.4% (Below 10% Protocol Max)</strong>
+</div>
+<div>
+<span class="text-on-surface-variant block">Retention Index:</span>
+<strong class="text-secondary text-xs">96.8% Compliant</strong>
+</div>
+</div>
+</div>
+</div>
+<!-- 2. ACTIVE CLINICAL TRIALS TABLE -->
+<div class="bg-surface-container-lowest rounded-lg border border-outline-variant overflow-hidden">
+<div class="p-4 flex items-center justify-between border-b border-outline-variant">
+<div>
+<h2 class="font-headline-md text-headline-md text-on-surface">Active Clinical Trials Portfolio</h2>
+<p class="font-body-sm text-body-sm text-on-surface-variant">Real-time subject accrual and regulatory status monitoring</p>
+</div>
+<div class="flex items-center gap-2">
+<button class="px-2.5 py-1 text-xs font-label-md border border-outline-variant rounded hover:bg-surface-container-low flex items-center gap-1">
+<span class="material-symbols-outlined text-sm" data-icon="tune">tune</span> Filters
+                </button>
+<button class="px-2.5 py-1 text-xs font-label-md text-primary border border-primary/30 bg-primary/5 rounded hover:bg-primary/10">
+                  View All (28)
+                </button>
+</div>
+</div>
+<div class="overflow-x-auto">
+<table class="w-full text-left border-collapse">
+<thead>
+<tr class="bg-surface-container-low border-b border-outline-variant text-[11px] font-label-md uppercase tracking-wider text-on-surface-variant">
+<th class="py-2.5 px-4 font-semibold">Protocol ID</th>
+<th class="py-2.5 px-4 font-semibold">Study Title</th>
+<th class="py-2.5 px-3 font-semibold">Phase</th>
+<th class="py-2.5 px-4 font-semibold">Lead PI</th>
+<th class="py-2.5 px-3 font-semibold">Status</th>
+<th class="py-2.5 px-4 font-semibold w-36">Accrual Target</th>
+<th class="py-2.5 px-4 font-semibold text-right">Actions</th>
+</tr>
+</thead>
+<tbody class="divide-y divide-outline-variant text-xs">
+<!-- Row 1: Active Trial -->
+<tr class="hover:bg-surface-container-low transition-colors">
+<td class="py-3 px-4 font-data-mono text-data-mono font-bold text-primary">ONC-2024-X3</td>
+<td class="py-3 px-4 max-w-xs">
+<div class="font-headline-sm text-headline-sm text-on-surface truncate">Dual Checkpoint Kinase Inhibitor in Advanced NSCLC</div>
+<div class="font-body-sm text-body-sm text-on-surface-variant text-[11px]">Sponsor: Roche Genentech • Site Arm #04-B</div>
+</td>
+<td class="py-3 px-3">
+<span class="px-2 py-0.5 bg-surface-container text-on-surface font-label-sm text-label-sm font-semibold rounded">Phase III</span>
+</td>
+<td class="py-3 px-4 font-body-md text-body-md text-on-surface">Dr. Elena Rostova</td>
+<td class="py-3 px-3">
+<span class="inline-flex items-center gap-1.5 px-2 py-0.5 rounded-full text-[10px] font-semibold bg-teal-50 text-teal-700 border border-teal-200">
+<span class="w-1.5 h-1.5 rounded-full bg-teal-600 animate-pulse"></span>
+                        ACTIVE
+                      </span>
+</td>
+<td class="py-3 px-4">
+<div class="flex justify-between items-center text-[11px] font-data-mono-sm mb-1">
+<span class="font-bold">312</span>
+<span class="text-outline">/ 350 (89%)</span>
+</div>
+<div class="w-full bg-surface-container-high h-1.5 rounded-full overflow-hidden">
+<div class="bg-teal-600 h-full rounded-full" style="width: 89%"></div>
+</div>
+</td>
+<td class="py-3 px-4 text-right">
+<div class="flex items-center justify-end gap-1">
+<button class="p-1 hover:bg-surface-container rounded text-outline hover:text-primary" title="Telemetry &amp; CRFs">
+<span class="material-symbols-outlined text-base" data-icon="visibility">visibility</span>
+</button>
+<button class="p-1 hover:bg-surface-container rounded text-outline hover:text-primary" title="Protocol Log">
+<span class="material-symbols-outlined text-base" data-icon="edit_note">edit_note</span>
+</button>
+</div>
+</td>
+</tr>
+<!-- Row 2: Active Trial -->
+<tr class="hover:bg-surface-container-low transition-colors">
+<td class="py-3 px-4 font-data-mono text-data-mono font-bold text-primary">IMM-402-CAR</td>
+<td class="py-3 px-4 max-w-xs">
+<div class="font-headline-sm text-headline-sm text-on-surface truncate">Autologous CAR-T Cellular Infusion for B-Cell ALL</div>
+<div class="font-body-sm text-body-sm text-on-surface-variant text-[11px]">Sponsor: Novartis CellTx • Pediatric Cohort</div>
+</td>
+<td class="py-3 px-3">
+<span class="px-2 py-0.5 bg-surface-container text-on-surface font-label-sm text-label-sm font-semibold rounded">Phase II</span>
+</td>
+<td class="py-3 px-4 font-body-md text-body-md text-on-surface">Dr. Marcus Vance</td>
+<td class="py-3 px-3">
+<span class="inline-flex items-center gap-1.5 px-2 py-0.5 rounded-full text-[10px] font-semibold bg-teal-50 text-teal-700 border border-teal-200">
+<span class="w-1.5 h-1.5 rounded-full bg-teal-600 animate-pulse"></span>
+                        ACTIVE
+                      </span>
+</td>
+<td class="py-3 px-4">
+<div class="flex justify-between items-center text-[11px] font-data-mono-sm mb-1">
+<span class="font-bold">48</span>
+<span class="text-outline">/ 50 (96%)</span>
+</div>
+<div class="w-full bg-surface-container-high h-1.5 rounded-full overflow-hidden">
+<div class="bg-teal-600 h-full rounded-full" style="width: 96%"></div>
+</div>
+</td>
+<td class="py-3 px-4 text-right">
+<div class="flex items-center justify-end gap-1">
+<button class="p-1 hover:bg-surface-container rounded text-outline hover:text-primary">
+<span class="material-symbols-outlined text-base" data-icon="visibility">visibility</span>
+</button>
+<button class="p-1 hover:bg-surface-container rounded text-outline hover:text-primary">
+<span class="material-symbols-outlined text-base" data-icon="edit_note">edit_note</span>
+</button>
+</div>
+</td>
+</tr>
+<!-- Row 3: Suspended Arm (Warning) -->
+<tr class="hover:bg-surface-container-low transition-colors bg-amber-50/20">
+<td class="py-3 px-4 font-data-mono text-data-mono font-bold text-amber-700">NEU-882-BIO</td>
+<td class="py-3 px-4 max-w-xs">
+<div class="font-headline-sm text-headline-sm text-on-surface truncate">Monoclonal Antibody vs Alpha-Synuclein Oligomers</div>
+<div class="font-body-sm text-body-sm text-on-surface-variant text-[11px]">Sponsor: Biogen Idec • Biomarker Stratified</div>
+</td>
+<td class="py-3 px-3">
+<span class="px-2 py-0.5 bg-surface-container text-on-surface font-label-sm text-label-sm font-semibold rounded">Phase I</span>
+</td>
+<td class="py-3 px-4 font-body-md text-body-md text-on-surface">Dr. Aris Thorne</td>
+<td class="py-3 px-3">
+<span class="inline-flex items-center gap-1.5 px-2 py-0.5 rounded-full text-[10px] font-semibold bg-amber-100 text-amber-800 border border-amber-300">
+<span class="w-1.5 h-1.5 rounded-full bg-amber-600"></span>
+                        SUSPENDED
+                      </span>
+</td>
+<td class="py-3 px-4">
+<div class="flex justify-between items-center text-[11px] font-data-mono-sm mb-1">
+<span class="font-bold">18</span>
+<span class="text-outline">/ 60 (30%)</span>
+</div>
+<div class="w-full bg-surface-container-high h-1.5 rounded-full overflow-hidden">
+<div class="bg-amber-600 h-full rounded-full" style="width: 30%"></div>
+</div>
+</td>
+<td class="py-3 px-4 text-right">
+<div class="flex items-center justify-end gap-1">
+<button class="p-1 hover:bg-surface-container rounded text-outline hover:text-primary">
+<span class="material-symbols-outlined text-base" data-icon="visibility">visibility</span>
+</button>
+<button class="p-1 hover:bg-surface-container rounded text-amber-700 hover:text-amber-800 font-bold" title="Review DSMB Hold">
+<span class="material-symbols-outlined text-base" data-icon="report">report</span>
+</button>
+</div>
+</td>
+</tr>
+<!-- Row 4: Planned Trial -->
+<tr class="hover:bg-surface-container-low transition-colors">
+<td class="py-3 px-4 font-data-mono text-data-mono font-bold text-indigo-700">VAC-019-MRNA</td>
+<td class="py-3 px-4 max-w-xs">
+<div class="font-headline-sm text-headline-sm text-on-surface truncate">Personalized Neoantigen mRNA Vaccine + Pembrolizumab</div>
+<div class="font-body-sm text-body-sm text-on-surface-variant text-[11px]">Sponsor: Moderna Tx • Stage IV Melanoma</div>
+</td>
+<td class="py-3 px-3">
+<span class="px-2 py-0.5 bg-surface-container text-on-surface font-label-sm text-label-sm font-semibold rounded">Phase II</span>
+</td>
+<td class="py-3 px-4 font-body-md text-body-md text-on-surface">Dr. Elena Rostova</td>
+<td class="py-3 px-3">
+<span class="inline-flex items-center gap-1.5 px-2 py-0.5 rounded-full text-[10px] font-semibold bg-indigo-50 text-indigo-800 border border-indigo-200">
+<span class="w-1.5 h-1.5 rounded-full bg-indigo-600"></span>
+                        PLANNED
+                      </span>
+</td>
+<td class="py-3 px-4">
+<div class="flex justify-between items-center text-[11px] font-data-mono-sm mb-1">
+<span class="font-bold">0</span>
+<span class="text-outline">/ 120 (0%)</span>
+</div>
+<div class="w-full bg-surface-container-high h-1.5 rounded-full overflow-hidden">
+<div class="bg-indigo-600 h-full rounded-full" style="width: 0%"></div>
+</div>
+</td>
+<td class="py-3 px-4 text-right">
+<div class="flex items-center justify-end gap-1">
+<button class="p-1 hover:bg-surface-container rounded text-outline hover:text-primary">
+<span class="material-symbols-outlined text-base" data-icon="visibility">visibility</span>
+</button>
+<button class="p-1 hover:bg-surface-container rounded text-outline hover:text-primary">
+<span class="material-symbols-outlined text-base" data-icon="edit_note">edit_note</span>
+</button>
+</div>
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+<!-- Table Footer Pagination -->
+<div class="px-4 py-3 bg-surface-container-low border-t border-outline-variant flex items-center justify-between text-xs text-on-surface-variant">
+<span class="font-data-mono-sm text-data-mono-sm">Showing 1 to 4 of 28 Protocols</span>
+<div class="flex items-center gap-2">
+<button class="px-2 py-1 border border-outline-variant rounded bg-surface-container-lowest disabled:opacity-40" disabled="">Previous</button>
+<span class="font-bold text-on-surface px-1">1</span>
+<button class="px-2 py-1 border border-outline-variant rounded bg-surface-container-lowest hover:bg-surface-container">Next</button>
+</div>
+</div>
+</div>
+</div>
+<!-- ======================================== -->
+<!-- RIGHT 1/3 COLUMN: Safety, Visits, Audit  -->
+<!-- ======================================== -->
+<div class="lg:col-span-4 space-y-6">
+<!-- 1. URGENT SAFETY & COMPLIANCE ALERTS -->
+<div class="bg-surface-container-lowest rounded-lg border border-outline-variant p-4">
+<div class="flex items-center justify-between pb-3 border-b border-outline-variant">
+<div class="flex items-center gap-2">
+<span class="material-symbols-outlined text-error" data-icon="notification_important">notification_important</span>
+<h3 class="font-headline-sm text-headline-sm text-on-surface">Urgent Safety Signals</h3>
+</div>
+<span class="px-2 py-0.5 rounded text-[11px] font-bold bg-error-container text-on-error-container font-data-mono-sm">2 Requiring Action</span>
+</div>
+<div class="mt-3 space-y-3">
+<!-- SAE Alert Item -->
+<div class="p-3 rounded-lg bg-red-50/70 border-l-4 border-error border border-red-200">
+<div class="flex items-start justify-between">
+<span class="font-label-sm text-label-sm uppercase font-bold text-error tracking-wider">SAE Expedited Report</span>
+<span class="font-data-mono-sm text-data-mono-sm text-outline">T-minus 14h</span>
+</div>
+<div class="font-headline-sm text-headline-sm text-on-surface text-xs mt-1 font-semibold">
+                  Subject #PT-104-089 • Grade 3 Febrile Neutropenia
+                </div>
+<p class="font-body-sm text-body-sm text-on-surface-variant text-[11px] mt-1">
+                  Protocol: ONC-2024-X3. MedDRA code 10016288. FDA Form 3500A draft requires PI signature.
+                </p>
+<div class="mt-2.5 flex items-center gap-2">
+<button class="px-2.5 py-1 bg-error text-on-error font-label-md text-label-md rounded text-xs hover:bg-on-error-container">
+                    Sign &amp; Transmit FDA
+                  </button>
+<button class="px-2 py-1 bg-surface-container-lowest text-on-surface border border-outline-variant font-label-md text-label-md rounded text-xs hover:bg-surface-container">
+                    View Lab Telemetry
+                  </button>
+</div>
+</div>
+<!-- Regulatory / IRB Renewal Alert Item -->
+<div class="p-3 rounded-lg bg-amber-50/70 border-l-4 border-amber-500 border border-amber-200">
+<div class="flex items-start justify-between">
+<span class="font-label-sm text-label-sm uppercase font-bold text-amber-800 tracking-wider">IRB Re-Approval Due</span>
+<span class="font-data-mono-sm text-data-mono-sm text-outline">14 Days</span>
+</div>
+<div class="font-headline-sm text-headline-sm text-on-surface text-xs mt-1 font-semibold">
+                  Institutional Review Board Expiry • IMM-402
+                </div>
+<p class="font-body-sm text-body-sm text-on-surface-variant text-[11px] mt-1">
+                  Annual Continuing Review submission window closing. 3 deviations pending review.
+                </p>
+<div class="mt-2 flex items-center justify-between">
+<button class="text-xs font-label-md text-amber-800 font-bold hover:underline flex items-center gap-1">
+                    Open Protocol Binder <span class="material-symbols-outlined text-sm" data-icon="chevron_right">chevron_right</span>
+</button>
+</div>
+</div>
+</div>
+</div>
+<!-- 2. UPCOMING CLINICAL VISITS (Today & Tomorrow) -->
+<div class="bg-surface-container-lowest rounded-lg border border-outline-variant p-4">
+<div class="flex items-center justify-between pb-3 border-b border-outline-variant">
+<div>
+<h3 class="font-headline-sm text-headline-sm text-on-surface">Scheduled Patient Visits</h3>
+<p class="font-data-mono-sm text-data-mono-sm text-on-surface-variant">Today: 6 Visits • Tomorrow: 8 Visits</p>
+</div>
+<button class="text-xs font-label-md text-primary hover:underline">Full Calendar</button>
+</div>
+<div class="mt-3 space-y-2.5">
+<!-- Visit 1 -->
+<div class="flex items-center justify-between p-2.5 rounded-lg border border-outline-variant bg-surface-container-low/40 hover:bg-surface-container-low transition-colors">
+<div class="flex items-center gap-3">
+<div class="font-data-mono text-data-mono font-bold text-center px-2 py-1 bg-surface-container-lowest rounded border border-outline-variant">
+<span class="text-primary text-xs">09:30</span>
+<span class="block text-[9px] text-outline uppercase">AM</span>
+</div>
+<div>
+<div class="font-label-lg text-label-lg font-bold text-on-surface">PT-104-092</div>
+<div class="font-body-sm text-body-sm text-on-surface-variant text-[11px]">ONC-2024-X3 • Cycle 2 Day 1 Infusion</div>
+<div class="font-data-mono-sm text-data-mono-sm text-outline">Clinician: Dr. Elena Rostova</div>
+</div>
+</div>
+<button class="px-2.5 py-1 bg-primary text-on-primary font-label-sm text-label-sm rounded hover:bg-opacity-90">
+                  Check-in
+                </button>
+</div>
+<!-- Visit 2 -->
+<div class="flex items-center justify-between p-2.5 rounded-lg border border-outline-variant bg-surface-container-low/40 hover:bg-surface-container-low transition-colors">
+<div class="flex items-center gap-3">
+<div class="font-data-mono text-data-mono font-bold text-center px-2 py-1 bg-surface-container-lowest rounded border border-outline-variant">
+<span class="text-primary text-xs">11:15</span>
+<span class="block text-[9px] text-outline uppercase">AM</span>
+</div>
+<div>
+<div class="font-label-lg text-label-lg font-bold text-on-surface">PT-104-044</div>
+<div class="font-body-sm text-body-sm text-on-surface-variant text-[11px]">IMM-402-CAR • 6-Month Bone Marrow Bx</div>
+<div class="font-data-mono-sm text-data-mono-sm text-outline">Clinician: Dr. Marcus Vance</div>
+</div>
+</div>
+<button class="px-2.5 py-1 bg-primary text-on-primary font-label-sm text-label-sm rounded hover:bg-opacity-90">
+                  Check-in
+                </button>
+</div>
+<!-- Visit 3 (Tomorrow) -->
+<div class="flex items-center justify-between p-2.5 rounded-lg border border-outline-variant bg-surface-container-lowest hover:bg-surface-container-low transition-colors">
+<div class="flex items-center gap-3">
+<div class="font-data-mono text-data-mono font-bold text-center px-2 py-1 bg-surface-container-low rounded border border-outline-variant">
+<span class="text-outline text-xs">08:00</span>
+<span class="block text-[9px] text-outline uppercase">TMRW</span>
+</div>
+<div>
+<div class="font-label-lg text-label-lg font-bold text-on-surface">PT-104-101</div>
+<div class="font-body-sm text-body-sm text-on-surface-variant text-[11px]">ONC-2024-X3 • Screening &amp; Biomarker Consent</div>
+<div class="font-data-mono-sm text-data-mono-sm text-outline">CRC: Sarah Chen, RN</div>
+</div>
+</div>
+<span class="px-2 py-0.5 bg-surface-container text-on-surface-variant font-label-sm text-label-sm rounded">
+                  Confirmed
+                </span>
+</div>
+</div>
+</div>
+<!-- 3. RECENT CLINICAL ACTIVITY & AUDIT TRAIL -->
+<div class="bg-surface-container-lowest rounded-lg border border-outline-variant p-4">
+<div class="flex items-center justify-between pb-3 border-b border-outline-variant">
+<div class="flex items-center gap-2">
+<span class="material-symbols-outlined text-outline" data-icon="history">history</span>
+<h3 class="font-headline-sm text-headline-sm text-on-surface">Audit Trail Activity</h3>
+</div>
+<span class="font-data-mono-sm text-data-mono-sm text-outline">21 CFR Part 11 Log</span>
+</div>
+<div class="mt-3 space-y-3 font-body-sm text-body-sm">
+<!-- Audit Item 1 -->
+<div class="flex items-start gap-2.5 pb-2.5 border-b border-outline-variant">
+<span class="material-symbols-outlined text-primary text-base mt-0.5" data-icon="verified_user">verified_user</span>
+<div>
+<p class="text-on-surface text-xs">
+<strong class="font-semibold text-primary">Dr. Elena Rostova</strong> electronically signed off on Lab Panel <span class="font-data-mono text-data-mono font-bold text-on-surface">PT-104-044</span>.
+                  </p>
+<div class="font-data-mono-sm text-data-mono-sm text-outline mt-0.5">14 mins ago • SHA-256 Sig Hash #9c41</div>
+</div>
+</div>
+<!-- Audit Item 2 -->
+<div class="flex items-start gap-2.5 pb-2.5 border-b border-outline-variant">
+<span class="material-symbols-outlined text-amber-600 text-base mt-0.5" data-icon="help">help</span>
+<div>
+<p class="text-on-surface text-xs">
+                    New Clinical Data Query opened on <strong class="font-semibold">Visit 3 eCRF</strong> (Vitals Out-of-Range flag).
+                  </p>
+<div class="font-data-mono-sm text-data-mono-sm text-outline mt-0.5">42 mins ago • CRA Data Monitor R. Keller</div>
+</div>
+</div>
+<!-- Audit Item 3 -->
+<div class="flex items-start gap-2.5">
+<span class="material-symbols-outlined text-teal-600 text-base mt-0.5" data-icon="person_add">person_add</span>
+<div>
+<p class="text-on-surface text-xs">
+                    Informed Consent v4.2 verified for candidate <span class="font-data-mono text-data-mono font-bold text-on-surface">PT-104-118</span>.
+                  </p>
+<div class="font-data-mono-sm text-data-mono-sm text-outline mt-0.5">1 hr 12m ago • CRC Marcus Vance</div>
+</div>
+</div>
+</div>
+<button class="w-full mt-3 py-1.5 bg-surface-container-low hover:bg-surface-container text-on-surface font-label-sm text-label-sm rounded text-center transition-colors">
+              Inspect Complete Regulatory Audit Log
+            </button>
+</div>
+</div>
+</div>
+</main>
+<!-- Global CTMS Compliance Sticky Micro-Footer -->
+<footer class="h-8 border-t border-outline-variant bg-surface-container-lowest px-6 flex items-center justify-between text-[11px] font-data-mono-sm text-outline">
+<div class="flex items-center gap-4">
+<span>GCP COMPLIANCE ENGINE: V.4.18.2</span>
+<span class="inline-block w-1.5 h-1.5 rounded-full bg-emerald-600"></span>
+<span>ELECTRONIC SIGNATURE VERIFIED</span>
+</div>
+<div>
+<span>LOCAL PROTOCOL NODE: SITE-104-US-EAST • 21 CFR PART 11 ENFORCED</span>
+</div>
+</footer>
+</div>
+</body></html>

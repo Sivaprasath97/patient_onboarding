@@ -1,0 +1,922 @@
+<!DOCTYPE html>
+
+<html lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>CTMS Portal - Visits, Calendar &amp; Patient Appointments Scheduling</title>
+<!-- Material Symbols Outlined -->
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<!-- Google Fonts for JetBrains Mono & Inter -->
+<link href="https://fonts.googleapis.com" rel="preconnect"/>
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&amp;family=JetBrains+Mono:wght@400;500;600&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<!-- Tailwind CSS with Forms and Container Queries -->
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<!-- Tailwind Theme Configuration Verbatim -->
+<script id="tailwind-config">
+    tailwind.config = {
+      darkMode: "class",
+      theme: {
+        extend: {
+          "colors": {
+            "surface-container": "#e6eeff",
+            "surface": "#f8f9ff",
+            "on-primary": "#ffffff",
+            "on-background": "#0d1c2e",
+            "tertiary-container": "#b90012",
+            "on-primary-fixed": "#001b3e",
+            "surface-tint": "#235eac",
+            "on-primary-container": "#bed4ff",
+            "secondary-container": "#86f2e4",
+            "primary-container": "#1e5aa8",
+            "on-error": "#ffffff",
+            "on-primary-fixed-variant": "#00458d",
+            "surface-variant": "#d5e3fc",
+            "on-surface": "#0d1c2e",
+            "on-tertiary-fixed": "#410002",
+            "error-container": "#ffdad6",
+            "surface-container-highest": "#d5e3fc",
+            "on-error-container": "#93000a",
+            "on-secondary-fixed-variant": "#005049",
+            "inverse-primary": "#aac7ff",
+            "surface-container-high": "#dce9ff",
+            "primary-fixed-dim": "#aac7ff",
+            "outline": "#737782",
+            "on-tertiary": "#ffffff",
+            "background": "#f8f9ff",
+            "surface-container-low": "#eff4ff",
+            "secondary-fixed-dim": "#6bd8cb",
+            "outline-variant": "#c2c6d3",
+            "surface-dim": "#ccdbf3",
+            "on-secondary-fixed": "#00201d",
+            "tertiary": "#8c000a",
+            "secondary-fixed": "#89f5e7",
+            "primary-fixed": "#d6e3ff",
+            "secondary": "#006a61",
+            "tertiary-fixed-dim": "#ffb4ab",
+            "on-secondary": "#ffffff",
+            "error": "#ba1a1a",
+            "tertiary-fixed": "#ffdad6",
+            "on-tertiary-container": "#ffc5be",
+            "inverse-surface": "#233144",
+            "on-tertiary-fixed-variant": "#93000b",
+            "inverse-on-surface": "#eaf1ff",
+            "surface-bright": "#f8f9ff",
+            "primary": "#004287",
+            "on-secondary-container": "#006f66",
+            "surface-container-lowest": "#ffffff",
+            "on-surface-variant": "#424751"
+          },
+          "borderRadius": {
+            "DEFAULT": "0.25rem",
+            "lg": "0.5rem",
+            "xl": "0.75rem",
+            "full": "9999px"
+          },
+          "spacing": {
+            "space-2xs": "0.125rem",
+            "gutter-compact": "0.5rem",
+            "space-md": "0.75rem",
+            "space-sm": "0.5rem",
+            "margin-compact": "1rem",
+            "space-xs": "0.25rem",
+            "margin": "1.5rem",
+            "space-2xl": "2rem",
+            "space-xl": "1.5rem",
+            "gutter": "1rem",
+            "space-lg": "1rem"
+          },
+          "fontFamily": {
+            "data-mono-sm": ["JetBrains Mono"],
+            "body-sm": ["Inter"],
+            "data-mono": ["JetBrains Mono"],
+            "headline-sm": ["Inter"],
+            "label-lg": ["Inter"],
+            "display-lg": ["Inter"],
+            "headline-lg": ["Inter"],
+            "body-md": ["Inter"],
+            "label-md": ["Inter"],
+            "label-sm": ["Inter"],
+            "body-lg": ["Inter"],
+            "headline-md": ["Inter"],
+            "headline-xl": ["Inter"]
+          },
+          "fontSize": {
+            "data-mono-sm": ["11px", { "lineHeight": "14px", "fontWeight": "400" }],
+            "body-sm": ["12px", { "lineHeight": "16px", "fontWeight": "400" }],
+            "data-mono": ["12px", { "lineHeight": "16px", "fontWeight": "500" }],
+            "headline-sm": ["15px", { "lineHeight": "20px", "fontWeight": "600" }],
+            "label-lg": ["13px", { "lineHeight": "18px", "fontWeight": "500" }],
+            "display-lg": ["36px", { "lineHeight": "44px", "fontWeight": "700" }],
+            "headline-lg": ["22px", { "lineHeight": "28px", "fontWeight": "600" }],
+            "body-md": ["13px", { "lineHeight": "18px", "fontWeight": "400" }],
+            "label-md": ["11px", { "lineHeight": "14px", "fontWeight": "600" }],
+            "label-sm": ["10px", { "lineHeight": "12px", "fontWeight": "600" }],
+            "body-lg": ["15px", { "lineHeight": "22px", "fontWeight": "400" }],
+            "headline-md": ["18px", { "lineHeight": "24px", "fontWeight": "600" }],
+            "headline-xl": ["28px", { "lineHeight": "36px", "fontWeight": "600" }]
+          }
+        }
+      }
+    }
+  </script>
+</head>
+<body class="bg-background text-on-surface antialiased flex min-h-screen selection:bg-surface-variant selection:text-primary">
+<!-- ======================================================== -->
+<!-- SHARED COMPONENT 1: SideNavBar                          -->
+<!-- ======================================================== -->
+<aside class="fixed top-0 left-0 h-full w-64 border-r border-outline-variant bg-surface-container-lowest z-40 flex flex-col justify-between p-4">
+<!-- Top Branding & Investigator Section -->
+<div class="flex flex-col gap-4">
+<div class="flex items-center gap-3 px-2 py-1.5 border-b border-outline-variant pb-3">
+<div class="w-9 h-9 rounded-lg bg-primary flex items-center justify-center text-on-primary font-headline-md text-headline-md shadow-sm">
+<span class="material-symbols-outlined text-[20px]" data-icon="clinical_notes">clinical_notes</span>
+</div>
+<div>
+<h1 class="font-headline-md text-headline-md font-bold text-primary tracking-tight">CTMS Portal</h1>
+<p class="font-label-sm text-label-sm text-on-surface-variant">Principal Investigator</p>
+</div>
+</div>
+<!-- User Badge Capsule -->
+<div class="flex items-center gap-2.5 px-2.5 py-2 rounded-lg bg-surface-container-low border border-outline-variant">
+<div class="w-7 h-7 rounded-full bg-primary-fixed flex items-center justify-center text-primary font-label-md text-label-md">
+          ER
+        </div>
+<div class="flex-1 min-w-0">
+<p class="font-label-md text-label-md truncate text-on-surface">Dr. Elena Rostova</p>
+<p class="font-data-mono-sm text-data-mono-sm text-outline">Site #104 Lead</p>
+</div>
+<span class="inline-flex items-center px-1.5 py-0.5 rounded text-[9px] font-bold bg-secondary-fixed text-on-secondary-fixed">GCP-V3</span>
+</div>
+<!-- Navigation Tabs (11 Items from JSON Blueprint) -->
+<nav class="flex flex-col space-y-1">
+<!-- 1. Dashboard -->
+<a class="flex items-center gap-3 px-3 py-2 text-on-surface-variant font-medium rounded-DEFAULT hover:bg-surface-container-low hover:text-on-surface transition-colors duration-150 active:scale-[0.99]" href="#">
+<span class="material-symbols-outlined text-[18px]" data-icon="dashboard">dashboard</span>
+<span class="font-label-md text-label-md">Dashboard</span>
+</a>
+<!-- 2. Trials -->
+<a class="flex items-center gap-3 px-3 py-2 text-on-surface-variant font-medium rounded-DEFAULT hover:bg-surface-container-low hover:text-on-surface transition-colors duration-150 active:scale-[0.99]" href="#">
+<span class="material-symbols-outlined text-[18px]" data-icon="clinical_notes">clinical_notes</span>
+<span class="font-label-md text-label-md">Trials</span>
+</a>
+<!-- 3. Participants -->
+<a class="flex items-center gap-3 px-3 py-2 text-on-surface-variant font-medium rounded-DEFAULT hover:bg-surface-container-low hover:text-on-surface transition-colors duration-150 active:scale-[0.99]" href="#">
+<span class="material-symbols-outlined text-[18px]" data-icon="groups">groups</span>
+<span class="font-label-md text-label-md">Participants</span>
+</a>
+<!-- 4. Visits & Calendar (ACTIVE ITEM) -->
+<a class="flex items-center gap-3 px-3 py-2 bg-surface-container text-primary font-semibold rounded-DEFAULT border-l-4 border-primary transition-colors duration-150 active:scale-[0.99]" href="#">
+<span class="material-symbols-outlined text-[18px]" data-icon="calendar_month" data-weight="fill" style="font-variation-settings: 'FILL' 1;">calendar_month</span>
+<span class="font-label-md text-label-md">Visits &amp; Calendar</span>
+</a>
+<!-- 5. Medical Assessment -->
+<a class="flex items-center gap-3 px-3 py-2 text-on-surface-variant font-medium rounded-DEFAULT hover:bg-surface-container-low hover:text-on-surface transition-colors duration-150 active:scale-[0.99]" href="#">
+<span class="material-symbols-outlined text-[18px]" data-icon="stethoscope">stethoscope</span>
+<span class="font-label-md text-label-md">Medical Assessment</span>
+</a>
+<!-- 6. Adverse Events -->
+<a class="flex items-center gap-3 px-3 py-2 text-on-surface-variant font-medium rounded-DEFAULT hover:bg-surface-container-low hover:text-on-surface transition-colors duration-150 active:scale-[0.99]" href="#">
+<span class="material-symbols-outlined text-[18px]" data-icon="warning">warning</span>
+<span class="font-label-md text-label-md">Adverse Events</span>
+<span class="ml-auto px-1.5 py-0.2 rounded-full text-[9px] font-bold bg-error-container text-on-error-container">2 Open</span>
+</a>
+<!-- 7. Queries -->
+<a class="flex items-center gap-3 px-3 py-2 text-on-surface-variant font-medium rounded-DEFAULT hover:bg-surface-container-low hover:text-on-surface transition-colors duration-150 active:scale-[0.99]" href="#">
+<span class="material-symbols-outlined text-[18px]" data-icon="help_outline">help_outline</span>
+<span class="font-label-md text-label-md">Queries</span>
+</a>
+<!-- 8. Documents -->
+<a class="flex items-center gap-3 px-3 py-2 text-on-surface-variant font-medium rounded-DEFAULT hover:bg-surface-container-low hover:text-on-surface transition-colors duration-150 active:scale-[0.99]" href="#">
+<span class="material-symbols-outlined text-[18px]" data-icon="description">description</span>
+<span class="font-label-md text-label-md">Documents</span>
+</a>
+<!-- 9. Reports -->
+<a class="flex items-center gap-3 px-3 py-2 text-on-surface-variant font-medium rounded-DEFAULT hover:bg-surface-container-low hover:text-on-surface transition-colors duration-150 active:scale-[0.99]" href="#">
+<span class="material-symbols-outlined text-[18px]" data-icon="analytics">analytics</span>
+<span class="font-label-md text-label-md">Reports</span>
+</a>
+<!-- 10. Audit Logs -->
+<a class="flex items-center gap-3 px-3 py-2 text-on-surface-variant font-medium rounded-DEFAULT hover:bg-surface-container-low hover:text-on-surface transition-colors duration-150 active:scale-[0.99]" href="#">
+<span class="material-symbols-outlined text-[18px]" data-icon="history">history</span>
+<span class="font-label-md text-label-md">Audit Logs</span>
+</a>
+<!-- 11. Settings -->
+<a class="flex items-center gap-3 px-3 py-2 text-on-surface-variant font-medium rounded-DEFAULT hover:bg-surface-container-low hover:text-on-surface transition-colors duration-150 active:scale-[0.99]" href="#">
+<span class="material-symbols-outlined text-[18px]" data-icon="settings">settings</span>
+<span class="font-label-md text-label-md">Settings</span>
+</a>
+</nav>
+</div>
+<!-- Bottom Actions & Footer Navigation -->
+<div class="flex flex-col gap-3 pt-3 border-t border-outline-variant">
+<!-- CTA Button specified in JSON -->
+<button class="w-full flex items-center justify-center gap-2 bg-tertiary text-on-tertiary px-3 py-2 rounded-lg font-label-md text-label-md hover:bg-tertiary-container transition-all active:scale-[0.98] shadow-sm">
+<span class="material-symbols-outlined text-[16px]" data-icon="warning">warning</span>
+        Log Adverse Event
+      </button>
+<!-- Footer Tab Labels -->
+<div class="flex flex-col space-y-1">
+<a class="flex items-center gap-3 px-3 py-1.5 text-on-surface-variant hover:text-on-surface font-label-md text-label-md rounded-DEFAULT hover:bg-surface-container-low transition-colors" href="#">
+<span class="material-symbols-outlined text-[16px]" data-icon="policy">policy</span>
+          Audit Trails
+        </a>
+<a class="flex items-center gap-3 px-3 py-1.5 text-on-surface-variant hover:text-on-surface font-label-md text-label-md rounded-DEFAULT hover:bg-surface-container-low transition-colors" href="#">
+<span class="material-symbols-outlined text-[16px]" data-icon="admin_panel_settings">admin_panel_settings</span>
+          System Settings
+        </a>
+</div>
+</div>
+</aside>
+<!-- ======================================================== -->
+<!-- MAIN LAYOUT WRAPPER (Shifted for SideNav)                -->
+<!-- ======================================================== -->
+<div class="flex-1 ml-64 flex flex-col min-h-screen bg-background">
+<!-- ======================================================== -->
+<!-- SHARED COMPONENT 2: TopNavBar                            -->
+<!-- ======================================================== -->
+<header class="docked full-width top-0 sticky z-30 flex justify-between items-center h-14 w-full px-6 bg-surface-container-lowest border-b border-outline-variant">
+<!-- Left: Brand / Hospital Site Title & Search Bar -->
+<div class="flex items-center gap-6">
+<span class="font-headline-sm text-headline-sm font-semibold text-on-surface whitespace-nowrap">
+          St. Jude Clinical Research Center - Site #104
+        </span>
+<!-- Search Bar -->
+<div class="relative w-72">
+<span class="material-symbols-outlined absolute left-2.5 top-1/2 -translate-y-1/2 text-outline text-[18px]" data-icon="search">search</span>
+<input class="w-full h-8 pl-9 pr-3 rounded bg-surface-container-low border border-outline-variant text-on-surface font-body-sm text-body-sm placeholder:text-outline focus:outline-none focus:border-primary focus:ring-1 focus:ring-primary" placeholder="Search Subject, Protocol, or Visit Code..." type="text"/>
+</div>
+</div>
+<!-- Navigation Links from JSON Blueprint -->
+<div class="hidden xl:flex items-center gap-6">
+<a class="text-on-surface-variant font-medium font-body-md text-body-md hover:text-primary transition-colors" href="#">Active Protocols</a>
+<a class="text-on-surface-variant font-medium font-body-md text-body-md hover:text-primary transition-colors" href="#">Safety Registry</a>
+<a class="text-on-surface-variant font-medium font-body-md text-body-md hover:text-primary transition-colors" href="#">Regulatory Books</a>
+</div>
+<!-- Trailing Action Elements -->
+<div class="flex items-center gap-3">
+<!-- Protocol Arm pill -->
+<span class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded bg-surface-container border border-outline-variant font-data-mono text-data-mono text-primary">
+<span class="w-1.5 h-1.5 rounded-full bg-primary animate-pulse"></span>
+          Protocol Arm #04-B
+        </span>
+<!-- Secondary Action: Emergency AE Report -->
+<button class="flex items-center gap-1.5 px-3 py-1.5 rounded bg-error-container text-on-error-container border border-tertiary-fixed-dim font-label-sm text-label-sm hover:bg-tertiary-fixed transition-colors">
+<span class="material-symbols-outlined text-[15px]" data-icon="emergency">emergency</span>
+          Emergency AE Report
+        </button>
+<!-- Icon Actions Cluster -->
+<div class="flex items-center gap-1 border-l border-outline-variant pl-3">
+<button class="p-1.5 text-on-surface-variant hover:text-primary rounded hover:bg-surface-container-low transition-colors relative" title="Notifications">
+<span class="material-symbols-outlined text-[20px]" data-icon="notifications">notifications</span>
+<span class="absolute top-1 right-1 w-2 h-2 rounded-full bg-tertiary"></span>
+</button>
+<button class="p-1.5 text-on-surface-variant hover:text-primary rounded hover:bg-surface-container-low transition-colors" title="Emergency Contacts">
+<span class="material-symbols-outlined text-[20px]" data-icon="emergency">emergency</span>
+</button>
+<!-- User Profile Icon Action -->
+<div class="flex items-center gap-2 pl-2">
+<button class="w-8 h-8 rounded-full bg-surface-container-high border border-outline-variant flex items-center justify-center text-primary" title="Dr. Elena Rostova Medical Director badge">
+<span class="material-symbols-outlined text-[20px]" data-icon="account_circle">account_circle</span>
+</button>
+</div>
+</div>
+</div>
+</header>
+<!-- ======================================================== -->
+<!-- MAIN CONTENT CONTAINER                                   -->
+<!-- ======================================================== -->
+<main class="flex-1 p-6 space-y-6 max-w-7xl w-full mx-auto">
+<!-- SECTION 1: Visits & Scheduling Header -->
+<section class="bg-surface-container-lowest rounded-lg border border-outline-variant p-4 flex flex-col md:flex-row md:items-center md:justify-between gap-4 shadow-sm">
+<div class="flex flex-col gap-1">
+<div class="flex items-center gap-3">
+<h2 class="font-headline-lg text-headline-lg font-bold text-on-surface tracking-tight">Visits &amp; Appointment Schedule</h2>
+<span class="px-2 py-0.5 rounded text-[11px] font-semibold bg-primary-fixed text-primary border border-surface-variant">Site Operational Phase III</span>
+</div>
+<p class="font-body-md text-body-md text-on-surface-variant">Manage subject follow-up windows, clinical chair availability, and mandatory protocol timelines.</p>
+</div>
+<!-- Controls Cluster -->
+<div class="flex flex-wrap items-center gap-3">
+<!-- Protocol Selector Dropdown -->
+<div class="flex items-center gap-2">
+<label class="font-label-sm text-label-sm text-outline uppercase font-semibold">Study Arm:</label>
+<select class="h-9 px-3 py-1 rounded bg-surface-container-lowest border border-outline-variant font-label-md text-label-md text-on-surface focus:ring-1 focus:ring-primary focus:border-primary">
+<option value="ALL">All Protocols (4 Active)</option>
+<option selected="" value="ONC-2024-X3">ONC-2024-X3 (Solid Tumor Kinase)</option>
+<option value="IMM-402-CAR">IMM-402-CAR (Chimeric T-Cell)</option>
+<option value="NEU-882-BIO">NEU-882-BIO (Neurodegeneration)</option>
+</select>
+</div>
+<!-- View Toggle Switch -->
+<div class="inline-flex rounded-lg border border-outline-variant bg-surface-container-low p-0.5" role="group">
+<button class="inline-flex items-center gap-1.5 px-3 py-1 text-label-md font-label-md rounded bg-surface-container-lowest text-primary shadow-sm font-semibold" type="button">
+<span class="material-symbols-outlined text-[16px]" data-icon="calendar_month">calendar_month</span>
+              Calendar Month View
+            </button>
+<button class="inline-flex items-center gap-1.5 px-3 py-1 text-label-md font-label-md rounded text-on-surface-variant hover:text-on-surface transition-colors" type="button">
+<span class="material-symbols-outlined text-[16px]" data-icon="format_list_bulleted">format_list_bulleted</span>
+              Chronological List View
+            </button>
+</div>
+<!-- + Schedule Patient Visit Action -->
+<button class="inline-flex items-center gap-1.5 px-3.5 py-2 rounded-lg bg-primary text-on-primary font-label-md text-label-md hover:bg-primary-container transition-all active:scale-[0.98] shadow-sm">
+<span class="material-symbols-outlined text-[18px]" data-icon="add">add</span>
+            + Schedule Patient Visit
+          </button>
+</div>
+</section>
+<!-- SECTION 2: Visit Operational Metrics (Bento-style 4-Card Grid) -->
+<section class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+<!-- Metric 1: Today's Scheduled Visits -->
+<div class="bg-surface-container-lowest rounded-lg border border-outline-variant p-4 flex flex-col justify-between hover:border-outline transition-all">
+<div class="flex items-center justify-between text-outline">
+<span class="font-label-md text-label-md uppercase tracking-wider text-on-surface-variant">Today's Visits</span>
+<span class="material-symbols-outlined text-[20px] text-primary" data-icon="today">today</span>
+</div>
+<div class="my-2 flex items-baseline gap-2">
+<span class="font-display-lg text-display-lg font-bold text-on-surface">6</span>
+<span class="font-label-sm text-label-sm text-on-surface-variant font-medium">scheduled</span>
+</div>
+<div class="flex items-center gap-1.5 text-secondary font-label-sm text-label-sm">
+<span class="material-symbols-outlined text-[14px]" data-icon="check_circle">check_circle</span>
+<span>1 Checked-in, 5 upcoming</span>
+</div>
+</div>
+<!-- Metric 2: Tomorrow's Visits -->
+<div class="bg-surface-container-lowest rounded-lg border border-outline-variant p-4 flex flex-col justify-between hover:border-outline transition-all">
+<div class="flex items-center justify-between text-outline">
+<span class="font-label-md text-label-md uppercase tracking-wider text-on-surface-variant">Tomorrow's Visits</span>
+<span class="material-symbols-outlined text-[20px] text-surface-tint" data-icon="event_upcoming">event_upcoming</span>
+</div>
+<div class="my-2 flex items-baseline gap-2">
+<span class="font-display-lg text-display-lg font-bold text-on-surface">8</span>
+<span class="font-label-sm text-label-sm text-on-surface-variant font-medium">confirmed</span>
+</div>
+<div class="flex items-center gap-1.5 text-on-surface-variant font-label-sm text-label-sm">
+<span class="material-symbols-outlined text-[14px]" data-icon="airline_seat_recline_extra">airline_seat_recline_extra</span>
+<span>4 PK Blood Draw &amp; Infusions</span>
+</div>
+</div>
+<!-- Metric 3: Overdue Protocol Visit Windows -->
+<div class="bg-surface-container-lowest rounded-lg border border-tertiary-fixed-dim bg-error-container/20 p-4 flex flex-col justify-between">
+<div class="flex items-center justify-between text-tertiary">
+<span class="font-label-md text-label-md uppercase tracking-wider font-semibold">Overdue Visit Windows</span>
+<span class="material-symbols-outlined text-[20px] text-tertiary" data-icon="error">error</span>
+</div>
+<div class="my-2 flex items-baseline gap-2">
+<span class="font-display-lg text-display-lg font-bold text-tertiary">3</span>
+<span class="font-label-sm text-label-sm text-tertiary font-medium">protocol alerts</span>
+</div>
+<div class="flex items-center gap-1 text-tertiary font-label-sm text-label-sm">
+<span class="material-symbols-outlined text-[14px]" data-icon="warning">warning</span>
+<span>Requires Protocol Deviation Waiver</span>
+</div>
+</div>
+<!-- Metric 4: Protocol Window Adherence -->
+<div class="bg-surface-container-lowest rounded-lg border border-outline-variant p-4 flex flex-col justify-between hover:border-outline transition-all">
+<div class="flex items-center justify-between text-outline">
+<span class="font-label-md text-label-md uppercase tracking-wider text-on-surface-variant">Window Adherence</span>
+<span class="material-symbols-outlined text-[20px] text-secondary" data-icon="verified">verified</span>
+</div>
+<div class="my-2 flex items-baseline gap-2">
+<span class="font-display-lg text-display-lg font-bold text-secondary">97.4%</span>
+<span class="font-label-sm text-label-sm text-on-surface-variant font-medium">site benchmark</span>
+</div>
+<div class="w-full bg-surface-container-high rounded-full h-1.5 overflow-hidden">
+<div class="bg-secondary h-1.5 rounded-full" style="width: 97.4%"></div>
+</div>
+</div>
+</section>
+<!-- SECTION 4: Window Adherence & Protocol Compliance Assistant Banner -->
+<section class="bg-surface-container-low rounded-lg border-l-4 border-l-primary border border-outline-variant p-3.5 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3">
+<div class="flex items-start sm:items-center gap-3">
+<div class="w-8 h-8 rounded-lg bg-surface-container flex items-center justify-center text-primary shrink-0">
+<span class="material-symbols-outlined text-[20px]" data-icon="tune">tune</span>
+</div>
+<div>
+<div class="flex items-center gap-2">
+<span class="font-headline-sm text-headline-sm font-semibold text-on-surface">Protocol Compliance Assistant</span>
+<span class="px-2 py-0.5 rounded text-[10px] font-bold bg-surface-container-highest text-primary">Protocol Arm Window Rule: ±3 Calendar Days</span>
+</div>
+<p class="font-body-sm text-body-sm text-on-surface-variant">Target date calibration calculated automatically per SOP-CLN-204. Schedule deviations trigger immediate audit flags.</p>
+</div>
+</div>
+<div class="flex items-center gap-2 shrink-0">
+<button class="px-3 py-1.5 rounded bg-surface-container-lowest border border-outline-variant text-on-surface font-label-sm text-label-sm hover:bg-surface-container transition-colors">
+            Calculate Window ±3d
+          </button>
+<button class="px-3 py-1.5 rounded bg-surface-container-high text-primary font-label-sm text-label-sm hover:bg-surface-variant transition-colors flex items-center gap-1">
+<span class="material-symbols-outlined text-[15px]" data-icon="policy">policy</span>
+            Audit Rules
+          </button>
+</div>
+</section>
+<!-- SECTION 3: Main Calendar & Daily Schedule Split View -->
+<div class="grid grid-cols-1 lg:grid-cols-12 gap-6">
+<!-- LEFT COLUMN (7 Cols): Calendar Grid View -->
+<div class="lg:col-span-7 bg-surface-container-lowest rounded-lg border border-outline-variant flex flex-col shadow-sm">
+<!-- Calendar Header & Navigation -->
+<div class="p-4 border-b border-outline-variant flex items-center justify-between">
+<div class="flex items-center gap-3">
+<h3 class="font-headline-md text-headline-md font-bold text-on-surface">October 2024</h3>
+<div class="flex items-center gap-1">
+<button class="w-7 h-7 rounded hover:bg-surface-container flex items-center justify-center text-outline hover:text-on-surface border border-outline-variant transition-colors">
+<span class="material-symbols-outlined text-[18px]" data-icon="chevron_left">chevron_left</span>
+</button>
+<button class="w-7 h-7 rounded hover:bg-surface-container flex items-center justify-center text-outline hover:text-on-surface border border-outline-variant transition-colors">
+<span class="material-symbols-outlined text-[18px]" data-icon="chevron_right">chevron_right</span>
+</button>
+<button class="px-2 py-0.5 rounded text-label-sm font-label-sm border border-outline-variant hover:bg-surface-container text-on-surface-variant ml-1">
+                  Today
+                </button>
+</div>
+</div>
+<!-- Calendar Status Legend -->
+<div class="flex flex-wrap items-center gap-3 text-label-sm font-label-sm">
+<span class="flex items-center gap-1.5 text-on-surface-variant">
+<span class="w-2 h-2 rounded-full bg-secondary"></span> Completed
+              </span>
+<span class="flex items-center gap-1.5 text-on-surface-variant">
+<span class="w-2 h-2 rounded-full bg-primary"></span> Scheduled
+              </span>
+<span class="flex items-center gap-1.5 text-on-surface-variant">
+<span class="w-2 h-2 rounded-full bg-tertiary"></span> Overdue
+              </span>
+<span class="flex items-center gap-1.5 text-on-surface-variant">
+<span class="w-2 h-2 rounded-full bg-amber-500"></span> Window Closing
+              </span>
+</div>
+</div>
+<!-- Calendar Days of Week Header -->
+<div class="grid grid-cols-7 border-b border-outline-variant bg-surface-container-low text-center font-label-sm text-label-sm font-semibold text-outline py-2">
+<span>SUN</span>
+<span>MON</span>
+<span>TUE</span>
+<span>WED</span>
+<span>THU</span>
+<span>FRI</span>
+<span>SAT</span>
+</div>
+<!-- Calendar Cells 5x7 Matrix -->
+<div class="grid grid-cols-7 grid-rows-5 flex-1 divide-x divide-y divide-outline-variant text-body-sm font-body-sm bg-surface-container-lowest">
+<!-- Row 1: Sept 29 to Oct 5 -->
+<div class="min-h-[78px] p-1.5 bg-surface/50 text-outline">
+<span class="font-data-mono-sm text-data-mono-sm">29</span>
+</div>
+<div class="min-h-[78px] p-1.5 bg-surface/50 text-outline">
+<span class="font-data-mono-sm text-data-mono-sm">30</span>
+</div>
+<div class="min-h-[78px] p-1.5">
+<span class="font-data-mono-sm text-data-mono-sm font-semibold text-on-surface">1</span>
+<div class="mt-1 space-y-1">
+<div class="px-1 py-0.5 rounded bg-surface-container text-primary font-data-mono-sm text-[10px] truncate border-l-2 border-primary">
+                  PT-089 (Cycle 1)
+                </div>
+</div>
+</div>
+<div class="min-h-[78px] p-1.5">
+<span class="font-data-mono-sm text-data-mono-sm font-semibold text-on-surface">2</span>
+<div class="mt-1 space-y-1">
+<div class="px-1 py-0.5 rounded bg-surface-variant text-on-secondary-container font-data-mono-sm text-[10px] truncate border-l-2 border-secondary">
+                  PT-041 (Biopsy)
+                </div>
+</div>
+</div>
+<div class="min-h-[78px] p-1.5">
+<span class="font-data-mono-sm text-data-mono-sm font-semibold text-on-surface">3</span>
+</div>
+<div class="min-h-[78px] p-1.5">
+<span class="font-data-mono-sm text-data-mono-sm font-semibold text-on-surface">4</span>
+<div class="mt-1 space-y-1">
+<div class="px-1 py-0.5 rounded bg-surface-container text-primary font-data-mono-sm text-[10px] truncate border-l-2 border-primary">
+                  PT-103 (PK Screen)
+                </div>
+</div>
+</div>
+<div class="min-h-[78px] p-1.5 bg-surface/30">
+<span class="font-data-mono-sm text-data-mono-sm text-outline">5</span>
+</div>
+<!-- Row 2: Oct 6 to Oct 12 -->
+<div class="min-h-[78px] p-1.5 bg-surface/30">
+<span class="font-data-mono-sm text-data-mono-sm text-outline">6</span>
+</div>
+<div class="min-h-[78px] p-1.5">
+<span class="font-data-mono-sm text-data-mono-sm font-semibold text-on-surface">7</span>
+<div class="mt-1 space-y-1">
+<div class="px-1 py-0.5 rounded bg-secondary-fixed/50 text-secondary font-data-mono-sm text-[10px] truncate border-l-2 border-secondary">
+                  PT-033 Complete
+                </div>
+</div>
+</div>
+<div class="min-h-[78px] p-1.5">
+<span class="font-data-mono-sm text-data-mono-sm font-semibold text-on-surface">8</span>
+<div class="mt-1 space-y-1">
+<div class="px-1 py-0.5 rounded bg-amber-50 text-amber-700 font-data-mono-sm text-[10px] truncate border-l-2 border-amber-500">
+                  PT-062 Win. Close
+                </div>
+</div>
+</div>
+<div class="min-h-[78px] p-1.5">
+<span class="font-data-mono-sm text-data-mono-sm font-semibold text-on-surface">9</span>
+<div class="mt-1 space-y-1">
+<div class="px-1 py-0.5 rounded bg-surface-container text-primary font-data-mono-sm text-[10px] truncate border-l-2 border-primary">
+                  PT-088 (Day 28)
+                </div>
+</div>
+</div>
+<div class="min-h-[78px] p-1.5">
+<span class="font-data-mono-sm text-data-mono-sm font-semibold text-on-surface">10</span>
+<div class="mt-1 space-y-1">
+<div class="px-1 py-0.5 rounded bg-error-container text-on-error-container font-data-mono-sm text-[10px] truncate border-l-2 border-tertiary">
+                  PT-077 Overdue
+                </div>
+</div>
+</div>
+<div class="min-h-[78px] p-1.5">
+<span class="font-data-mono-sm text-data-mono-sm font-semibold text-on-surface">11</span>
+</div>
+<div class="min-h-[78px] p-1.5 bg-surface/30">
+<span class="font-data-mono-sm text-data-mono-sm text-outline">12</span>
+</div>
+<!-- Row 3: Oct 13 to Oct 19 -->
+<div class="min-h-[78px] p-1.5 bg-surface/30">
+<span class="font-data-mono-sm text-data-mono-sm text-outline">13</span>
+</div>
+<div class="min-h-[78px] p-1.5">
+<span class="font-data-mono-sm text-data-mono-sm font-semibold text-on-surface">14</span>
+<div class="mt-1 space-y-1">
+<div class="px-1 py-0.5 rounded bg-surface-container text-primary font-data-mono-sm text-[10px] truncate border-l-2 border-primary">
+                  PT-112 (Cycle 2)
+                </div>
+</div>
+</div>
+<div class="min-h-[78px] p-1.5">
+<span class="font-data-mono-sm text-data-mono-sm font-semibold text-on-surface">15</span>
+</div>
+<!-- CURRENT DAY: OCT 16 (Highlighted) -->
+<div class="min-h-[78px] p-1.5 bg-primary-fixed/20 border-2 border-primary relative">
+<div class="flex items-center justify-between">
+<span class="w-5 h-5 rounded-full bg-primary text-on-primary font-data-mono-sm text-data-mono-sm flex items-center justify-center font-bold">16</span>
+<span class="text-[9px] font-bold text-primary tracking-tight">TODAY (6)</span>
+</div>
+<div class="mt-1 space-y-0.5">
+<div class="px-1 py-0.5 rounded bg-primary text-on-primary font-data-mono-sm text-[9px] truncate">
+                  09:30 PT-092 C2D1
+                </div>
+<div class="px-1 py-0.5 rounded bg-surface-container text-primary font-data-mono-sm text-[9px] truncate border-l-2 border-primary">
+                  11:15 PT-044 Biopsy
+                </div>
+<div class="px-1 py-0.5 rounded bg-error-container text-on-error-container font-data-mono-sm text-[9px] truncate border-l-2 border-tertiary">
+                  15:45 PT-077 Alert
+                </div>
+</div>
+</div>
+<div class="min-h-[78px] p-1.5">
+<span class="font-data-mono-sm text-data-mono-sm font-semibold text-on-surface">17</span>
+<div class="mt-1 space-y-1">
+<div class="px-1 py-0.5 rounded bg-surface-container text-primary font-data-mono-sm text-[10px] truncate border-l-2 border-primary">
+                  8 Scheduled
+                </div>
+</div>
+</div>
+<div class="min-h-[78px] p-1.5">
+<span class="font-data-mono-sm text-data-mono-sm font-semibold text-on-surface">18</span>
+<div class="mt-1 space-y-1">
+<div class="px-1 py-0.5 rounded bg-surface-container text-primary font-data-mono-sm text-[10px] truncate border-l-2 border-primary">
+                  PT-120 Followup
+                </div>
+</div>
+</div>
+<div class="min-h-[78px] p-1.5 bg-surface/30">
+<span class="font-data-mono-sm text-data-mono-sm text-outline">19</span>
+</div>
+<!-- Row 4: Oct 20 to Oct 26 -->
+<div class="min-h-[78px] p-1.5 bg-surface/30">
+<span class="font-data-mono-sm text-data-mono-sm text-outline">20</span>
+</div>
+<div class="min-h-[78px] p-1.5">
+<span class="font-data-mono-sm text-data-mono-sm font-semibold text-on-surface">21</span>
+</div>
+<div class="min-h-[78px] p-1.5">
+<span class="font-data-mono-sm text-data-mono-sm font-semibold text-on-surface">22</span>
+<div class="mt-1 space-y-1">
+<div class="px-1 py-0.5 rounded bg-amber-50 text-amber-700 font-data-mono-sm text-[10px] truncate border-l-2 border-amber-500">
+                  PT-099 Window ±3d
+                </div>
+</div>
+</div>
+<div class="min-h-[78px] p-1.5">
+<span class="font-data-mono-sm text-data-mono-sm font-semibold text-on-surface">23</span>
+</div>
+<div class="min-h-[78px] p-1.5">
+<span class="font-data-mono-sm text-data-mono-sm font-semibold text-on-surface">24</span>
+<div class="mt-1 space-y-1">
+<div class="px-1 py-0.5 rounded bg-surface-container text-primary font-data-mono-sm text-[10px] truncate border-l-2 border-primary">
+                  PT-140 (Safety CT)
+                </div>
+</div>
+</div>
+<div class="min-h-[78px] p-1.5">
+<span class="font-data-mono-sm text-data-mono-sm font-semibold text-on-surface">25</span>
+</div>
+<div class="min-h-[78px] p-1.5 bg-surface/30">
+<span class="font-data-mono-sm text-data-mono-sm text-outline">26</span>
+</div>
+<!-- Row 5: Oct 27 to Nov 2 -->
+<div class="min-h-[78px] p-1.5 bg-surface/30">
+<span class="font-data-mono-sm text-data-mono-sm text-outline">27</span>
+</div>
+<div class="min-h-[78px] p-1.5">
+<span class="font-data-mono-sm text-data-mono-sm font-semibold text-on-surface">28</span>
+</div>
+<div class="min-h-[78px] p-1.5">
+<span class="font-data-mono-sm text-data-mono-sm font-semibold text-on-surface">29</span>
+</div>
+<div class="min-h-[78px] p-1.5">
+<span class="font-data-mono-sm text-data-mono-sm font-semibold text-on-surface">30</span>
+</div>
+<div class="min-h-[78px] p-1.5">
+<span class="font-data-mono-sm text-data-mono-sm font-semibold text-on-surface">31</span>
+</div>
+<div class="min-h-[78px] p-1.5 bg-surface/50 text-outline">
+<span class="font-data-mono-sm text-data-mono-sm">1</span>
+</div>
+<div class="min-h-[78px] p-1.5 bg-surface/50 text-outline">
+<span class="font-data-mono-sm text-data-mono-sm">2</span>
+</div>
+</div>
+<!-- Calendar Footer Status Bar -->
+<div class="p-3 border-t border-outline-variant bg-surface-container-low/50 flex items-center justify-between text-label-sm font-label-sm">
+<span class="text-on-surface-variant font-data-mono-sm">Timezone: UTC-05:00 America/Chicago (EDT)</span>
+<div class="flex items-center gap-3">
+<span class="text-on-surface font-semibold">Active Capacity: 14 Chairs / 2 Procedure Suites</span>
+<button class="text-primary hover:underline font-semibold flex items-center gap-1">
+                Export Protocol iCal <span class="material-symbols-outlined text-[14px]" data-icon="file_download">file_download</span>
+</button>
+</div>
+</div>
+</div>
+<!-- RIGHT COLUMN (5 Cols): Side Agenda / Today's Visit Roster -->
+<div class="lg:col-span-5 bg-surface-container-lowest rounded-lg border border-outline-variant flex flex-col shadow-sm">
+<!-- Roster Header -->
+<div class="p-4 border-b border-outline-variant flex items-center justify-between">
+<div class="flex items-center gap-2">
+<span class="material-symbols-outlined text-[20px] text-primary" data-icon="clinical_notes">clinical_notes</span>
+<div>
+<h3 class="font-headline-md text-headline-md font-bold text-on-surface">Today's Visit Roster</h3>
+<p class="font-label-sm text-label-sm text-on-surface-variant">Wednesday, October 16, 2024</p>
+</div>
+</div>
+<span class="px-2 py-0.5 rounded font-data-mono-sm text-data-mono-sm bg-surface-container text-primary font-semibold">
+              6 Visits Planned
+            </span>
+</div>
+<!-- Chronological List of Visits specified in prompt -->
+<div class="p-4 space-y-4 overflow-y-auto max-h-[640px] divide-y divide-outline-variant/60">
+<!-- VISIT 1: 09:30 AM | PT-104-092 -->
+<div class="pt-3 first:pt-0 space-y-2.5">
+<div class="flex items-start justify-between">
+<div class="flex items-center gap-2">
+<span class="font-data-mono text-data-mono font-bold text-primary bg-surface-container px-2 py-0.5 rounded">09:30 AM</span>
+<span class="font-data-mono text-data-mono font-bold text-on-surface">PT-104-092</span>
+<span class="px-1.5 py-0.5 rounded text-[10px] font-semibold bg-surface-container-high text-primary">ONC-2024-X3</span>
+</div>
+<!-- Status Badge -->
+<span class="inline-flex items-center gap-1 px-2 py-0.5 rounded text-[10px] font-bold bg-amber-50 text-amber-800 border border-amber-200">
+<span class="w-1.5 h-1.5 rounded-full bg-amber-500 animate-pulse"></span>
+                  Checked-in / Vitals Pending
+                </span>
+</div>
+<div>
+<h4 class="font-headline-sm text-headline-sm font-semibold text-on-surface">Cycle 2 Day 1 Infusion &amp; PK Blood Draw</h4>
+<div class="mt-1 flex flex-wrap items-center gap-x-4 gap-y-1 text-body-sm font-body-sm text-on-surface-variant">
+<span class="flex items-center gap-1">
+<span class="material-symbols-outlined text-[15px] text-outline" data-icon="stethoscope">stethoscope</span>
+                    Clinician: <strong class="text-on-surface">Dr. Elena Rostova</strong>
+</span>
+<span class="flex items-center gap-1">
+<span class="material-symbols-outlined text-[15px] text-outline" data-icon="meeting_room">meeting_room</span>
+                    Room: <strong class="text-on-surface">Infusion Suite 4B</strong>
+</span>
+</div>
+</div>
+<!-- Quick Action & Verification Tag -->
+<div class="flex items-center justify-between pt-1">
+<span class="font-label-sm text-label-sm text-secondary flex items-center gap-1">
+<span class="material-symbols-outlined text-[14px]" data-icon="check">check</span> Pre-medication verified
+                </span>
+<!-- Specified Action Button -->
+<button class="inline-flex items-center gap-1 px-3 py-1.5 rounded bg-primary text-on-primary font-label-md text-label-md hover:bg-primary-container transition-colors active:scale-[0.98]">
+<span class="material-symbols-outlined text-[15px]" data-icon="stethoscope">stethoscope</span>
+                  Open Medical Assessment
+                </button>
+</div>
+</div>
+<!-- VISIT 2: 11:15 AM | PT-104-044 -->
+<div class="pt-4 space-y-2.5">
+<div class="flex items-start justify-between">
+<div class="flex items-center gap-2">
+<span class="font-data-mono text-data-mono font-bold text-on-surface-variant bg-surface-container-low px-2 py-0.5 rounded">11:15 AM</span>
+<span class="font-data-mono text-data-mono font-bold text-on-surface">PT-104-044</span>
+<span class="px-1.5 py-0.5 rounded text-[10px] font-semibold bg-secondary-fixed text-on-secondary-fixed">IMM-402-CAR</span>
+</div>
+<!-- Status Badge -->
+<span class="inline-flex items-center gap-1 px-2 py-0.5 rounded text-[10px] font-bold bg-surface-container text-primary border border-outline-variant">
+<span class="w-1.5 h-1.5 rounded-full bg-primary"></span>
+                  Scheduled
+                </span>
+</div>
+<div>
+<h4 class="font-headline-sm text-headline-sm font-semibold text-on-surface">6-Month Bone Marrow Biopsy Follow-up</h4>
+<div class="mt-1 flex flex-wrap items-center gap-x-4 gap-y-1 text-body-sm font-body-sm text-on-surface-variant">
+<span class="flex items-center gap-1">
+<span class="material-symbols-outlined text-[15px] text-outline" data-icon="stethoscope">stethoscope</span>
+                    Clinician: <strong class="text-on-surface">Dr. Marcus Vance</strong>
+</span>
+<span class="flex items-center gap-1">
+<span class="material-symbols-outlined text-[15px] text-outline" data-icon="meeting_room">meeting_room</span>
+                    Room: <strong class="text-on-surface">Exam Room 2</strong>
+</span>
+</div>
+</div>
+<!-- Quick Action Button -->
+<div class="flex items-center justify-between pt-1">
+<span class="font-data-mono-sm text-data-mono-sm text-outline">Target Date: Oct 16 ± 2d</span>
+<button class="inline-flex items-center gap-1 px-3 py-1.5 rounded bg-surface-container-lowest border border-primary text-primary font-label-md text-label-md hover:bg-surface-container-low transition-colors active:scale-[0.98]">
+<span class="material-symbols-outlined text-[15px]" data-icon="how_to_reg">how_to_reg</span>
+                  Check-in Patient
+                </button>
+</div>
+</div>
+<!-- VISIT 3: 02:00 PM | PT-104-118 -->
+<div class="pt-4 space-y-2.5">
+<div class="flex items-start justify-between">
+<div class="flex items-center gap-2">
+<span class="font-data-mono text-data-mono font-bold text-on-surface-variant bg-surface-container-low px-2 py-0.5 rounded">02:00 PM</span>
+<span class="font-data-mono text-data-mono font-bold text-on-surface">PT-104-118</span>
+<span class="px-1.5 py-0.5 rounded text-[10px] font-semibold bg-surface-container-high text-primary">ONC-2024-X3</span>
+</div>
+<!-- Status Badge -->
+<span class="inline-flex items-center gap-1 px-2 py-0.5 rounded text-[10px] font-bold bg-surface-container text-primary border border-outline-variant">
+<span class="w-1.5 h-1.5 rounded-full bg-primary"></span>
+                  Scheduled
+                </span>
+</div>
+<div>
+<h4 class="font-headline-sm text-headline-sm font-semibold text-on-surface">Cycle 1 Day 15 Safety Vitals &amp; Toxicity Review</h4>
+<div class="mt-1 flex flex-wrap items-center gap-x-4 gap-y-1 text-body-sm font-body-sm text-on-surface-variant">
+<span class="flex items-center gap-1">
+<span class="material-symbols-outlined text-[15px] text-outline" data-icon="person">person</span>
+                    Clinician: <strong class="text-on-surface">Sarah Chen, RN</strong>
+</span>
+<span class="flex items-center gap-1">
+<span class="material-symbols-outlined text-[15px] text-outline" data-icon="meeting_room">meeting_room</span>
+                    Room: <strong class="text-on-surface">Triage Station B</strong>
+</span>
+</div>
+</div>
+<div class="flex items-center justify-between pt-1">
+<span class="font-label-sm text-label-sm text-on-surface-variant">Lab requisitions sent to central facility</span>
+<button class="inline-flex items-center gap-1 px-3 py-1 rounded border border-outline-variant text-on-surface font-label-md text-label-md hover:bg-surface-container-low transition-colors">
+<span class="material-symbols-outlined text-[15px]" data-icon="visibility">visibility</span>
+                  Details
+                </button>
+</div>
+</div>
+<!-- VISIT 4: 03:45 PM | PT-104-077 (Alert / Rescheduled) -->
+<div class="pt-4 space-y-2.5 bg-error-container/15 p-3 rounded border border-tertiary-fixed-dim">
+<div class="flex items-start justify-between">
+<div class="flex items-center gap-2">
+<span class="font-data-mono text-data-mono font-bold text-tertiary bg-white px-2 py-0.5 rounded">03:45 PM</span>
+<span class="font-data-mono text-data-mono font-bold text-tertiary">PT-104-077</span>
+<span class="px-1.5 py-0.5 rounded text-[10px] font-semibold bg-white text-tertiary border border-tertiary/30">NEU-882-BIO</span>
+</div>
+<!-- Status Badge -->
+<span class="inline-flex items-center gap-1 px-2 py-0.5 rounded text-[10px] font-bold bg-tertiary text-on-tertiary">
+<span class="material-symbols-outlined text-[12px]" data-icon="warning">warning</span>
+                  Rescheduled (Out of Window Flag)
+                </span>
+</div>
+<div>
+<h4 class="font-headline-sm text-headline-sm font-semibold text-tertiary">Visit 4 Cognitive Battery &amp; Serum Biomarkers</h4>
+<p class="font-body-sm text-body-sm text-on-surface-variant mt-0.5">
+                  Protocol Target: Oct 12 (+4 Days Exceeded). Regulatory notification logged.
+                </p>
+</div>
+<div class="flex items-center justify-between pt-1 border-t border-tertiary/20">
+<span class="font-data-mono-sm text-data-mono-sm text-tertiary font-bold">Deviation Form #DEV-088 Required</span>
+<button class="inline-flex items-center gap-1 px-2.5 py-1 rounded bg-tertiary text-on-tertiary font-label-sm text-label-sm hover:bg-tertiary-container transition-colors shadow-sm">
+<span class="material-symbols-outlined text-[14px]" data-icon="edit_document">edit_document</span>
+                  Sign Waiver
+                </button>
+</div>
+</div>
+</div>
+<!-- Bottom Footer Roster Stats -->
+<div class="p-3 border-t border-outline-variant bg-surface-container-low text-center">
+<a class="font-label-md text-label-md text-primary font-semibold hover:underline flex items-center justify-center gap-1" href="#">
+              View All 6 Completed/Upcoming Visits for Today
+              <span class="material-symbols-outlined text-[16px]" data-icon="arrow_forward">arrow_forward</span>
+</a>
+</div>
+</div>
+</div>
+<!-- SECTION 5: Window Adherence Detail Inspector & Multi-Arm Protocol Verification -->
+<section class="bg-surface-container-lowest rounded-lg border border-outline-variant p-5 space-y-4 shadow-sm">
+<div class="flex flex-col sm:flex-row sm:items-center justify-between gap-2 border-b border-outline-variant pb-3">
+<div>
+<h3 class="font-headline-md text-headline-md font-bold text-on-surface flex items-center gap-2">
+<span class="material-symbols-outlined text-primary text-[20px]" data-icon="rule">rule</span>
+              Active Protocol Visit Windows &amp; Compliance Matrix
+            </h3>
+<p class="font-body-sm text-body-sm text-on-surface-variant">Continuous automated monitoring of participant clinical visits against approved Institutional Review Board (IRB) schedule matrices.</p>
+</div>
+<div class="flex items-center gap-2">
+<span class="font-data-mono-sm text-data-mono-sm text-outline">ICH-GCP E6(R2) Validated</span>
+</div>
+</div>
+<div class="overflow-x-auto">
+<table class="w-full text-left border-collapse font-body-sm text-body-sm">
+<thead>
+<tr class="bg-surface-container-low border-b border-outline-variant text-[11px] font-semibold text-outline uppercase tracking-wider">
+<th class="py-2.5 px-3">Subject ID</th>
+<th class="py-2.5 px-3">Protocol Arm</th>
+<th class="py-2.5 px-3">Scheduled Milestone</th>
+<th class="py-2.5 px-3">Target Date</th>
+<th class="py-2.5 px-3">Allowable Window</th>
+<th class="py-2.5 px-3">Compliance Status</th>
+<th class="py-2.5 px-3 text-right">Protocol Action</th>
+</tr>
+</thead>
+<tbody class="divide-y divide-outline-variant/60 font-data-mono-sm text-data-mono-sm">
+<tr class="hover:bg-surface-container-low/60 transition-colors">
+<td class="py-3 px-3 font-bold text-on-surface">PT-104-092</td>
+<td class="py-3 px-3"><span class="px-1.5 py-0.5 rounded text-[10px] bg-surface-container text-primary font-bold">ONC-2024-X3</span></td>
+<td class="py-3 px-3 font-body-sm text-body-sm text-on-surface">Cycle 2 Day 1 Infusion</td>
+<td class="py-3 px-3 text-on-surface">Oct 16, 2024</td>
+<td class="py-3 px-3 text-outline">Target ± 1 Day</td>
+<td class="py-3 px-3">
+<span class="inline-flex items-center gap-1 text-secondary font-bold font-label-sm text-label-sm">
+<span class="w-1.5 h-1.5 rounded-full bg-secondary"></span> Within Window (Day 0)
+                  </span>
+</td>
+<td class="py-3 px-3 text-right">
+<button class="px-2 py-1 rounded bg-surface-container hover:bg-surface-container-high text-primary font-label-sm text-label-sm">
+                    View Schedule Matrix
+                  </button>
+</td>
+</tr>
+<tr class="hover:bg-surface-container-low/60 transition-colors">
+<td class="py-3 px-3 font-bold text-on-surface">PT-104-044</td>
+<td class="py-3 px-3"><span class="px-1.5 py-0.5 rounded text-[10px] bg-secondary-fixed text-on-secondary-fixed font-bold">IMM-402-CAR</span></td>
+<td class="py-3 px-3 font-body-sm text-body-sm text-on-surface">6-Month Bone Marrow Biopsy</td>
+<td class="py-3 px-3 text-on-surface">Oct 18, 2024</td>
+<td class="py-3 px-3 text-outline">Target ± 3 Days</td>
+<td class="py-3 px-3">
+<span class="inline-flex items-center gap-1 text-primary font-bold font-label-sm text-label-sm">
+<span class="w-1.5 h-1.5 rounded-full bg-primary"></span> Within Window (-2 Days)
+                  </span>
+</td>
+<td class="py-3 px-3 text-right">
+<button class="px-2 py-1 rounded bg-surface-container hover:bg-surface-container-high text-primary font-label-sm text-label-sm">
+                    View Schedule Matrix
+                  </button>
+</td>
+</tr>
+<tr class="hover:bg-surface-container-low/60 transition-colors bg-error-container/10">
+<td class="py-3 px-3 font-bold text-tertiary">PT-104-077</td>
+<td class="py-3 px-3"><span class="px-1.5 py-0.5 rounded text-[10px] bg-error-container text-tertiary font-bold">NEU-882-BIO</span></td>
+<td class="py-3 px-3 font-body-sm text-body-sm text-tertiary font-medium">Visit 4 Cognitive Battery</td>
+<td class="py-3 px-3 text-on-surface">Oct 12, 2024</td>
+<td class="py-3 px-3 text-tertiary font-bold">Target ± 3 Days</td>
+<td class="py-3 px-3">
+<span class="inline-flex items-center gap-1 text-tertiary font-bold font-label-sm text-label-sm">
+<span class="material-symbols-outlined text-[13px]" data-icon="warning">warning</span> Window Exceeded (+4 Days)
+                  </span>
+</td>
+<td class="py-3 px-3 text-right">
+<button class="px-2.5 py-1 rounded bg-tertiary text-on-tertiary font-label-sm text-label-sm hover:bg-tertiary-container transition-colors shadow-sm">
+                    File Deviation Waiver
+                  </button>
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</section>
+</main>
+<!-- Contextual Regulatory Footer -->
+<footer class="mt-auto px-6 py-3 border-t border-outline-variant bg-surface-container-lowest text-outline flex flex-col sm:flex-row items-center justify-between text-label-sm font-label-sm gap-2">
+<div class="flex items-center gap-3">
+<span>Site #104 Institutional Review Board (IRB) Protocol Compliance Active</span>
+<span>•</span>
+<span class="font-data-mono-sm text-data-mono-sm">21 CFR Part 11 Electronic Records Compliant</span>
+</div>
+<div>
+<span>Authenticated Session: <strong class="text-on-surface">Dr. Elena Rostova (PI)</strong></span>
+</div>
+</footer>
+</div>
+</body></html>
